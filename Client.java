@@ -30,6 +30,9 @@ public class Client{
   
   private static startPosition=0;
   
+  private Set <Integer> properties = new HashSet<Integer>();
+  private int jail_free = 0;
+  
   public Client(){
     id=defaultStartingId;
     sitesOwned=[noOfSites];
@@ -53,8 +56,12 @@ public class Client{
     money=amount;
   }
   
-  public void addMOney(int amount){
+  public void addMoney(int amount){
     money=money+amount;
+  }
+  
+  public void subMoney(int amount){
+    money=money-amount;
   }
   
   public void addSite(int idOfSite){ //server has array of all Sites that corrosponds with this id
@@ -71,6 +78,10 @@ public class Client{
   
   public int getPosition(){
     return position;
+  }
+  
+  public void setPosition(int number){
+    position=number;
   }
   
   public void firstContactServer(){
@@ -91,9 +102,31 @@ public class Client{
       //check with server of position
     JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
     if(returnedMessage.get(positionType)=="chest"){
-    
+      if(returnedMessage.get(chestType)="jail"){
+	if(returnedMessage.get(jailType)=="out"){
+	  jail_free++;
+	}else{
+	  this.setPosition(jailPosition);
+	}
+      }else{ //money
+	if(returnedMessage.get(chestType)=="add"){
+	  this.addMoney(returnedMessage.get(chestAmount));
+	}else{
+	  this.subMoney(returnedMessage.get(chestAmount));
+	  if(this.getMoney()<0){
+	    this.sellProperties();
+	  }
+	}
+      }
     }else if(returnedMessage.get(positionType)=="property"){
-    
+      if(returnedMessage.get(ownership)=="owned"){
+	//pay rent
+      }else{
+	this.subMoney(returnedMessage.get(chestAmount));
+	if(this.getMoney()<0){
+	  this.sellProperties();
+	}
+      }
     }else if(returnedMessage.get(positionType)=="transport"){
     
     }else if(returnedMessage.get(positionType)=="utilities"){
@@ -106,6 +139,12 @@ public class Client{
       //else if
       //else if
       
+  }
+  
+  public void sellProperties(){
+    while(this.getMoney()<0){
+      //sell a house
+    }
   }
     
   public int rollDice(){
