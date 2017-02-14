@@ -33,6 +33,8 @@ public class Client{
   private Set <Integer> properties = new HashSet<Integer>();
   private int jail_free = 0;
   
+  private int turnsInJail=0;
+  
   public Client(){
     id=defaultStartingId;
     sitesOwned=[noOfSites];
@@ -120,11 +122,18 @@ public class Client{
       }
     }else if(returnedMessage.get(positionType)=="property"){
       if(returnedMessage.get(ownership)=="owned"){
-	//pay rent
-      }else{
+	//get rent amount from server
 	this.subMoney(returnedMessage.get(chestAmount));
 	if(this.getMoney()<0){
 	  this.sellProperties();
+	}
+      }else{
+	//option to buy
+	//get price from server
+	if("yes"){
+	  if(this.getMoney()>PRICE OF PROPERTY){//you can buy
+	    this.buyProperty(this.getPosition(), this.getCostOfProperty);
+	  }
 	}
       }
     }else if(returnedMessage.get(positionType)=="transport"){
@@ -141,10 +150,20 @@ public class Client{
       
   }
   
+  public int getCostOfProperty(int position){
+  
+    return cost;
+  }
+  
   public void sellProperties(){
     while(this.getMoney()<0){
       //sell a house
     }
+  }
+  
+  public void buyProperty(int property_ID, int cost) {
+    properties.add(property_ID);
+    this.subMoney(cost);
   }
     
   public int rollDice(){
