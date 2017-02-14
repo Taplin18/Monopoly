@@ -35,6 +35,8 @@ public class Client{
   
   private int turnsInJail=0;
   
+  private static int goAmount=2000;
+  
   public Client(){
     id=defaultStartingId;
     sitesOwned=[noOfSites];
@@ -114,40 +116,66 @@ public class Client{
 	if(returnedMessage.get(chestType)=="add"){
 	  this.addMoney(returnedMessage.get(chestAmount));
 	}else{
-	  this.subMoney(returnedMessage.get(chestAmount));
-	  if(this.getMoney()<0){
-	    this.sellProperties();
-	  }
+	  this.pay(returnedMessage.get(chestAmount));
 	}
       }
     }else if(returnedMessage.get(positionType)=="property"){
       if(returnedMessage.get(ownership)=="owned"){
 	//get rent amount from server
-	this.subMoney(returnedMessage.get(chestAmount));
-	if(this.getMoney()<0){
-	  this.sellProperties();
-	}
+	this.pay(rent);
       }else{
-	//option to buy
-	//get price from server
-	if("yes"){
-	  if(this.getMoney()>PRICE OF PROPERTY){//you can buy
-	    this.buyProperty(this.getPosition(), this.getCostOfProperty);
-	  }
-	}
+	this.optionToBuy(this.getPosition());
       }
     }else if(returnedMessage.get(positionType)=="transport"){
-    
+      if(returnedMessage.get(ownership)=="owned"){
+	//GET RENT FROM SERVER
+	this.pay(rent);
+      }else{
+	this.optionToBuy(this.getPosition());
+      }
     }else if(returnedMessage.get(positionType)=="utilities"){
-    
+      if(returnedMessage.get(ownership)=="owned"){
+	//GET RENT FROM SERVER
+	this.pay(rent);
+      }else{
+	this.optionToBuy(this.getPosition());
+      }
     }else if(returnedMessage.get(positionType)=="taxes"){
-    
+      this.pay(returnMessage.get(taxAmount));
     }else if(returnedMessage.get(positionType)=="chance"){
-    
+      if(returnedMessage.get(chestType)="jail"){
+	if(returnedMessage.get(jailType)=="out"){
+	  jail_free++;
+	}else{
+	  this.setPosition(jailPosition);
+	}
+      }else{ //go to position...
+	int prevPosition=this.getPosition();
+	this.setPosition(returnedMessage.get(chancePosition));
+	int currentPosition=this.getPosition();
+	if(currentPosition-prevPosition<0||currentPosition<prevPosition){
+	  this.addMoney(goAmount);
+	}
+      }
     }
-      //else if
-      //else if
-      
+  }
+  
+  public void optionToBuy(int position){
+    //option to buy
+    //get price from server
+    int price=this.getCostOfProperty;
+    if("yes"){
+      if(this.getMoney()>price){//you can buy
+	this.buyProperty(this.getPosition(), price);
+      }
+    }
+  }
+  
+  public void pay(int amount){
+    this.subMoney(amount);
+    if(this.getMoney()<0){
+      this.sellProperties();
+    }
   }
   
   public int getCostOfProperty(int position){
