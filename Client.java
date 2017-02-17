@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import java.util.Scanner;
+
 import java.util.Random;
 
 import org.json.simple.JSONObject;
@@ -37,11 +39,30 @@ public class Client{
   
   private static int goAmount=2000;
   
+  private String userName;
+  
   public Client(){
     id=defaultStartingId;
     sitesOwned=[noOfSites];
     money=startMoney;
-    position=startPosition
+    position=startPosition;
+    userName=this.userName();
+  }
+  
+  public String userName(){
+    System.out.println("Enter your username: ");
+    Scanner scanner = new Scanner(System.in);
+    String username = scanner.nextLine();
+    while(username==""){
+      System.out.println("Enter your username: ");
+      Scanner scanner = new Scanner(System.in);
+      String username = scanner.nextLine();
+    }
+    System.out.println("Your username is " + username);
+  }
+  
+  public String getUserName(){
+    return this.userName;
   }
   
   public int getMoney(){
@@ -89,7 +110,7 @@ public class Client{
   }
   
   public void firstContactServer(){
-    int newId=Integer.parseInt(this.sendMessageToServer(this.getId(), "firstContact", 0));
+    int newId=Integer.parseInt(this.sendMessageToServer(this.getId(), "firstContact", this.getUserName()));
     this.setId(newId); //gets ID
   }
     
@@ -100,11 +121,12 @@ public class Client{
     //add number to position
     int prevPosition=this.getPosition;
     this.addPosition(diceOne+diceTwo);
-    if (this.getPosition<prevPosition){ //passed G
+    if (this.getPosition<prevPosition){ //passed Go
       this.addMoney(200);
     }
       //check with server of position
     JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
+    //display info in pop up window with option to buy
     if(returnedMessage.get(positionType)=="chest"){
       if(returnedMessage.get(chestType)="jail"){
 	if(returnedMessage.get(jailType)=="out"){
@@ -121,24 +143,27 @@ public class Client{
       }
     }else if(returnedMessage.get(positionType)=="property"){
       if(returnedMessage.get(ownership)=="owned"){
-	//get rent amount from server
+	int rent= returnedMessage.get(rent);//get rent amount from JSON
 	this.pay(rent);
       }else{
-	this.optionToBuy(this.getPosition());
+	int cost = returnedMessage.get(price);
+	this.optionToBuy(cost);
       }
     }else if(returnedMessage.get(positionType)=="transport"){
       if(returnedMessage.get(ownership)=="owned"){
-	//GET RENT FROM SERVER
+	int rent= returnedMessage.get(rent);//GET RENT FROM JSON
 	this.pay(rent);
       }else{
-	this.optionToBuy(this.getPosition());
+	int cost = returnedMessage.get(price);
+	this.optionToBuy(cost);
       }
     }else if(returnedMessage.get(positionType)=="utilities"){
       if(returnedMessage.get(ownership)=="owned"){
-	//GET RENT FROM SERVER
+	int rent= returnedMessage.get(rent);//GET RENT FROM JSON 
 	this.pay(rent);
       }else{
-	this.optionToBuy(this.getPosition());
+	int cost = returnedMessage.get(price);
+	this.optionToBuy(cost);
       }
     }else if(returnedMessage.get(positionType)=="taxes"){
       this.pay(returnMessage.get(taxAmount));
@@ -160,10 +185,7 @@ public class Client{
     }
   }
   
-  public void optionToBuy(int position){
-    //option to buy
-    //get price from server
-    int price=this.getCostOfProperty;
+  public void optionToBuy(int price){
     if("yes"){
       if(this.getMoney()>price){//you can buy
 	this.buyProperty(this.getPosition(), price);
@@ -179,7 +201,6 @@ public class Client{
   }
   
   public int getCostOfProperty(int position){
-  
     return cost;
   }
   
@@ -228,7 +249,7 @@ public class Client{
       String message = br.readLine();
       System.out.println("Message received from the server : " +message);
       
-      return message;
+      return message; //answer
     }
     catch (Exception exception)
     {
