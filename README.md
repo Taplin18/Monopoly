@@ -1,2 +1,2 @@
-# Monopoly
-Team Project
+# Team Zebra
+Our Team Project
