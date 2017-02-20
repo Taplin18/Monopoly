@@ -10,7 +10,7 @@ class Chance {
 	}
 
 	public String choose_card() {
-		int index = generator.nextInt(15) + 1;
+		int index = generator.nextInt(15);
 		return cards.get(index);
 	}
 

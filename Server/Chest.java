@@ -10,7 +10,7 @@ class Chest {
 	}
 
 	public String choose_card() {
-		int index = generator.nextInt(16) + 1;
+		int index = generator.nextInt(17);
 		return cards.get(index);
 	}
 

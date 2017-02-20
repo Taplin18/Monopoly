@@ -18,7 +18,7 @@ class Square {
 			return chance_cards.choose_card();
 		}
 
-		return "Nope!";
+		return "No card was returned";
 	}
 
 	public String get_card(String card_type, int position){
@@ -30,7 +30,7 @@ class Square {
 			}
 		} else if (card_type == "Corners") {
 			if (position == 0) {
-				return "Go - Collect €200";
+				return "Go";
 			} else if (position == 10) {
 				return "Just Visiting / In Jail";
 			} else if (position == 20) {
@@ -40,6 +40,6 @@ class Square {
 			}
 		}
 
-		return "Extra Nope!";
+		return "No card was returned";
 	}
 }

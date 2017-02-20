@@ -15,5 +15,7 @@ class BoardTester {
 			num_count --;
 		}
 
+		game.buy(9, 0);
+		System.out.println(game.check_square(9));
 	}
 }
