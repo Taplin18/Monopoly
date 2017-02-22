@@ -3,6 +3,7 @@ import java.util.*;
 class Board {
 
 	/**
+	*
 	* num_properties - the number of squares on the board.
 	* chest - the positions of the community chest squares.
 	* chance - the positions of the chance squares.
@@ -12,6 +13,7 @@ class Board {
 	* taxes - the position of the tax squares.
 	* properties - the positions as keys and values [cost, rent, grouping]
 	* bought_properties - property id as key and owner id as value
+	*
 	*/
 
 	protected int num_properties = 40;
@@ -21,40 +23,53 @@ class Board {
 	protected int[] transport = {5, 15, 25, 35};
 	protected int[] utilities = {12, 28};
 	protected int[] taxes = {4, 38};
-	protected HashMap <Integer, List <Integer>> properties = new HashMap <Integer, List <Integer>>();
-	protected HashMap <Integer, Integer> bought_properties = new HashMap <Integer, Integer>();
+	protected int[] properties = {1, 3, 6, 8, 
+		9, 11, 13, 14, 
+		16, 18, 19, 21, 
+		23, 24, 26, 27, 
+		29, 31, 32, 34, 
+		37, 39};
+	protected List <Integer> bought_properties = new ArrayList <Integer>();
 	protected Square squares;
 
+
+	/**
+	* Initilise the board
+	*/
 	public Board() {
-		property_values();
 		squares = new Square();
-		//
-		// initilise each square - corners, chest, chance, etc.
-		// use for loop and add the number of players to the go square
-		// can then add and remove players from squares.
 	}
 
+	/**
+	* Buy the property
+	* @param property the id of the property to be bought
+	* @param player_id the id of the player who is buying it
+	*/
 	public void buy(int property, int player_id) {
-		// add property id and player id to bought_properties
-		bought_properties.put(property, player_id);
+		bought_properties.add(property);
+		//squares.buy_property(property, player_id);
 	}
 
+	/**
+	* Check what type of sqaure the player is on
+	* @param position the players position on the board
+	* @return card information
+	*/
 	public String check_square(int position) {
-		// Check the sqaure that the player has landed on
 		for (int i = 0; i < chest.length; i++) {
 			if (position == chest[i]) {
 				return squares.get_card("Chest");
 			}
 		}
 
-		for (int j = 0; j < chance.length; j++) {
-			if (position == chance[j]) {
+		for (int i = 0; i < chance.length; i++) {
+			if (position == chance[i]) {
 				return squares.get_card("Chance");
 			}
 		}
 
-		for (int k = 0; k < transport.length; k++) {
-			if (position == transport[k]) {
+		for (int i = 0; i < transport.length; i++) {
+			if (position == transport[i]) {
 				if (check_if_bought(position)) {
 					return String.format("Transport {%s} owned by {%s}", position, bought_properties.get(position));
 				} else {
@@ -63,8 +78,8 @@ class Board {
 			}
 		}
 
-		for (int h = 0; h < utilities.length; h++) {
-			if (position == utilities[h]) {
+		for (int i = 0; i < utilities.length; i++) {
+			if (position == utilities[i]) {
 				if (check_if_bought(position)) {
 					return String.format("Utiliity {%s} owned by {%s}", position, bought_properties.get(position));
 				} else {
@@ -73,60 +88,38 @@ class Board {
 			}
 		}
 
-		for (int g = 0; g < corners.length; g++) {
-			if (position == corners[g]) {
+		for (int i = 0; i < corners.length; i++) {
+			if (position == corners[i]) {
 				return squares.get_card("Corners", position);
 			}
 		}
 
-		for (int m = 0; m < taxes.length; m++) {
-			if (position == taxes[m]) {
+		for (int i = 0; i < taxes.length; i++) {
+			if (position == taxes[i]) {
 				return squares.get_card("Tax", position);
 			}
 		}
 
-		if (properties.containsKey(position)) {
-			if (check_if_bought(position)) {
-				return String.format("Property {%s} owned by {%s}", position, bought_properties.get(position));
-			} else {
-				List <Integer> prop_values = properties.get(position);
-				int price = prop_values.get(0);
-				return String.format("Property {%s} costs €%s", position, price);
+		for (int i = 0; i < properties.length; i++) {
+			if (position == properties[i]) {
+				if (check_if_bought(position)) {
+					return String.format("Property {%s} owned by {%s}", position, squares.owned_by(position));
+				} else {
+					return String.format("Property {%s} costs €%s", position, squares.price(position));
+				}
 			}
 		}
 
 		return "Can't check this position";
 	}
 
+	/**
+	* Check if the property has been bought
+	* @param position the id of the sqaure to be checked
+	* @return true if bought, false otherwise
+	*/
 	private boolean check_if_bought(int position) {
-		// return true if bought, false otherwise
-		return bought_properties.containsKey(position);
-	}
-
-	private void property_values() {
-		// Adds the values to the HashMap properties
-		properties.put(1, Arrays.asList(60, 10, 0));
-		properties.put(3, Arrays.asList(60, 20, 0));
-		properties.put(6, Arrays.asList(100, 30, 1));
-		properties.put(8, Arrays.asList(100, 30, 1));
-		properties.put(9, Arrays.asList(120, 40, 1));
-		properties.put(11, Arrays.asList(140, 50, 2));
-		properties.put(13, Arrays.asList(140, 60, 2));
-	 	properties.put(14, Arrays.asList(160, 60, 2));
-        properties.put(16, Arrays.asList(180, 70, 3));
-        properties.put(18, Arrays.asList(180, 70, 3));
-        properties.put(19, Arrays.asList(200, 80, 3));
-        properties.put(21, Arrays.asList(220, 90, 4));
-        properties.put(23, Arrays.asList(220, 90, 4));
-        properties.put(24, Arrays.asList(240, 100, 4));
-        properties.put(26, Arrays.asList(260, 110, 5));
-        properties.put(27, Arrays.asList(260, 110, 5));
-        properties.put(29, Arrays.asList(280, 120, 5));
-        properties.put(31, Arrays.asList(300, 130, 6));
-        properties.put(32, Arrays.asList(300, 130, 6));
-        properties.put(34, Arrays.asList(320, 150, 6));
-        properties.put(37, Arrays.asList(350, 175, 7));
-        properties.put(39, Arrays.asList(400, 200, 7));
+		return bought_properties.contains(position);
 	}
 	
 }

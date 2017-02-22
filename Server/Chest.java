@@ -5,15 +5,25 @@ class Chest {
 	protected List <String> cards = new ArrayList <String>();
 	Random generator = new Random();
 
+	/**
+	* Initilise the community chest cards
+	*/
 	public Chest() {
 		make_chest_cards();
 	}
 
+	/**
+	* Randomly choose a community chest card
+	* @return community chest card information
+	*/
 	public String choose_card() {
 		int index = generator.nextInt(17);
 		return cards.get(index);
 	}
 
+	/**
+	* The possible community chest cards
+	*/
 	private void make_chest_cards() {
 		cards.add("Advance to Go - Collect €200");
 		cards.add("Bank error in your favour - Collect €200");

@@ -5,15 +5,25 @@ class Chance {
 	protected List <String> cards = new ArrayList <String>();
 	Random generator = new Random();
 
+	/**
+	* Initilise the chance cards
+	*/
 	public Chance() {
 		make_chance_cards();
 	}
 
+	/**
+	* Randomly choose a chance card
+	* @return chance card information
+	*/
 	public String choose_card() {
 		int index = generator.nextInt(15);
 		return cards.get(index);
 	}
 
+	/**
+	* The possible chance cards
+	*/
 	private void make_chance_cards() {
 		cards.add("Advance to Go - Collect €200");
 		cards.add("Advance to _____ - If you pass Go, collect €200");
