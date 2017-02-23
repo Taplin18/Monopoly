@@ -1,11 +1,7 @@
 //create property object for each property owned with all details
+//keeping track of everyone's position
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -15,7 +11,7 @@ import java.util.Random;
 
 import org.json.simple.JSONObject;
 
-public class Client{
+public class Client implement Runnable{
   
   private int money;
   private int id;
@@ -29,7 +25,7 @@ public class Client{
   
   private int defaultStartingId=100;
   
-  private static int portNumber=25000;
+  private static int portNumber=2222;
   private static int positionPortNumber=0;
   
   private static startPosition=0;
@@ -42,6 +38,8 @@ public class Client{
   private static int goAmount=2000;
   
   private String userName;
+  
+  private int noOfDoubles=0;
   
   public Client(){
     id=defaultStartingId;
@@ -129,6 +127,7 @@ public class Client{
       //check with server of position
     JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
     //display info in pop up window with option to buy
+    //CHECK IF YOU ARE IN JAIL
     if(returnedMessage.get(positionType)=="chest"){
       if(returnedMessage.get(chestType)="jail"){
 	if(returnedMessage.get(jailType)=="out"){
@@ -148,8 +147,8 @@ public class Client{
 	int rent= returnedMessage.get(rent);//get rent amount from JSON
 	this.pay(rent);
       }else{
-	int cost = returnedMessage.get(price);
-	this.optionToBuy(cost);
+	int cost = returnedMessage.get(price); //INSTEAD GET ALL DETAILS AND CREATE PROPERTY OBJECT
+	boolean decision = this.optionToBuy(//PROPERTY OBJECT);
       }
     }else if(returnedMessage.get(positionType)=="transport"){
       if(returnedMessage.get(ownership)=="owned"){
@@ -157,7 +156,7 @@ public class Client{
 	this.pay(rent);
       }else{
 	int cost = returnedMessage.get(price);
-	this.optionToBuy(cost);
+	this.optionToBuy(//PROPERTY OBJECT);
       }
     }else if(returnedMessage.get(positionType)=="utilities"){
       if(returnedMessage.get(ownership)=="owned"){
@@ -165,7 +164,7 @@ public class Client{
 	this.pay(rent);
       }else{
 	int cost = returnedMessage.get(price);
-	this.optionToBuy(cost);
+	this.optionToBuy(//PROPERTY OBJECT);
       }
     }else if(returnedMessage.get(positionType)=="taxes"){
       this.pay(returnMessage.get(taxAmount));
@@ -185,12 +184,24 @@ public class Client{
 	}
       }
     }
+    if(diceOne==diceTwo){//rolled doubles
+      noOfDoubles++;
+      if(noOfDoubles==3){
+	//go to jail;
+      }else{
+	this.myTurn();
+      }
+    }else{
+      noOfDoubles=0;
+    }
   }
   
-  public void optionToBuy(int price){
+  public void optionToBuy(Property property){
+    //DISPLAY POP UP WINDOW OF CARD DETAILS
     if("yes"){
-      if(this.getMoney()>price){//you can buy
-	this.buyProperty(this.getPosition(), price);
+      if(this.getMoney()>property.getPrice()){//you can buy
+	this.buyProperty(this.getPosition(), property.getprice());
+	//STORE PROPERTY OBJECT IN HASHMAP
       }
     }
   }
@@ -218,6 +229,7 @@ public class Client{
   public void buyProperty(int property_ID, int cost) {
     properties.add(property_ID);
     this.subMoney(cost);
+    //send to server
   }
     
   public int rollDice(){
@@ -243,10 +255,20 @@ public class Client{
       OutputStream os = socket.getOutputStream();
       OutputStreamWriter osw = new OutputStreamWriter(os);
       BufferedWriter bw = new BufferedWriter(osw);
-      bw.write(jsonMessage);
+      
+      StringWriter out = new StringWriter();
+      jsonMessage.writeJSONString(out);
+      String jsonText = out.toString();
+      
+      bw.write(jsonText);
       bw.flush();
       System.out.println("Message sent to the server : "+jsonMessage);
-  
+      
+      new Thread(new Client()).start();
+      while(!closed){
+	inputline.readLine().trim();
+      }
+      
       //Get the return message from the server
       InputStream is = socket.getInputStream();
       InputStreamReader isr = new InputStreamReader(is);
@@ -272,5 +294,31 @@ public class Client{
 	e.printStackTrace();
       }
     }
+  }
+  
+  public void run() {
+    /*
+     * Keep on reading from the socket till we receive "Bye" from the
+     * server. Once we received that then we want to break.
+     */
+    String responseLine;
+    try {
+      while ((responseLine = br.readLine()) != null) {
+        System.out.println(responseLine);
+        if (responseLine.indexOf("*** Bye") != -1)
+          break;
+      }
+      closed = true;
+    } catch (IOException e) {
+      System.err.println("IOException:  " + e);
+    }
+  }
+  
+  public static main(String[] args){
+    new Thread(new Client()).start();
+      while(!closed){
+	client.firstContactServer();
+	client.myTurn();
+      }
   }
 }
