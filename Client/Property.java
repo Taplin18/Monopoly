@@ -6,10 +6,9 @@ public class Property{
   private int rent;
   private int houseCost;
   private int hotelCost;
-  private int mortage;
   private int numOfHouses;
 
-  public Property(String name, String colour, int price, int[] rentArray, int houseCost, int hotelCost, int mortage){ //rent[0]: zero houses, rent[1]: one house... rent[4]: four houses, rent[5]: hotel
+  public Property(String name, String colour, int price, int[] rentArray, int houseCost, int hotelCost){ //rent[0]: zero houses, rent[1]: one house... rent[4]: four houses, rent[5]: hotel
     this.name=name;
     this.colour=colour;
     this.price=price;
@@ -47,10 +46,6 @@ public class Property{
   
   public int getName(){
     return this.name;
-  }
-  
-  public int getMortage(){
-    return this.mortage;
   }
   
   public int getPrice(){

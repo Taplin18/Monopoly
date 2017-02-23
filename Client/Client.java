@@ -157,9 +157,9 @@ public class Client implement Runnable{
 	if(returnedMessage.get(ownership)=="owned"){
 	  int rent= returnedMessage.get(rent);//get rent amount from JSON
 	  this.pay(rent);
-	}else//go to jail;{
-	  int cost = returnedMessage.get(price); //INSTEAD GET ALL DETAILS AND CREATE PROPERTY OBJECT
-	  boolean decision = this.optionToBuy(//PROPERTY OBJECT);
+	}else{ //vacant
+	  Property property=new Property(returnedMessage.get(name), returnedMessage.get(colour), returnedMessage.get(price), returnedMessage.get(rentArray), returnedMessage.get(houseCost), returnedMessage.get(hotelCost));
+	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get(positionType)=="transport"){
 	if(returnedMessage.get(ownership)=="owned"){
@@ -208,7 +208,7 @@ public class Client implement Runnable{
 	}
       }else{
 	noOfDoubles=0;
-      }
+     }
     }
   }
   
