@@ -166,16 +166,16 @@ public class Client implement Runnable{
 	  int rent= returnedMessage.get(rent);//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  int cost = returnedMessage.get(price);
-	  this.optionToBuy(//PROPERTY OBJECT);
+	  Property property=new Property(returnedMessage.get(name), returnedMessage.get(colour), returnedMessage.get(price), returnedMessage.get(rentArray), returnedMessage.get(houseCost), returnedMessage.get(hotelCost));
+	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get(positionType)=="utilities"){
 	if(returnedMessage.get(ownership)=="owned"){
 	  int rent= returnedMessage.get(rent);//GET RENT FROM JSON 
 	  this.pay(rent);
 	}else{
-	  int cost = returnedMessage.get(price);
-	  this.optionToBuy(//PROPERTY OBJECT);
+	  Property property=new Property(returnedMessage.get(name), returnedMessage.get(colour), returnedMessage.get(price), returnedMessage.get(rentArray), returnedMessage.get(houseCost), returnedMessage.get(hotelCost));
+	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get(positionType)=="taxes"){
 	this.pay(returnMessage.get(taxAmount));
@@ -229,8 +229,8 @@ public class Client implement Runnable{
     //DISPLAY POP UP WINDOW OF CARD DETAILS
     if("yes"){
       if(this.getMoney()>property.getPrice()){//you can buy
-	this.buyProperty(this.getPosition(), property.getprice());
-	//STORE PROPERTY OBJECT IN HASHMAP
+	this.buyProperty(this.getPosition(), property.getPrice());
+	this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
       }
     }
   }
@@ -238,7 +238,12 @@ public class Client implement Runnable{
   public void pay(int amount){
     this.subMoney(amount);
     if(this.getMoney()<0){
-      this.sellProperties();
+      Property selectedProperty=;//select property from GUI cards
+      if(selectedProperty.getNumOfHouses()>0){
+	this.addMoney(this.sellHouse(selectedProperty));
+      }else{
+	this.addMoney(this.sellSite(selectedProperty));
+      }
     }
   }
   
@@ -246,9 +251,13 @@ public class Client implement Runnable{
     return cost;
   }
   
-  public void sellProperties(){
+  public void sellHouse(Property property){
+    int moneygained=property.decNumOfHouses();
+  }
+  
+  public void sellSite(){
     while(this.getMoney()<0){
-      //sell a house
+      int IdOfSelectedProperty=//sell a house
       //contact server
     }
   }
@@ -258,7 +267,7 @@ public class Client implement Runnable{
   public void buyProperty(int property_ID, int cost) {
     properties.add(property_ID);
     this.subMoney(cost);
-    //send to server
+    this.sendMessageToServer(this.getId(), "buy", this.getPosition()) //send to server
   }
     
   public int rollDice(){

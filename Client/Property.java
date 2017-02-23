@@ -32,6 +32,16 @@ public class Property{
     }
   }
   
+  public int decNumOfHouses(){ //returns half cost to buy house/hotel as sold price
+    this.numOfHOuses=this.numOfHouses-1;
+    this.setRent(this.getNumOfHouses);
+    if(this.getNumOfHouses()==4){
+      return hotelCost/2;
+    }else{
+      return houseCost/2;
+    }
+  }
+  
   public void setRent(int numOfHouses){
     this.rent=rentArray[numOfHouses];
   }
