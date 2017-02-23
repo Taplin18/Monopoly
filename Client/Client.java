@@ -34,6 +34,11 @@ public class Client implement Runnable{
   private int jail_free = 0;
   
   private int turnsInJail=0;
+  private boolean inJail=false;
+  private int daysInJail=0;
+  private int posOfJail=20;
+  
+  private boolean prevInJail=false; //at the beginning of the turn client was in jail (nulls second turn on double)
   
   private static int goAmount=2000;
   
@@ -118,81 +123,105 @@ public class Client implement Runnable{
     //roll dice
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
-    //add number to position
-    int prevPosition=this.getPosition;
+    
+    if(inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
+      daysInJail++;
+      if(InJail==3){
+	this.inJail=false;
+	this.daysInJail=0;
+      }
+    }else{ //not in jail or in jail but has rolled double
+      if(inJail==true && diceOne==diceTwo){ //in jail and rolled double
+	this.inJail=false;
+	this.daysInJail=0;
+	this.prevInJail=true
+      }
+      this.moveToPosition(diceOne, diceTwo);//move to position
+      //check with server of position
+      JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
+      if(returnedMessage.get(positionType)=="chest"){
+	if(returnedMessage.get(chestType)="jail"){
+	  if(returnedMessage.get(jailType)=="out"){
+	    this.jail_free++;
+	  }else{
+	    this.setPosition(jailPosition);
+	  }
+	}else{ //money
+	  if(returnedMessage.get(chestType)=="add"){
+	    this.addMoney(returnedMessage.get(chestAmount));
+	  }else{
+	    this.pay(returnedMessage.get(chestAmount));
+	  }
+	}
+      }else if(returnedMessage.get(positionType)=="property"){
+	if(returnedMessage.get(ownership)=="owned"){
+	  int rent= returnedMessage.get(rent);//get rent amount from JSON
+	  this.pay(rent);
+	}else//go to jail;{
+	  int cost = returnedMessage.get(price); //INSTEAD GET ALL DETAILS AND CREATE PROPERTY OBJECT
+	  boolean decision = this.optionToBuy(//PROPERTY OBJECT);
+	}
+      }else if(returnedMessage.get(positionType)=="transport"){
+	if(returnedMessage.get(ownership)=="owned"){
+	  int rent= returnedMessage.get(rent);//GET RENT FROM JSON
+	  this.pay(rent);
+	}else{
+	  int cost = returnedMessage.get(price);
+	  this.optionToBuy(//PROPERTY OBJECT);
+	}
+      }else if(returnedMessage.get(positionType)=="utilities"){
+	if(returnedMessage.get(ownership)=="owned"){
+	  int rent= returnedMessage.get(rent);//GET RENT FROM JSON 
+	  this.pay(rent);
+	}else{
+	  int cost = returnedMessage.get(price);
+	  this.optionToBuy(//PROPERTY OBJECT);
+	}
+      }else if(returnedMessage.get(positionType)=="taxes"){
+	this.pay(returnMessage.get(taxAmount));
+      }else if(returnedMessage.get(positionType)=="chance"){
+	if(returnedMessage.get(chestType)="jail"){
+	  if(returnedMessage.get(jailType)=="out"){
+	    jail_free++;
+	  }else{
+	    this.setPosition(jailPosition);
+	  }
+	}else{ //go to position...
+	  int prevPosition=this.getPosition();
+	  this.setPosition(returnedMessage.get(chancePosition));
+	  int currentPosition=this.getPosition();
+	  if(currentPosition-prevPosition<0||currentPosition<prevPosition){
+	    this.addMoney(goAmount);
+	  }
+	}
+      }
+      if(diceOne==diceTwo){//rolled doubles
+	noOfDoubles++;
+	if(noOfDoubles==3){
+	  this.goToJail();
+	}else{
+	  if(prevInJail==false){
+	    this.myTurn();
+	  }else{
+	    this.prevInJail=false;
+	  }
+	}
+      }else{
+	noOfDoubles=0;
+      }
+    }
+  }
+  
+  public void goToJail(){
+    this.setPosition(posOfJail);
+    this.inJail=true;
+  }
+  
+  public void moveToPosition(int diceOne, int diceTwo){
+    int prevPosition=this.getPosition();
     this.addPosition(diceOne+diceTwo);
     if (this.getPosition<prevPosition){ //passed Go
       this.addMoney(200);
-    }
-      //check with server of position
-    JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
-    //display info in pop up window with option to buy
-    //CHECK IF YOU ARE IN JAIL
-    if(returnedMessage.get(positionType)=="chest"){
-      if(returnedMessage.get(chestType)="jail"){
-	if(returnedMessage.get(jailType)=="out"){
-	  jail_free++;
-	}else{
-	  this.setPosition(jailPosition);
-	}
-      }else{ //money
-	if(returnedMessage.get(chestType)=="add"){
-	  this.addMoney(returnedMessage.get(chestAmount));
-	}else{
-	  this.pay(returnedMessage.get(chestAmount));
-	}
-      }
-    }else if(returnedMessage.get(positionType)=="property"){
-      if(returnedMessage.get(ownership)=="owned"){
-	int rent= returnedMessage.get(rent);//get rent amount from JSON
-	this.pay(rent);
-      }else{
-	int cost = returnedMessage.get(price); //INSTEAD GET ALL DETAILS AND CREATE PROPERTY OBJECT
-	boolean decision = this.optionToBuy(//PROPERTY OBJECT);
-      }
-    }else if(returnedMessage.get(positionType)=="transport"){
-      if(returnedMessage.get(ownership)=="owned"){
-	int rent= returnedMessage.get(rent);//GET RENT FROM JSON
-	this.pay(rent);
-      }else{
-	int cost = returnedMessage.get(price);
-	this.optionToBuy(//PROPERTY OBJECT);
-      }
-    }else if(returnedMessage.get(positionType)=="utilities"){
-      if(returnedMessage.get(ownership)=="owned"){
-	int rent= returnedMessage.get(rent);//GET RENT FROM JSON 
-	this.pay(rent);
-      }else{
-	int cost = returnedMessage.get(price);
-	this.optionToBuy(//PROPERTY OBJECT);
-      }
-    }else if(returnedMessage.get(positionType)=="taxes"){
-      this.pay(returnMessage.get(taxAmount));
-    }else if(returnedMessage.get(positionType)=="chance"){
-      if(returnedMessage.get(chestType)="jail"){
-	if(returnedMessage.get(jailType)=="out"){
-	  jail_free++;
-	}else{
-	  this.setPosition(jailPosition);
-	}
-      }else{ //go to position...
-	int prevPosition=this.getPosition();
-	this.setPosition(returnedMessage.get(chancePosition));
-	int currentPosition=this.getPosition();
-	if(currentPosition-prevPosition<0||currentPosition<prevPosition){
-	  this.addMoney(goAmount);
-	}
-      }
-    }
-    if(diceOne==diceTwo){//rolled doubles
-      noOfDoubles++;
-      if(noOfDoubles==3){
-	//go to jail;
-      }else{
-	this.myTurn();
-      }
-    }else{
-      noOfDoubles=0;
     }
   }
   
