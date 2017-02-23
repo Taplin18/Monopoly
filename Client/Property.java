@@ -7,6 +7,8 @@ public class Property{
   private int houseCost;
   private int hotelCost;
   private int numOfHouses;
+  
+  private int id;
 
   public Property(String name, String colour, int price, int[] rentArray, int houseCost, int hotelCost){ //rent[0]: zero houses, rent[1]: one house... rent[4]: four houses, rent[5]: hotel
     this.name=name;
@@ -20,6 +22,14 @@ public class Property{
   
   public int getNumOfHouses(){
     return this.numOfHouses;
+  }
+  
+  public void setId(int position){
+    this.id=position;
+  }
+  
+  public int getId(){
+    return this.id;
   }
   
   public int incNumOfHouses(){ //returns cost

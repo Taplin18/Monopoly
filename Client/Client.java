@@ -1,4 +1,4 @@
-//create property object for each property owned with all details
+//needs to be able to sell sites and houses at any time
 //keeping track of everyone's position
 
 import java.io.*;
@@ -231,6 +231,7 @@ public class Client implement Runnable{
       if(this.getMoney()>property.getPrice()){//you can buy
 	this.buyProperty(this.getPosition(), property.getPrice());
 	this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
+	property.setId(this.getPosition);
       }
     }
   }
@@ -255,17 +256,13 @@ public class Client implement Runnable{
     int moneygained=property.decNumOfHouses();
   }
   
-  public void sellSite(){
-    while(this.getMoney()<0){
-      int IdOfSelectedProperty=//sell a house
-      //contact server
-    }
+  public void sellSite(Property property){
+    this.sendMessageToServer(this.getId(), "sell", this.property.getId()); //sends the id of the property to the server
   }
   
   public void bid
   
-  public void buyProperty(int property_ID, int cost) {
-    properties.add(property_ID);
+  public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
     this.sendMessageToServer(this.getId(), "buy", this.getPosition()) //send to server
   }
