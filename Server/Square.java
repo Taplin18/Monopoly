@@ -21,7 +21,6 @@ class Square {
 	public Square() {
 		chest_cards = new Chest();
 		chance_cards = new Chance();
-		//property_info = new Property();
 		property();
 	}
 
