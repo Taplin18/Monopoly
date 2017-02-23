@@ -10,8 +10,9 @@ import java.util.Scanner;
 import java.util.Random;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
-import java.util.HashMap; 
+import java.util.*; 
 
 public class Client implements Runnable{
   
@@ -66,7 +67,6 @@ public class Client implements Runnable{
     String username = scanner.nextLine();
     while(username==""){
       System.out.println("Enter your username: ");
-      Scanner scanner = new Scanner(System.in);
       String username = scanner.nextLine();
     }
     System.out.println("Your username is " + username);
@@ -219,7 +219,7 @@ public class Client implements Runnable{
   }
   
   public void goToJail(){
-    this.setPosition(posOfJail);
+    this.setPosition(jailPosition);
     this.inJail=true;
   }
   
@@ -256,7 +256,7 @@ public class Client implements Runnable{
   }
   
   public int getCostOfProperty(int position){
-    return properties.get(position).getCostOfProperty();
+    return properties.get(position).getPrice();
   }
   
   public int sellHouse(Property property){
@@ -265,7 +265,7 @@ public class Client implements Runnable{
   
   public int sellSite(Property property){
     this.sendMessageToServer(this.getId(), "sell", this.property.getId()); //sends the id of the property to the server
-    return amount;
+    return 0; //amount
   }
   
   //public void bid
