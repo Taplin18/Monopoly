@@ -11,11 +11,13 @@ import java.util.Random;
 
 import org.json.simple.JSONObject;
 
-public class Client implement Runnable{
+import java.util.HashMap; 
+
+public class Client implements Runnable{
   
   private int money;
   private int id;
-  private int[] sitesOwned;
+  private int[] sitesOwned = new int[noOfSites];
   private int position;
   
   private static int startMoney=2000;
@@ -28,15 +30,19 @@ public class Client implement Runnable{
   private static int portNumber=2222;
   private static int positionPortNumber=0;
   
-  private static startPosition=0;
+  private static int startPosition=0;
   
-  private Set <Integer> properties = new HashSet<Integer>();
+  private Map <Integer, Property> properties = new HashMap<Integer, Property>();
   private int jail_free = 0;
   
   private int turnsInJail=0;
   private boolean inJail=false;
   private int daysInJail=0;
-  private int posOfJail=20;
+  private int jailPosition=20;
+  
+  private static Socket socket;
+  
+  private static boolean closed=false;
   
   private boolean prevInJail=false; //at the beginning of the turn client was in jail (nulls second turn on double)
   
@@ -48,7 +54,7 @@ public class Client implement Runnable{
   
   public Client(){
     id=defaultStartingId;
-    sitesOwned=[noOfSites];
+    //sitesOwned[noOfSites];
     money=startMoney;
     position=startPosition;
     userName=this.userName();
@@ -134,7 +140,7 @@ public class Client implement Runnable{
       if(inJail==true && diceOne==diceTwo){ //in jail and rolled double
 	this.inJail=false;
 	this.daysInJail=0;
-	this.prevInJail=true
+	this.prevInJail=true;
       }
       this.moveToPosition(diceOne, diceTwo);//move to position
       //check with server of position
@@ -220,7 +226,7 @@ public class Client implement Runnable{
   public void moveToPosition(int diceOne, int diceTwo){
     int prevPosition=this.getPosition();
     this.addPosition(diceOne+diceTwo);
-    if (this.getPosition<prevPosition){ //passed Go
+    if (this.getPosition()<prevPosition){ //passed Go
       this.addMoney(200);
     }
   }
@@ -231,7 +237,7 @@ public class Client implement Runnable{
       if(this.getMoney()>property.getPrice()){//you can buy
 	this.buyProperty(this.getPosition(), property.getPrice());
 	this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
-	property.setId(this.getPosition);
+	property.setId(this.getPosition());
       }
     }
   }
@@ -239,7 +245,8 @@ public class Client implement Runnable{
   public void pay(int amount){
     this.subMoney(amount);
     if(this.getMoney()<0){
-      Property selectedProperty=;//select property from GUI cards
+      selectedPropertyId= 1; //GUI GIVES SELECTED PROPERTY'S ID
+      Property selectedProperty=properties.get(selectedPropertyId);//select property from GUI cards
       if(selectedProperty.getNumOfHouses()>0){
 	this.addMoney(this.sellHouse(selectedProperty));
       }else{
@@ -249,22 +256,23 @@ public class Client implement Runnable{
   }
   
   public int getCostOfProperty(int position){
-    return cost;
+    return properties.get(position).getCostOfProperty();
   }
   
-  public void sellHouse(Property property){
-    int moneygained=property.decNumOfHouses();
+  public int sellHouse(Property property){
+    return property.decNumOfHouses();
   }
   
-  public void sellSite(Property property){
+  public int sellSite(Property property){
     this.sendMessageToServer(this.getId(), "sell", this.property.getId()); //sends the id of the property to the server
+    return amount;
   }
   
-  public void bid
+  //public void bid
   
   public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
-    this.sendMessageToServer(this.getId(), "buy", this.getPosition()) //send to server
+    this.sendMessageToServer(this.getId(), "buy", this.getPosition()); //send to server
   }
     
   public int rollDice(){
@@ -274,17 +282,12 @@ public class Client implement Runnable{
   }
     
   public JSONArray sendMessageToServer(int id, String messageType, int sendMessage){
-    private static Socket socket;
     try {
       JSONObject jsonMessage = new JSONObject();
       jsonMessage.put("id",new Integer(id));
       jsonMessage.put("messageType",messageType);
       jsonMessage.put("message",new Integer(message));
     
-      String host = "localhost";
-      int port = portNumber;
-      InetAddress address = InetAddress.getByName(host);
-      socket = new Socket(address, port);
   
       //Send the message to the server
       OutputStream os = socket.getOutputStream();
@@ -298,11 +301,6 @@ public class Client implement Runnable{
       bw.write(jsonText);
       bw.flush();
       System.out.println("Message sent to the server : "+jsonMessage);
-      
-      new Thread(new Client()).start();
-      while(!closed){
-	inputline.readLine().trim();
-      }
       
       //Get the return message from the server
       InputStream is = socket.getInputStream();
@@ -349,8 +347,18 @@ public class Client implement Runnable{
     }
   }
   
-  public static main(String[] args){
+  public static void main(String[] args){
+    try{
+      String host = "localhost";
+      int port = portNumber;
+      InetAddress address = InetAddress.getByName(host);
+      socket = new Socket(address, port);
+    }catch (Exception exception)
+    {
+      exception.printStackTrace();
+    }
     new Thread(new Client()).start();
+    Client client= new Client();
       while(!closed){
 	client.firstContactServer();
 	client.myTurn();

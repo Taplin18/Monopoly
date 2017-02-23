@@ -7,7 +7,7 @@ public class Property{
   private int houseCost;
   private int hotelCost;
   private int numOfHouses;
-  
+  private int price;
   private int id;
 
   public Property(String name, String colour, int price, int[] rentArray, int houseCost, int hotelCost){ //rent[0]: zero houses, rent[1]: one house... rent[4]: four houses, rent[5]: hotel
@@ -34,7 +34,7 @@ public class Property{
   
   public int incNumOfHouses(){ //returns cost
     this.numOfHouses=this.numOfHouses+1;
-    this.setRent(this.getNumOfHouses);
+    this.setRent(this.getNumOfHouses());
     if(this.getNumOfHouses()==5){
       return hotelCost;
     }else{
@@ -43,8 +43,8 @@ public class Property{
   }
   
   public int decNumOfHouses(){ //returns half cost to buy house/hotel as sold price
-    this.numOfHOuses=this.numOfHouses-1;
-    this.setRent(this.getNumOfHouses);
+    this.numOfHouses=this.numOfHouses-1;
+    this.setRent(this.getNumOfHouses());
     if(this.getNumOfHouses()==4){
       return hotelCost/2;
     }else{
@@ -60,11 +60,11 @@ public class Property{
     return this.rent;
   }
   
-  public int getColour(){
+  public String getColour(){
     return this.colour;
   }
   
-  public int getName(){
+  public String getName(){
     return this.name;
   }
   
