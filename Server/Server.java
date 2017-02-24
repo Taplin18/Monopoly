@@ -82,7 +82,7 @@ class ServerThread extends Thread {
 				JSONObject player_info = (JSONObject)obj;
 				while (!started) {
 					if (playerName == null) {
-						playerName = (String)player_info.get("message");
+						playerName = String.valueOf(player_info.get("message"));
 						players.put(String.valueOf(playerID), playerName);
 						System.out.println("Name is: " + playerName);
 						JSONObject new_player_id = new JSONObject();
