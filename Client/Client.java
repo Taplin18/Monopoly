@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 
 import java.util.*; 
 
@@ -59,6 +60,8 @@ public class Client{
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
   
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
+
+  private JSONParser parser = new JSONParser();
   
   public Client(){
     id=defaultStartingId;
@@ -91,6 +94,7 @@ public class Client{
       System.out.print("Enter your username: ");
       username = scanner.nextLine();
     }
+    userName = username;
     System.out.println("Your username is " + username);
   }
   
@@ -143,8 +147,15 @@ public class Client{
   }
   
   public void firstContactServer(){
-    int newId=Integer.parseInt(this.sendMessageToServer(this.getId(), "firstContact", this.getId()));
-    this.setId(newId); //gets ID
+    try {
+      Object obj = parser.parse(this.sendMessageToServer(this.getId(), "firstContact", this.getUserName()));
+      JSONObject new_id = (JSONObject)obj;
+      String mess = String.valueOf(new_id.get("id"));
+      int newId = Integer.valueOf(mess);
+      this.setId(newId); //gets ID
+    } catch (Exception e) {
+      System.out.println("Failed to get new ID: " + e);
+    }
   }
     
   public void myTurn(){
@@ -155,14 +166,14 @@ public class Client{
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
       daysInJail++;
       if(this.daysInJail==3){
-	this.inJail=false;
-	this.daysInJail=0;
+      	this.inJail=false;
+      	this.daysInJail=0;
       }
     }else{ //not in jail or in jail but has rolled double
       if(this.inJail==true && diceOne==diceTwo){ //in jail and rolled double
-	this.inJail=false;
-	this.daysInJail=0;
-	this.prevInJail=true;
+      	this.inJail=false;
+      	this.daysInJail=0;
+      	this.prevInJail=true;
       }
       this.moveToPosition(diceOne, diceTwo);//move to position
       //check with server of position
@@ -313,7 +324,7 @@ public class Client{
   }
   
   public int sellSite(Property property){
-    this.sendMessageToServer(this.getId(), "sell", property.getId()); //sends the id of the property to the server
+    this.sendMessageToServer(this.getId(), "sell", String.valueOf(property.getId())); //sends the id of the property to the server
     return 0; //amount
   }
   
@@ -321,7 +332,7 @@ public class Client{
   
   public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
-    this.sendMessageToServer(this.getId(), "buy", this.getPosition()); //send to server
+    this.sendMessageToServer(this.getId(), "buy", String.valueOf(this.getPosition())); //send to server
   }
     
   public int rollDice(){
@@ -330,18 +341,16 @@ public class Client{
     return randomInt+1;
   }
     
-  public String sendMessageToServer(int id, String messageType, int sendMessage){
+  public String sendMessageToServer(int id, String messageType, String sendMessage){
     try {
       JSONObject jsonMessage = new JSONObject();
       jsonMessage.put("id",new Integer(id));
       jsonMessage.put("messageType",messageType);
-      jsonMessage.put("message",new Integer(sendMessage));
+      jsonMessage.put("message", sendMessage);
     
   
       //Send the message to the server
-      OutputStream os = socket.getOutputStream();
-      OutputStreamWriter osw = new OutputStreamWriter(os);
-      BufferedWriter bw = new BufferedWriter(osw);
+      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       
       StringWriter out = new StringWriter();
       jsonMessage.writeJSONString(out);
@@ -353,13 +362,11 @@ public class Client{
       System.out.println("Message sent to the server : "+jsonMessage);
       
       //Get the return message from the server
-      InputStream is = socket.getInputStream();
-      InputStreamReader isr = new InputStreamReader(is);
-      BufferedReader br = new BufferedReader(isr);
+      BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String message = br.readLine();
       System.out.println("Message received from the server : " +message);
       
-      //return message; //answer
+      return message; //answer
     }catch (IOException exception){
       exception.printStackTrace();
     }
@@ -377,8 +384,8 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
+    client.firstContactServer();
       while(!closed){
-      	client.firstContactServer();
       	client.myTurn();
       }
   }

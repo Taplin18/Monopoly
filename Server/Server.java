@@ -11,6 +11,7 @@ public class Server {
 	private static final int port = 2222;
 	private static final int maxPlayers = 4;
 	private static int currentPlayers = 0;
+	private static Board board = new Board();
 
 	public static void main(String[] args) {
 		Socket playerSocket = null;
@@ -30,7 +31,7 @@ public class Server {
 					playerSocket = server.accept();
 					System.out.println("New player connected");
 					currentPlayers++;
-					ServerThread st = new ServerThread(playerSocket);
+					ServerThread st = new ServerThread(playerSocket, board);
 					st.start();
 				} else {
 					System.out.println("Too many players connected");
@@ -53,6 +54,7 @@ class ServerThread extends Thread {
 	private BufferedWriter bw = null;
 	private PrintStream ps = null;
 	private Socket sock = null;
+	private Board board = null;
 	private static int ids = 0;
 	private static String[] player_names;
 	private static boolean started = false;
@@ -61,8 +63,9 @@ class ServerThread extends Thread {
 	private static JSONObject players = new JSONObject();
 	//private Board board;
 
-	public ServerThread(Socket sock) {
+	public ServerThread(Socket sock, Board board) {
 		this.sock = sock;
+		this.board = board;
 		playerID = ids;
 		ids++;
 	}
