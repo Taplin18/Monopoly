@@ -14,7 +14,7 @@ import org.json.simple.JSONArray;
 
 import java.util.*; 
 
-public class Client implements Runnable{
+public class Client{
   public String message; //answer
   
   private int money;
@@ -84,11 +84,11 @@ public class Client implements Runnable{
   }
   
   public void userName(){
-    System.out.println("Enter your username: ");
+    System.out.print("Enter your username: ");
     Scanner scanner = new Scanner(System.in);
     String username = scanner.nextLine();
-    while(username==""){
-      System.out.println("Enter your username: ");
+    while(username.equals("")){
+      System.out.print("Enter your username: ");
       username = scanner.nextLine();
     }
     System.out.println("Your username is " + username);
@@ -348,6 +348,7 @@ public class Client implements Runnable{
       String jsonText = out.toString();
       
       bw.write(jsonText);
+      bw.newLine();
       bw.flush();
       System.out.println("Message sent to the server : "+jsonMessage);
       
@@ -365,24 +366,6 @@ public class Client implements Runnable{
     return message; //answer
   }
   
-  public void run() {
-    /*
-     * Keep on reading from the socket till we receive "Bye" from the
-     * server. Once we received that then we want to break.
-     */
-    String responseLine;
-    try {
-      while ((responseLine = br.readLine()) != null) {
-        System.out.println(responseLine);
-        if (responseLine.indexOf("*** Bye") != -1)
-          break;
-      }
-      closed = true;
-    } catch (IOException e) {
-      System.err.println("IOException:  " + e);
-    }
-  }
-  
   public static void main(String[] args)throws IOException{
     try{
       String host = "localhost";
@@ -393,11 +376,10 @@ public class Client implements Runnable{
     {
       exception.printStackTrace();
     }
-    new Thread(new Client()).start();
     Client client= new Client();
       while(!closed){
-	client.firstContactServer();
-	client.myTurn();
+      	client.firstContactServer();
+      	client.myTurn();
       }
   }
 }
