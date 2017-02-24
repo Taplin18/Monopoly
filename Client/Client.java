@@ -56,6 +56,24 @@ public class Client implements Runnable{
   
   private int noOfDoubles=0;
   
+  private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
+  coloursOwned.put("red", 0);
+  coloursOwned.put("orange", 0);
+  coloursOwned.put("green", 0);
+  coloursOwned.put("darkBlue", 0);
+  coloursOwned.put("lightBlue", 0);
+  coloursOwned.put("pink", 0);
+  coloursOwned.put("brown", 0);
+  
+  private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
+  coloursOwned.put("red", 3);
+  coloursOwned.put("orange", 3);
+  coloursOwned.put("green", 3);
+  coloursOwned.put("darkBlue", 2);
+  coloursOwned.put("lightBlue", 3);
+  coloursOwned.put("pink", 3);
+  coloursOwned.put("brown", 2);
+  
   public Client(){
     id=defaultStartingId;
     //sitesOwned[noOfSites];
@@ -228,6 +246,14 @@ public class Client implements Runnable{
       }else{
 	noOfDoubles=0;
      }
+    }
+  }
+  
+  public void build(Property property){
+    if(this.getMoney()<property.getHouseCost()){
+      System.out.println("You do not have enough money");
+    }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
+      System.out.println("YOu do not own all of the colour "+property.getColour()+" sites.");
     }
   }
   

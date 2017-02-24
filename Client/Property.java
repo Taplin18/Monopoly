@@ -72,4 +72,8 @@ public class Property{
     return this.price;
   }
   
+  public int getHouseCost(){
+    return houseCost;
+  }
+  
 }
