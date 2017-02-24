@@ -15,6 +15,7 @@ import org.json.simple.JSONArray;
 import java.util.*; 
 
 public class Client implements Runnable{
+  public String message; //answer
   
   private int money;
   private int id;
@@ -51,6 +52,8 @@ public class Client implements Runnable{
   
   private String userName;
   
+  private static BufferedReader br;
+  
   private int noOfDoubles=0;
   
   public Client(){
@@ -58,16 +61,16 @@ public class Client implements Runnable{
     //sitesOwned[noOfSites];
     money=startMoney;
     position=startPosition;
-    userName=this.userName();
+    this.userName();
   }
   
-  public String userName(){
+  public void userName(){
     System.out.println("Enter your username: ");
     Scanner scanner = new Scanner(System.in);
     String username = scanner.nextLine();
     while(username==""){
       System.out.println("Enter your username: ");
-      String username = scanner.nextLine();
+      username = scanner.nextLine();
     }
     System.out.println("Your username is " + username);
   }
@@ -121,7 +124,7 @@ public class Client implements Runnable{
   }
   
   public void firstContactServer(){
-    int newId=Integer.parseInt(this.sendMessageToServer(this.getId(), "firstContact", this.getUserName()));
+    int newId=Integer.parseInt(this.sendMessageToServer(this.getId(), "firstContact", this.getId()));
     this.setId(newId); //gets ID
   }
     
@@ -130,71 +133,81 @@ public class Client implements Runnable{
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
     
-    if(inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
+    if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
       daysInJail++;
-      if(InJail==3){
+      if(this.daysInJail==3){
 	this.inJail=false;
 	this.daysInJail=0;
       }
     }else{ //not in jail or in jail but has rolled double
-      if(inJail==true && diceOne==diceTwo){ //in jail and rolled double
+      if(this.inJail==true && diceOne==diceTwo){ //in jail and rolled double
 	this.inJail=false;
 	this.daysInJail=0;
 	this.prevInJail=true;
       }
       this.moveToPosition(diceOne, diceTwo);//move to position
       //check with server of position
-      JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
-      if(returnedMessage.get(positionType)=="chest"){
-	if(returnedMessage.get(chestType)="jail"){
-	  if(returnedMessage.get(jailType)=="out"){
+      
+      //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
+      
+      HashMap<String, String> returnedMessage = new HashMap<String, String>();
+      returnedMessage.put("positionType", "chest");
+      returnedMessage.put("chestType", "jail");
+      returnedMessage.put("jailType", "out");
+      returnedMessage.put("rent", "1");
+      
+      
+      if(returnedMessage.get("positionType")=="chest"){
+	if(returnedMessage.get("chestType")=="jail"){
+	  if(returnedMessage.get("jailType")=="out"){
 	    this.jail_free++;
 	  }else{
 	    this.setPosition(jailPosition);
 	  }
 	}else{ //money
-	  if(returnedMessage.get(chestType)=="add"){
-	    this.addMoney(returnedMessage.get(chestAmount));
+	  if(returnedMessage.get("chestType")=="add"){
+	    this.addMoney(Integer.parseInt(returnedMessage.get("chestAmount")));
 	  }else{
-	    this.pay(returnedMessage.get(chestAmount));
+	    this.pay(Integer.parseInt(returnedMessage.get("chestAmount")));
 	  }
 	}
-      }else if(returnedMessage.get(positionType)=="property"){
-	if(returnedMessage.get(ownership)=="owned"){
-	  int rent= returnedMessage.get(rent);//get rent amount from JSON
+      }else if(returnedMessage.get("positionType")=="property"){
+	if(returnedMessage.get("ownership")=="owned"){
+	  int rent= Integer.parseInt(returnedMessage.get("rent"));//get rent amount from JSON
 	  this.pay(rent);
 	}else{ //vacant
-	  Property property=new Property(returnedMessage.get(name), returnedMessage.get(colour), returnedMessage.get(price), returnedMessage.get(rentArray), returnedMessage.get(houseCost), returnedMessage.get(hotelCost));
+	  Property property=new Property(returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")), Integer.parseInt(returnedMessage.get("hotelCost")));
 	  this.optionToBuy(property);
 	}
-      }else if(returnedMessage.get(positionType)=="transport"){
-	if(returnedMessage.get(ownership)=="owned"){
-	  int rent= returnedMessage.get(rent);//GET RENT FROM JSON
+      }else if(returnedMessage.get("positionType")=="transport"){
+	if(returnedMessage.get("ownership")=="owned"){
+	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get(name), returnedMessage.get(colour), returnedMessage.get(price), returnedMessage.get(rentArray), returnedMessage.get(houseCost), returnedMessage.get(hotelCost));
+	  Property property=new Property(returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")), Integer.parseInt(returnedMessage.get("hotelCost")));
 	  this.optionToBuy(property);
 	}
-      }else if(returnedMessage.get(positionType)=="utilities"){
-	if(returnedMessage.get(ownership)=="owned"){
-	  int rent= returnedMessage.get(rent);//GET RENT FROM JSON 
+      }else if(returnedMessage.get("positionType")=="utilities"){
+	if(returnedMessage.get("ownership")=="owned"){
+
+	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON 
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get(name), returnedMessage.get(colour), returnedMessage.get(price), returnedMessage.get(rentArray), returnedMessage.get(houseCost), returnedMessage.get(hotelCost));
+	  Property property=new Property(returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")), Integer.parseInt(returnedMessage.get("hotelCost")));
 	  this.optionToBuy(property);
 	}
-      }else if(returnedMessage.get(positionType)=="taxes"){
-	this.pay(returnMessage.get(taxAmount));
-      }else if(returnedMessage.get(positionType)=="chance"){
-	if(returnedMessage.get(chestType)="jail"){
-	  if(returnedMessage.get(jailType)=="out"){
+      }else if(returnedMessage.get("positionType")=="taxes"){
+	this.pay(Integer.parseInt(returnedMessage.get("taxAmount")));
+      }else if(returnedMessage.get("positionType")=="chance"){
+	if(returnedMessage.get("chestType")=="jail"){
+	  if(returnedMessage.get("jailType")=="out"){
 	    jail_free++;
 	  }else{
 	    this.setPosition(jailPosition);
 	  }
 	}else{ //go to position...
 	  int prevPosition=this.getPosition();
-	  this.setPosition(returnedMessage.get(chancePosition));
+	  this.setPosition(Integer.parseInt(returnedMessage.get("chancePosition")));
 	  int currentPosition=this.getPosition();
 	  if(currentPosition-prevPosition<0||currentPosition<prevPosition){
 	    this.addMoney(goAmount);
@@ -233,19 +246,24 @@ public class Client implements Runnable{
   
   public void optionToBuy(Property property){
     //DISPLAY POP UP WINDOW OF CARD DETAILS
-    if("yes"){
+    String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
+    if(answer=="yes"){
+      //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
 	this.buyProperty(this.getPosition(), property.getPrice());
 	this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
 	property.setId(this.getPosition());
       }
     }
+    else{
+      //CLOSE POP UP
+    }
   }
   
   public void pay(int amount){
     this.subMoney(amount);
     if(this.getMoney()<0){
-      selectedPropertyId= 1; //GUI GIVES SELECTED PROPERTY'S ID
+      int selectedPropertyId= 1; //GUI GIVES SELECTED PROPERTY'S ID
       Property selectedProperty=properties.get(selectedPropertyId);//select property from GUI cards
       if(selectedProperty.getNumOfHouses()>0){
 	this.addMoney(this.sellHouse(selectedProperty));
@@ -264,7 +282,7 @@ public class Client implements Runnable{
   }
   
   public int sellSite(Property property){
-    this.sendMessageToServer(this.getId(), "sell", this.property.getId()); //sends the id of the property to the server
+    this.sendMessageToServer(this.getId(), "sell", property.getId()); //sends the id of the property to the server
     return 0; //amount
   }
   
@@ -281,12 +299,12 @@ public class Client implements Runnable{
     return randomInt+1;
   }
     
-  public JSONArray sendMessageToServer(int id, String messageType, int sendMessage){
+  public String sendMessageToServer(int id, String messageType, int sendMessage){
     try {
       JSONObject jsonMessage = new JSONObject();
       jsonMessage.put("id",new Integer(id));
       jsonMessage.put("messageType",messageType);
-      jsonMessage.put("message",new Integer(message));
+      jsonMessage.put("message",new Integer(sendMessage));
     
   
       //Send the message to the server
@@ -309,24 +327,11 @@ public class Client implements Runnable{
       String message = br.readLine();
       System.out.println("Message received from the server : " +message);
       
-      return message; //answer
-    }
-    catch (Exception exception)
-    {
+      //return message; //answer
+    }catch (IOException exception){
       exception.printStackTrace();
     }
-    finally
-    {
-    //Closing the socket
-      try
-      {
-	socket.close();
-      }
-      catch(Exception e)
-      {
-	e.printStackTrace();
-      }
-    }
+    return message; //answer
   }
   
   public void run() {
@@ -347,7 +352,7 @@ public class Client implements Runnable{
     }
   }
   
-  public static void main(String[] args){
+  public static void main(String[] args)throws IOException{
     try{
       String host = "localhost";
       int port = portNumber;
