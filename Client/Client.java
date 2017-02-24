@@ -57,28 +57,30 @@ public class Client implements Runnable{
   private int noOfDoubles=0;
   
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
-  coloursOwned.put("red", 0);
-  coloursOwned.put("orange", 0);
-  coloursOwned.put("green", 0);
-  coloursOwned.put("darkBlue", 0);
-  coloursOwned.put("lightBlue", 0);
-  coloursOwned.put("pink", 0);
-  coloursOwned.put("brown", 0);
   
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
-  coloursTotal.put("red", 3);
-  coloursTotal.put("orange", 3);
-  coloursTotal.put("green", 3);
-  coloursTotal.put("darkBlue", 2);
-  coloursTotal.put("lightBlue", 3);
-  coloursTotal.put("pink", 3);
-  coloursTotal.put("brown", 2);
   
   public Client(){
     id=defaultStartingId;
     money=startMoney;
     position=startPosition;
     this.userName();
+    
+    coloursOwned.put("red", 0);
+    coloursOwned.put("orange", 0);
+    coloursOwned.put("green", 0);
+    coloursOwned.put("darkBlue", 0);
+    coloursOwned.put("lightBlue", 0);
+    coloursOwned.put("pink", 0);
+    coloursOwned.put("brown", 0);
+    
+    coloursTotal.put("red", 3);
+    coloursTotal.put("orange", 3);
+    coloursTotal.put("green", 3);
+    coloursTotal.put("darkBlue", 2);
+    coloursTotal.put("lightBlue", 3);
+    coloursTotal.put("pink", 3);
+    coloursTotal.put("brown", 2);
   }
   
   public void userName(){
