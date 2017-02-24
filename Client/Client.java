@@ -66,17 +66,16 @@ public class Client implements Runnable{
   coloursOwned.put("brown", 0);
   
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
-  coloursOwned.put("red", 3);
-  coloursOwned.put("orange", 3);
-  coloursOwned.put("green", 3);
-  coloursOwned.put("darkBlue", 2);
-  coloursOwned.put("lightBlue", 3);
-  coloursOwned.put("pink", 3);
-  coloursOwned.put("brown", 2);
+  coloursTotal.put("red", 3);
+  coloursTotal.put("orange", 3);
+  coloursTotal.put("green", 3);
+  coloursTotal.put("darkBlue", 2);
+  coloursTotal.put("lightBlue", 3);
+  coloursTotal.put("pink", 3);
+  coloursTotal.put("brown", 2);
   
   public Client(){
     id=defaultStartingId;
-    //sitesOwned[noOfSites];
     money=startMoney;
     position=startPosition;
     this.userName();
@@ -253,7 +252,11 @@ public class Client implements Runnable{
     if(this.getMoney()<property.getHouseCost()){
       System.out.println("You do not have enough money");
     }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
-      System.out.println("YOu do not own all of the colour "+property.getColour()+" sites.");
+      System.out.println("You do not own all of the colour "+property.getColour()+" sites.");
+    }else if(property.getNumOfHouses()==5){ //you have aready built max amount
+      System.out.println("You have built the maximum amount.");
+    }else{//build hotel instead
+      this.subMoney(property.incNumOfHouses());
     }
   }
   

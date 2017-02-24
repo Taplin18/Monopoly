@@ -7,6 +7,7 @@ public class Property{
   private int houseCost;
   private int hotelCost;
   private int numOfHouses;
+  //private boolean hotelPresent;
   private int price;
   private int id;
 
@@ -52,6 +53,18 @@ public class Property{
     }
   }
   
+  public void setNumOfHouse(int number){
+    this.numOfHouses=0;
+  }
+  
+  //public void setHotelPresent(boolean present){
+  //  this.hotelPresent=present;
+  //}
+  
+  //public boolean getHotelPresent(){
+  //  return hotelPresent;
+  //}
+
   public void setRent(int numOfHouses){
     this.rent=(baseRent*this.getNumOfHouses())+baseRent;
   }
