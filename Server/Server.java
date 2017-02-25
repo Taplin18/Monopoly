@@ -55,6 +55,7 @@ class ServerThread extends Thread {
 	private PrintStream ps = null;
 	private Socket sock = null;
 	private Board board = null;
+	private static HashMap <Integer, Integer> player_pos = new HashMap <Integer, Integer>();
 	private static int ids = 0;
 	private static String[] player_names;
 	private static boolean started = false;
@@ -66,7 +67,10 @@ class ServerThread extends Thread {
 	public ServerThread(Socket sock, Board board) {
 		this.sock = sock;
 		this.board = board;
+		//this.player_pos = player_pos;
 		playerID = ids;
+		player_pos.put(playerID, 0);
+		System.out.println(player_pos.values());
 		ids++;
 	}
 
@@ -98,10 +102,10 @@ class ServerThread extends Thread {
 						bw.newLine();
 						bw.flush();
 					}
-					if (!started) {
-						System.out.println("Waiting for game to start...");
-					}
 					while (!started) {
+						if (player_pos.size() == 4) {
+							started = true;
+						}
 						if(player_info.get("messageType") == "start") {
 							System.out.println("Monopoly beginning now...");
 							started = true;
@@ -115,13 +119,58 @@ class ServerThread extends Thread {
 							bw.flush();
 						}
 					}
+					//started = true;
 				}
-				/*while(!game_over) {
-					if(playerID == playerTurn){
-	
+				System.out.println("The game has started...");
+				while(!game_over) {
+					if(playerID == playerTurn && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))) {
+						if (player_info.get("messageType").equals("position")) {
+							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
+							String[] answer = a.split(" - ");
+							JSONObject position_info = new JSONObject();
+							
+							if (answer[0].equals("chest")) {
+								position_info.put("positionType", "chest");
+								position_info.put("chestType", answer[1]);
+								if (answer[1].equals("jail")) {
+									position_info.put("jailType", answer[2]);
+									//position_info.put("message", answer[3]);
+								} else {
+									position_info.put("chestAmount", answer[2]);
+									//position_info.put("message", answer[3]);
+								}
+							} else if (answer[0].equals("chance")) {
+								position_info.put("positionType", "chance");
+								position_info.put("chanceType", answer[1]);
+								if (answer[1].equals("jail")) {
+									position_info.put("jailType", answer[2]);
+									//position_info.put("message", answer[3]);
+								} else {
+									if (answer[1].equals("back")) {
+										String new_pos = String.valueOf(Integer.valueOf(String.valueOf(player_info.get("message"))) - 3);
+										position_info.put("chancePosition", new_pos);
+										//position_info.put("message", answer[3]);
+									} else {
+										position_info.put("chancePosition", answer[2]);
+										//position_info.put("message", answer[3]);
+									}
+								}
+							} else if (answer[0].equals("property")) {
+								position_info.put("positionType", "property");
+							} else if (answer[0].equals("utilities")) {
+								position_info.put("positionType", "utilities");
+							} else if (answer[0].equals("transport")) {
+								position_info.put("positionType", "transport");
+							} else if (answer[0].equals("Tax")) {
+								position_info.put("positionType", "taxes");
+							} else {
+								position_info.put("positionType", "corner");
+							}
+
+						}
 					}
 
-				}*/
+				}
 			} catch (Exception e) {
 				System.out.println("JSON error: " + e);
 			}

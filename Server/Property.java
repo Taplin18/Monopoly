@@ -45,6 +45,15 @@ class Property {
 	}
 
 	/**
+	* Return the rent of the property
+	* @return the rent
+	*/
+	public int rent() {
+		return rent;
+	}
+
+
+	/**
 	* Check if the property has been bought
 	* @return true if bought, false otherwise
 	*/

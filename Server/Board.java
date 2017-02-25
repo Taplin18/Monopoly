@@ -103,9 +103,9 @@ class Board {
 		for (int i = 0; i < properties.length; i++) {
 			if (position == properties[i]) {
 				if (check_if_bought(position)) {
-					return String.format("Property {%s} owned by {%s}", position, squares.owned_by(position));
+					return String.format("property - owned - %s", squares.prop_rent(position));
 				} else {
-					return String.format("Property {%s} costs €%s", position, squares.price(position));
+					return String.format("property - available - %s", position, squares.prop_price(position));
 				}
 			}
 		}

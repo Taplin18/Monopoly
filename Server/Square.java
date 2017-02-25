@@ -54,13 +54,13 @@ class Square {
 			}
 		} else if (card_type == "Corners") {
 			if (position == 0) {
-				return "Go";
+				return "corner - Go";
 			} else if (position == 10) {
-				return "Just Visiting / In Jail";
+				return "corner - Just Visiting / In Jail";
 			} else if (position == 20) {
-				return "Free Parking";
+				return "corner - Free Parking";
 			} else if (position == 30) {
-				return "Go to Jail";
+				return "corner - Go to Jail";
 			}
 		}
 
@@ -72,7 +72,7 @@ class Square {
 	* @param position the property id
 	* @return the owners id
 	*/
-	public int owned_by(int position) {
+	public int prop_owned_by(int position) {
 		property_info = properties.get(position);
 		return property_info.owner();
 	}
@@ -82,9 +82,19 @@ class Square {
 	* @param position the property id
 	* @return the cost of the property
 	*/
-	public int price(int position) {
+	public int prop_price(int position) {
 		property_info = properties.get(position);
 		return property_info.cost();
+	}
+
+	/**
+	* Get the rent of the bought property
+	* @param position the property id
+	* @return the rent of the property
+	*/
+	public int prop_rent(int position) {
+		property_info = properties.get(position);
+		return property_info.rent();
 	}
 
 	/**
