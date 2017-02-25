@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 	 * and Taxes - these can be made more specific depending on what specific values we plan on having on each square and I will update
 	 * the output accordingly. 
 	 */
-    public void getPopUp(int squareID) {
+    	 public void getPopUp(int squareID) {
 	    
 	
 	       /*
