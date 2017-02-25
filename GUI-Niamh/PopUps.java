@@ -17,10 +17,11 @@ import java.awt.image.BufferedImage;
 	 * the output accordingly. 
 	 */
     public void getPopUp(int squareID) {
+	    
 	
-	   /*
-	    * Images for each square type stored in static variables.
-		*/
+	       /*
+	    	* Images for each square type stored in static variables.
+	    	*/
 		private static final String GO_IMAGE = "go.jpg";
 		private static final String PROPERTY_IMAGE = "property.jpg";
 		private static final String CHEST_IMAGE = "chestcard.jpg";
@@ -30,15 +31,15 @@ import java.awt.image.BufferedImage;
 		private static final String UTILITIES_IMAGE = "utilities.jpg";
 		private static final String TAXES_IMAGE = "taxes.jpg";
 		
-	   /*
-	    * actionIdentifier - Identifies what action is to be taken based on the ID of the current square
+	       /*
+	    	* actionIdentifier - Identifies what action is to be taken based on the ID of the current square
 		* message - Holds the appropriate message displayed in the pop-up depending on what he current square is 
 		* title - Holds the appropriate title for the pop-up depending on what he current square is 
 		* image - Holds the file name of the appropriate image displayed beside the message in the pop-up depending on the current square
 		* popUpIcon - Stores the image for the pop-up as an ImageIcon object
 		* popUpImg - Stores the image when it is initially read in 
 		* messageType - Defines the type of pop-up message being displayed
-        */	   
+        	*/	   
 		
 		private actionIdentifier = squareID;
 		private String message = "";
