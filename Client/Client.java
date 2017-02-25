@@ -23,6 +23,8 @@ public class Client{
   private int[] sitesOwned = new int[noOfSites];
   private int position;
   
+  private int setNumberOfPlayers;
+  
   private static int startMoney=2000;
   private static int noOfSites=20;
   
@@ -32,8 +34,6 @@ public class Client{
   
   private static int portNumber=2222;
   private static int positionPortNumber=0;
-  
-  private static int startPosition=0;
   
   private Map <Integer, Property> properties = new HashMap<Integer, Property>();
   private int jail_free = 0;
@@ -50,6 +50,7 @@ public class Client{
   private boolean prevInJail=false; //at the beginning of the turn client was in jail (nulls second turn on double)
   
   private static int goAmount=2000;
+  private static int startPosition=0;
   
   private String userName;
   
@@ -58,8 +59,9 @@ public class Client{
   private int noOfDoubles=0;
   
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
-  
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
+  
+  private Map <Integer, Integer> playersPositions = new HashMap<Integer, Integer>();
 
   private JSONParser parser = new JSONParser();
   
@@ -84,6 +86,7 @@ public class Client{
     coloursTotal.put("lightBlue", 3);
     coloursTotal.put("pink", 3);
     coloursTotal.put("brown", 2);
+    
   }
   
   public void userName(){
@@ -178,7 +181,7 @@ public class Client{
       this.moveToPosition(diceOne, diceTwo);//move to position
       //check with server of position
       
-      //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", this.getPosition());
+      //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition())); //SERVER NEEDS TO CONVERT THIRD PARAMETER BACK TO INT
       
       HashMap<String, String> returnedMessage = new HashMap<String, String>();
       returnedMessage.put("positionType", "chest");
@@ -373,6 +376,36 @@ public class Client{
     return message; //answer
   }
   
+  public void setNumberOfPlayers(int number){
+    this.setNumberOfPlayers=number;
+  }
+  
+  public int getNumberOfPlayers(){
+    return this.numberOfPlayers;
+  }
+  
+  public void makeListOfPlayers(){
+  try {
+      Object obj = parser.parse((this.getId(), "noOfPlayers", "noOfPlayers"));
+      JSONObject no_of_players = (JSONObject)obj;
+      String mess = String.valueOf(no_of_players.get("number"));
+      int noOfPlayers = Integer.valueOf(mess);
+      this.setNumberOfPlayers(noOfPlayers);
+    } catch (Exception e) {
+      System.out.println("Failed to get number of players: " + e);
+    }
+    while(int i=0;i<this.getNumberOfPlayers();i++){
+      playersPositions.put(i,goPosition);
+    }
+  }
+  
+  public void updatePlayersPositions(JSONArray positions){
+    while(int i=0;i<this.getNumberOfPlayers();i++){
+      playersPositions.put(i,);
+    }
+  }
+  
+  
   public static void main(String[] args)throws IOException{
     try{
       String host = "localhost";
@@ -385,8 +418,11 @@ public class Client{
     }
     Client client= new Client();
     client.firstContactServer();
-      while(!closed){
-      	client.myTurn();
-      }
+    client.makeListOfPlayers();
+    while(!closed){
+      //get updated info of positions from server
+      //display info on GUI
+      client.myTurn();
+    }
   }
 }
