@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Class which displays a welcome screen to the user which offers the following options:
- * 	- Create User Name: The user types and submits the user name they would like for the game.
+ *  - Create User Name: The user types and submits the user name they would like for the game.
  *  - Force Start: The user forces the game to start regardless of whether the game is full yet.
  *  - Rules: The user can familiarise themselves with the rules of the game. 
  */
@@ -30,10 +30,10 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	private JFrame controllingFrame; 
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
-    private static String RULES = "Rules";
+    	private static String RULES = "Rules";
 	private static final String MONOPOLY_LOGO = "zebropoly2.png";
 	private static final String USER_ICON = "usericon2.jpg";
-    private JTextField userNameField; 
+    	private JTextField userNameField; 
 	private boolean hasUserName = false;
 
 	/**
@@ -41,10 +41,10 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * on panels and then adds them to the given JFrame.
 	 * @param f A JFrame object
 	 */
-    public WelcomeScreen(JFrame f) {
+    	public WelcomeScreen(JFrame f) {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
-        controllingFrame = f; 
+        	controllingFrame = f; 
 		controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
 		
 		// Initialise JLabels variable to null
@@ -57,9 +57,9 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		ImageIcon userIcon = null;
 		
 		// Set up user name field
-        userNameField = new JTextField(12); // Length = 12
-        userNameField.setActionCommand(CREATE_NAME);  
-        userNameField.addActionListener(this);
+        	userNameField = new JTextField(12); // Length = 12
+        	userNameField.setActionCommand(CREATE_NAME);  
+        	userNameField.addActionListener(this);
 		
 		// Create ImageIcon for Monopoly logo and user icon
 		try {
@@ -79,7 +79,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		
 		} catch (IOException e) { // Exception handling in the case of the image files being inaccessible
 			e.printStackTrace();
-        }
+        	}
  
 		// Add Monopoly icon to a JLabel and specify horizontal alignment
 		monopolyIconLabel = new JLabel(monopolyIcon, JLabel.CENTER);
@@ -90,45 +90,45 @@ public class WelcomeScreen extends JPanel implements ActionListener {
                 "either Force Start or wait until 4 players have joined.\n\n                   Have fun!", 
                 5, 
                 20);
-        textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
-        textArea.setBackground(Color.BLACK);
+       	 	textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
+        	textArea.setBackground(Color.BLACK);
 		textArea.setForeground(Color.WHITE);
-		textArea.setLineWrap(true);						// Set various attributes as required
-        textArea.setWrapStyleWord(true);
-        textArea.setOpaque(false);
-        textArea.setEditable(false);
+		textArea.setLineWrap(true);				// Set various attributes as required
+        	textArea.setWrapStyleWord(true);
+        	textArea.setOpaque(false);
+        	textArea.setEditable(false);
 		
 		// Add user icon to a JLabel, specify horizontal alignment, and add a String to tell user what to enter in the box
-        userNameLabel = new JLabel("Username: ", userIcon, JLabel.CENTER);
-        userNameLabel.setLabelFor(userNameField);
+        	userNameLabel = new JLabel("Username: ", userIcon, JLabel.CENTER);
+        	userNameLabel.setLabelFor(userNameField);
 		userNameLabel.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 13));
 		userNameLabel.setForeground(Color.WHITE);
 		
-        //Create, set up, and customise buttons
+        	//Create, set up, and customise buttons
 		JButton createNameButton = new JButton("Create Name"); // Check button
 		JButton forceStartButton = new JButton("Force Start"); // Criteria button
 		JButton rulesButton = new JButton("Rules"); // Rules button
-        createNameButton.setActionCommand(CREATE_NAME);
-        forceStartButton.setActionCommand(FORCE_START);
+        	createNameButton.setActionCommand(CREATE_NAME);
+        	forceStartButton.setActionCommand(FORCE_START);
 		rulesButton.setActionCommand(RULES);
-        createNameButton.addActionListener(this);
-        forceStartButton.addActionListener(this);
+        	createNameButton.addActionListener(this);
+        	forceStartButton.addActionListener(this);
 		rulesButton.addActionListener(this);
 		
 		createNameButton.setBackground(new Color(59, 89, 182));
-        createNameButton.setForeground(Color.WHITE);
-        createNameButton.setFocusPainted(false);
-        createNameButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+        	createNameButton.setForeground(Color.WHITE);
+       		createNameButton.setFocusPainted(false);
+        	createNameButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 
 		forceStartButton.setBackground(new Color(59, 89, 182));
-        forceStartButton.setForeground(Color.WHITE);
-        forceStartButton.setFocusPainted(false);
-        forceStartButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+        	forceStartButton.setForeground(Color.WHITE);
+        	forceStartButton.setFocusPainted(false);
+        	forceStartButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 		
 		rulesButton.setBackground(new Color(59, 89, 182));
-        rulesButton.setForeground(Color.WHITE);
-        rulesButton.setFocusPainted(false);
-        rulesButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+        	rulesButton.setForeground(Color.WHITE);
+        	rulesButton.setFocusPainted(false);
+        	rulesButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 		
 		// Create JPanel object for Monopoly image component
 		JPanel imagePanel = new JPanel();
@@ -161,8 +161,8 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		welcomeMessagePanel.setForeground(Color.WHITE);
 		
 		// Add user name components to user name panel
-        userNamePanel.add(userNameLabel);
-        userNamePanel.add(userNameField);
+        	userNamePanel.add(userNameLabel);
+        	userNamePanel.add(userNameField);
 		userNamePanel.add(createNameButton);
 		
 		// Add remaining two buttons to buttons panel
@@ -172,38 +172,39 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		// Add panels to JFrame
 		add(imagePanel);
 		add(welcomeMessagePanel);
-        add(userNamePanel);
-        add(buttonsPanel);
-    }
+        	add(userNamePanel);
+        	add(buttonsPanel);
+    	}
  
 	/**
 	 * Method which checks what command was made by the user and then responds appropriately.
 	 * @param e 
 	 */
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand(); // Store value of command
+   	 public void actionPerformed(ActionEvent e) {
+         
+		 String command = e.getActionCommand(); // Store value of command
  
-        if (CREATE_NAME.equals(command)) { 
-            String newUserName = userNameField.getText(); // Get content of user name text field
-            if (newUserName.trim().isEmpty() == false) { // If at least one character has been entered into the field
+        	if (CREATE_NAME.equals(command)) { 
+           		String newUserName = userNameField.getText(); // Get content of user name text field
+            		if (newUserName.trim().isEmpty() == false) { // If at least one character has been entered into the field
 				// Code to store user name somewhere 
 				hasUserName = true; // Marks that user name has been set
-                JOptionPane.showMessageDialog(controllingFrame,
-                    "Success! You have successfully created a new user name.");	// Display success message
+                		JOptionPane.showMessageDialog(controllingFrame,
+                    		"Success! You have successfully created a new user name.");	// Display success message
 			} else { // If the user name field was empty
 				JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
 			}
-        } else if (RULES.equals(command)) { //The user wishes to view the rules
-            JOptionPane.showMessageDialog(controllingFrame,
-                "Here are the rules."); // Insert rules here	
-        } else {
+        	} else if (RULES.equals(command)) { //The user wishes to view the rules
+            		JOptionPane.showMessageDialog(controllingFrame,
+                					"Here are the rules."); // Insert rules here	
+        	} else {
 			if (hasUserName == false) { // Only allow user to proceed if they have created a user name
 				JOptionPane.showMessageDialog(controllingFrame, "You must create a user name before beginning.");
 			} else {
 				// Launch game
 			}
 		}
-    }
+    	 }
 	
 
  
@@ -211,24 +212,24 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
 	 * with this JFrame passed in as a parameter.
 	 */
-    private static void createAndDisplay() {
-        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+    	private static void createAndDisplay() {
+        	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
  
-        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        contentPane.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(contentPane); // Sets contentPane property
+	        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        	contentPane.setOpaque(true); // Makes contentPane opaque 
+        	myFrame.setContentPane(contentPane); // Sets contentPane property
 		myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-        myFrame.setVisible(true); // Window is displayed
-    }
+        	myFrame.setSize(550, 500);
+        	myFrame.setVisible(true); // Window is displayed
+    	}
 	
 	/**
 	 * Main method which calls the createAndShowGUI() method.
 	 */
-    public static void main(String[] args) {
+    	public static void main(String[] args) {
         
-        createAndDisplay();
+        	createAndDisplay();
             
-    }
+    	}
 }
