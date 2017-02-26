@@ -1,6 +1,3 @@
-//needs to be able to sell sites and houses at any time
-//keeping track of everyone's position
-
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -335,7 +332,8 @@ public class Client{
   
   public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
-    this.sendMessageToServer(this.getId(), "buy", String.valueOf(this.getPosition())); //send to server
+    this.sendMessageToServer(this.getId(), "buy", String.valueOf(this.getPosition()));
+    coloursOwned.put(property.getColour(), coloursOwned.get(propertu.getColour())++);
   }
     
   public int rollDice(){
