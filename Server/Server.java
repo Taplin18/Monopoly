@@ -157,6 +157,16 @@ class ServerThread extends Thread {
 								}
 							} else if (answer[0].equals("property")) {
 								position_info.put("positionType", "property");
+								position_info.put("ownership", answer[1]);
+								if (answer[1].equals("owned")) {
+									position_info.put("rent", answer[2]);
+								} else {
+									position_info.put("name", answer[2]);
+									position_info.put("colour", answer[3]);
+									position_info.put("price", answer[4]);
+									position_info.put("baseRent", answer[5]);
+									position_info.put("buildCost", answer[6]);
+								}
 							} else if (answer[0].equals("utilities")) {
 								position_info.put("positionType", "utilities");
 							} else if (answer[0].equals("transport")) {

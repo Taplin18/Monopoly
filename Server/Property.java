@@ -2,21 +2,25 @@ import java.util.*;
 
 class Property {
 
+	protected String name;
 	protected int rent;
 	protected int price;
-	protected int property_group;
+	protected String colour;
 	protected boolean bought = false;
 	protected int ownerID;
+	protected int buildCost;
 	protected int houses = 0;
 	protected int hotel = 0;
 	
 	/**
 	* Initilise the property
 	*/
-	public Property(int price, int rent, int property_group) {
+	public Property(String name, int price, int rent, String colour, int buildCost) {
+		this.name = name;
 		this.rent = rent;
 		this.price = price;
-		this.property_group = property_group;
+		this.colour = colour;
+		this.buildCost = buildCost;
 	}
 
 	/**
@@ -26,6 +30,14 @@ class Property {
 	public void buy_property(int player_id) {
 		bought = true;
 		ownerID = player_id;
+	}
+
+	/**
+	* Return the cost of building on the property
+	* @return the build cost
+	*/
+	public int buildCost() {
+		return buildCost;
 	}
 
 	/**
@@ -42,6 +54,22 @@ class Property {
 	*/
 	public int cost() {
 		return price;
+	}
+
+	/**
+	* Return the name of the property
+	* @return the name
+	*/
+	public String name() {
+		return name;
+	}
+
+	/**
+	* Return the colour of the property (for it's grouping)
+	* @return the colour
+	*/
+	public String colour() {
+		return colour;
 	}
 
 	/**

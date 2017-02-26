@@ -105,7 +105,7 @@ class Board {
 				if (check_if_bought(position)) {
 					return String.format("property - owned - %s", squares.prop_rent(position));
 				} else {
-					return String.format("property - available - %s", position, squares.prop_price(position));
+					return String.format("property - available - %s - %s - %s - %s - %s", position, squares.prop_name(position), squares.prop_colour(position), squares.prop_price(position), squares.prop_rent(position), squares.prop_buildCost(position));
 				}
 			}
 		}
