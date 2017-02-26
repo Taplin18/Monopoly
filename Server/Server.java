@@ -107,7 +107,7 @@ class ServerThread extends Thread {
 							started = true;
 						}
 						if(player_info.get("messageType") == "start") {
-							System.out.println("Monopoly beginning now...");
+							//System.out.println("Monopoly beginning now...");
 							started = true;
 						} else if (player_info.get("messageType") == "check") {
 							String returnMess = "Current Players:\n";
@@ -122,7 +122,7 @@ class ServerThread extends Thread {
 					//started = true;
 				}
 				System.out.println("The game has started...");
-				while(!game_over) {
+				if (!game_over) {
 					if(playerID == playerTurn && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))) {
 						if (player_info.get("messageType").equals("position")) {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
