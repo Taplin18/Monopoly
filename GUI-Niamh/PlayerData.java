@@ -8,7 +8,7 @@ public class PlayerData {
 
   public void populateTable() {
   
-	ArrayList<List<Object>> playerData = new ArrayList<List<Object>>();
+	ArrayList<ArrayList<Object>> playerData = new ArrayList<ArrayList<Object>>();
 	List<Object> player = new List<Object>();
 	// Iterate through client objects being stored
 		player.add(//Output of getName());
