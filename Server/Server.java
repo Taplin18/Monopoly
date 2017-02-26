@@ -171,8 +171,17 @@ class ServerThread extends Thread {
 								position_info.put("positionType", "utilities");
 							} else if (answer[0].equals("transport")) {
 								position_info.put("positionType", "transport");
+								position_info.put("ownership", answer[1]);
+								if (answer[1].equals("owned")) {
+									position_info.put("rent", answer[2]);
+								} else {
+									position_info.put("name", answer[2]);
+									position_info.put("price", answer[4]);
+									position_info.put("baseRent", answer[5]);
+								}
 							} else if (answer[0].equals("Tax")) {
 								position_info.put("positionType", "taxes");
+								position_info.put("taxAmount", answer[1]);
 							} else {
 								position_info.put("positionType", "corner");
 							}

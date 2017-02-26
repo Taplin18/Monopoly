@@ -6,8 +6,12 @@ class Square {
 	protected Chest chest_cards;
 	protected Chance chance_cards;
 	protected Property property_info;
+	protected Transport transport_info;
 	protected HashMap <Integer, Property> properties = new HashMap <Integer, Property>();
+	protected HashMap <Integer, Transport> transports = new HashMap <Integer, Transport>();
 	protected List <List <Object>> property_values = new ArrayList < List <Object>>();
+	protected List <List <Object>> transport_values = new ArrayList < List <Object>>();
+	protected int[] transport_id = {5, 15, 25, 35};
 	protected int[] property_ids = {1, 3, 6, 8, 
 		9, 11, 13, 14, 
 		16, 18, 19, 21, 
@@ -22,6 +26,7 @@ class Square {
 		chest_cards = new Chest();
 		chance_cards = new Chance();
 		property();
+		transport();
 	}
 
 	/**
@@ -48,9 +53,9 @@ class Square {
 	public String get_card(String card_type, int position){
 		if (card_type == "Tax") {
 			if (position == 4) {
-				return "Tax - €200";
+				return "Tax - 200";
 			} else {
-				return "Tax - €100";
+				return "Tax - 100";
 			}
 		} else if (card_type == "Corners") {
 			if (position == 0) {
@@ -65,6 +70,16 @@ class Square {
 		}
 
 		return "No card was returned";
+	}
+
+	/**
+	* Buy the property and set owners id to players id
+	* @param position the property id
+	* @param playerID the players id
+	*/
+	public void buy_property(int position, int playerID) {
+		Property purchase = properties.get(position);
+		purchase.buy_property(playerID);
 	}
 
 	/**
@@ -127,6 +142,65 @@ class Square {
 		return property_info.colour();
 	}
 
+	/**
+	* Buy the property and set owners id to players id
+	* @param position the property id
+	* @param playerID the players id
+	*/
+	public void buy_transport(int position, int playerID) {
+		Transport purchase = transports.get(position);
+		purchase.buy_transport(playerID);
+		boolean multiple = false;
+		for (int i = 0; i < 4; i++) {
+			Transport check_purchase = transports.get(transport_id[i]);
+			if (check_purchase.owner() == position && transport_id[i] != position) {
+				multiple = true;
+				purchase.update_rent();
+				check_purchase.update_rent();
+			}
+		}
+	}
+
+	/**
+	* Get the owner ID
+	* @param position the railroad id
+	* @return the owners id
+	*/
+	public int trans_owned_by(int position) {
+		transport_info = transports.get(position);
+		return transport_info.owner();
+	}
+
+	/**
+	* Get the price of the railroad
+	* @param position the transport id
+	* @return the cost of the railroad
+	*/
+	public int trans_price(int position) {
+		transport_info = transports.get(position);
+		return transport_info.cost();
+	}
+
+	/**
+	* Get the name of the railroad
+	* @param position the transport id
+	* @return the name of the railroad
+	*/
+	public String trans_name(int position) {
+		transport_info = transports.get(position);
+		return transport_info.name();
+	}
+
+	/**
+	* Get the rent of the bought railroad
+	* @param position the transport id
+	* @return the rent of the railroad
+	*/
+	public int trans_rent(int position) {
+		transport_info = transports.get(position);
+		return transport_info.rent();
+	}
+
 	//Initilise the property values
 	private void property(){
 		property_values.add(Arrays.asList("Mediterranean Avenue", 60, 10, "brown", 50));
@@ -156,6 +230,20 @@ class Square {
 			List <Object> values = property_values.get(i);
 			property_info = new Property((String)values.get(0), (int)values.get(1), (int)values.get(2), (String)values.get(3), (int)values.get(4));
 			properties.put(property_ids[i], property_info);
+		}
+	}
+
+	//Initilise the transport values
+	private void transport(){
+		transport_values.add(Arrays.asList("Reading Railroad", 200, 25));
+		transport_values.add(Arrays.asList("Pennsylvania Railroad", 200, 25));
+		transport_values.add(Arrays.asList("B. & O. Railroad", 200, 25));
+		transport_values.add(Arrays.asList("Short Line", 200, 25));
+
+		for (int i = 0; i < 4; i++) {
+			List <Object> values = transport_values.get(i);
+			transport_info = new Transport((String)values.get(0), (int)values.get(1), (int)values.get(2));
+			transports.put(transport_id[i], transport_info);
 		}
 	}
 }
