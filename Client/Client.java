@@ -159,6 +159,13 @@ public class Client{
   }
     
   public void myTurn(){
+    if(jail_free>0){ //you have a get out of jail free card
+	boolean decision=True;//pop up window asking if user wants to use his get out of jail free card
+	if(decision){
+	   this.inJail=false;
+	   this.daysInJail=0;
+        }
+	  
     //roll dice
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
