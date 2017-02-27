@@ -217,7 +217,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//get rent amount from JSON
 	  this.pay(rent);
 	}else{ //vacant
-	  Property property=new Property(returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")), Integer.parseInt(returnedMessage.get("hotelCost")));
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")));
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="transport"){
@@ -225,7 +225,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")), Integer.parseInt(returnedMessage.get("hotelCost")));
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), Null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Null));
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
@@ -234,7 +234,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON 
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")), Integer.parseInt(returnedMessage.get("hotelCost")));
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), Null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Null);
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="taxes"){
@@ -273,15 +273,17 @@ public class Client{
   }
   
   public void build(Property property){
-    if(this.getMoney()<property.getHouseCost()){
-      System.out.println("You do not have enough money");
-    }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
-      System.out.println("You do not own all of the colour "+property.getColour()+" sites.");
-    }else if(property.getNumOfHouses()==5){ //you have aready built max amount
-      System.out.println("You have built the maximum amount.");
-    }else{//build hotel instead
-      this.subMoney(property.incNumOfHouses());
-    }
+		if(property.getType()=="site"){
+      if(this.getMoney()<property.getHouseCost()){
+        System.out.println("You do not have enough money");
+      }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
+        System.out.println("You do not own all of the colour "+property.getColour()+" sites.");
+      }else if(property.getNumOfHouses()==5){ //you have aready built max amount
+        System.out.println("You have built the maximum amount.");
+      }else{//build hotel instead
+        this.subMoney(property.incNumOfHouses());
+      }
+		}
   }
   
   public void goToJail(){
