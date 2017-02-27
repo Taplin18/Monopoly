@@ -7,11 +7,15 @@ class Square {
 	protected Chance chance_cards;
 	protected Property property_info;
 	protected Transport transport_info;
+	protected Utility utility_info;
 	protected HashMap <Integer, Property> properties = new HashMap <Integer, Property>();
 	protected HashMap <Integer, Transport> transports = new HashMap <Integer, Transport>();
+	protected HashMap <Integer, Utility> utilities = new HashMap <Integer, Utility>();
 	protected List <List <Object>> property_values = new ArrayList < List <Object>>();
 	protected List <List <Object>> transport_values = new ArrayList < List <Object>>();
+	protected List <List <Object>> utility_values = new ArrayList < List <Object>>();
 	protected int[] transport_id = {5, 15, 25, 35};
+	protected int[] utility_id = {12, 28};
 	protected int[] property_ids = {1, 3, 6, 8, 
 		9, 11, 13, 14, 
 		16, 18, 19, 21, 
@@ -27,6 +31,7 @@ class Square {
 		chance_cards = new Chance();
 		property();
 		transport();
+		utility();
 	}
 
 	/**
@@ -244,6 +249,18 @@ class Square {
 			List <Object> values = transport_values.get(i);
 			transport_info = new Transport((String)values.get(0), (int)values.get(1), (int)values.get(2));
 			transports.put(transport_id[i], transport_info);
+		}
+	}
+
+	//Initilise the utility values
+	private void utility(){
+		utility_values.add(Arrays.asList("Electric Company", 200));
+		utility_values.add(Arrays.asList("Water Works", 200));
+
+		for (int i = 0; i < 2; i++) {
+			List <Object> values = utility_values.get(i);
+			utility_info = new Utility((String)values.get(0), (int)values.get(1));
+			utilities.put(utility_id[i], utility_info);
 		}
 	}
 }
