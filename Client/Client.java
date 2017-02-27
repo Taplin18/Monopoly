@@ -146,9 +146,9 @@ public class Client{
     position=number;
   }
   
-  public void firstContactServer(){
+  public void firstContactServer(String messageType){
     try {
-      Object obj = parser.parse(this.sendMessageToServer(this.getId(), "firstContact", this.getUserName()));
+      Object obj = parser.parse(this.sendMessageToServer(this.getId(), messageType, this.getUserName()));
       JSONObject new_id = (JSONObject)obj;
       String mess = String.valueOf(new_id.get("id"));
       int newId = Integer.valueOf(mess);
@@ -156,6 +156,10 @@ public class Client{
     } catch (Exception e) {
       System.out.println("Failed to get new ID: " + e);
     }
+  }
+	
+  public void firstContactForceStart(){
+      
   }
     
   public void myTurn(){
@@ -431,7 +435,16 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
-    client.firstContactServer();
+    string messageType="";
+    While(messageType=""){
+      if(forceStart==True){ //forceStart button pressed
+        messageType="Start";  
+      }
+      if(Start==True){ //normal start button pressed
+        messageType="firstContact";    
+      }
+    }
+    client.firstContactServer(messageType);
     client.makeListOfPlayers();
     while(!closed){
       client.updatePlayersPositions();//get updated info of positions from server
