@@ -94,7 +94,7 @@ class Property {
 	*/
 	public void buildHouse() {
 		houses++;
-		rent = rent + rent/2;
+		rent *= 2;
 	}
 
 	/**
@@ -102,6 +102,6 @@ class Property {
 	*/
 	public void buildHotel() {
 		hotel++;
-		rent = rent + rent/2;
+		rent *= 2;
 	}
 }

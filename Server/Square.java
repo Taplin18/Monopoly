@@ -148,8 +148,8 @@ class Square {
 	}
 
 	/**
-	* Buy the property and set owners id to players id
-	* @param position the property id
+	* Buy the transport and set owners id to players id
+	* @param position the transport id
 	* @param playerID the players id
 	*/
 	public void buy_transport(int position, int playerID) {
@@ -204,6 +204,65 @@ class Square {
 	public int trans_rent(int position) {
 		transport_info = transports.get(position);
 		return transport_info.rent();
+	}
+
+	/**
+	* Buy the utility and set owners id to players id
+	* @param position the property id
+	* @param playerID the players id
+	*/
+	public void buy_utility(int position, int playerID) {
+		Utility purchase = utilities.get(position);
+		purchase.buy_utility(playerID);
+		boolean multiple = false;
+		for (int i = 0; i < 2; i++) {
+			Utility check_purchase = utilities.get(utility_id[i]);
+			if (check_purchase.owner() == position && utility_id[i] != position) {
+				multiple = true;
+				purchase.update_rent();
+				check_purchase.update_rent();
+			}
+		}
+	}
+
+	/**
+	* Get the owner ID
+	* @param position the utility id
+	* @return the owners id
+	*/
+	public int util_owned_by(int position) {
+		utility_info = utilities.get(position);
+		return utility_info.owner();
+	}
+
+	/**
+	* Get the price of the utility
+	* @param position the utility id
+	* @return the cost of the utility
+	*/
+	public int util_price(int position) {
+		utility_info = utilities.get(position);
+		return utility_info.cost();
+	}
+
+	/**
+	* Get the name of the utility
+	* @param position the utility id
+	* @return the name of the utility
+	*/
+	public String util_name(int position) {
+		utility_info = utilities.get(position);
+		return utility_info.name();
+	}
+
+	/**
+	* Get the rent of the bought utility
+	* @param position the utility id
+	* @return the rent of the utility
+	*/
+	public int util_rent(int position) {
+		utility_info = utilities.get(position);
+		return utility_info.rent();
 	}
 
 	//Initilise the property values

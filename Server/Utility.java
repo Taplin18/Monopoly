@@ -14,6 +14,7 @@ class Utility {
 	public Utility(String name, int price) {
 		this.name = name;
 		this.price = price;
+		rent = price / 2;
 	}
 
 	/**
@@ -55,6 +56,13 @@ class Utility {
 	*/
 	public int rent() {
 		return rent;
+	}
+
+	/**
+	* Double the rent when player owns multiple railroads
+	*/
+	public void update_rent() {
+		rent *= 2;
 	}
 
 	/**

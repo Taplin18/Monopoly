@@ -52,12 +52,22 @@ class Board {
 
 	/**
 	* Buy the railroad
-	* @param property the id of the railroad to be bought
+	* @param transport the id of the railroad to be bought
 	* @param player_id the id of the player who is buying it
 	*/
 	public void buy_transport(int transport, int player_id) {
 		bought_properties.add(transport);
 		squares.buy_transport(transport, player_id);
+	}
+
+	/**
+	* Buy the utility
+	* @param utility the id of the utility to be bought
+	* @param player_id the id of the player who is buying it
+	*/
+	public void buy_utility(int utility, int player_id) {
+		bought_properties.add(utility);
+		squares.buy_utility(utility, player_id);
 	}
 
 	/**
@@ -91,9 +101,9 @@ class Board {
 		for (int i = 0; i < utilities.length; i++) {
 			if (position == utilities[i]) {
 				if (check_if_bought(position)) {
-					return String.format("Utiliity {%s} owned by {%s}", position, bought_properties.get(position));
+					return String.format("utility - owned %s", squares.util_owned_by(position));
 				} else {
-					return String.format("Utiliity {%s} costs €150", position);
+					return String.format("utility - %s - %s - %s", squares.util_name(position), squares.util_price(position), squares.util_rent(position));
 				}
 			}
 		}
