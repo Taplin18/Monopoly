@@ -273,7 +273,7 @@ public class Client{
   }
   
   public void build(Property property){
-		if(property.getType()=="site"){
+    if(property.getType()=="site"){
       if(this.getMoney()<property.getHouseCost()){
         System.out.println("You do not have enough money");
       }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
