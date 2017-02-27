@@ -10,8 +10,10 @@ public class Property{
   //private boolean hotelPresent;
   private int price;
   private int id;
+  private String type;
 
-  public Property(String name, String colour, int price, int baseRent, int houseCost, int hotelCost){ //rent[0]: zero houses, rent[1]: one house... rent[4]: four houses, rent[5]: hotel
+  public Property(String type, String name, String colour, int price, int baseRent, int houseCost){ //rent[0]: zero houses, rent[1]: one house... rent[4]: four houses, rent[5]: hotel
+    this.type=type;
     this.name=name;
     this.colour=colour;
     this.price=price;
@@ -19,6 +21,10 @@ public class Property{
     this.rent=baseRent;
     this.houseCost=houseCost;
     this.hotelCost=hotelCost;
+  }
+  
+  public String getType(){
+   return this.type; 
   }
   
   public int getNumOfHouses(){
