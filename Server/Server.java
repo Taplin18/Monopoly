@@ -56,6 +56,7 @@ class ServerThread extends Thread {
 	private Socket sock = null;
 	private Board board = null;
 	private static HashMap <Integer, Integer> player_pos = new HashMap <Integer, Integer>();
+	private static HashMap <Integer, Integer> rent_owed = new HashMap <Integer, Integer>();
 	private static int ids = 0;
 	private static String[] player_names;
 	private static boolean started = false;
@@ -70,6 +71,7 @@ class ServerThread extends Thread {
 		//this.player_pos = player_pos;
 		playerID = ids;
 		player_pos.put(playerID, 0);
+		rent_owed.put(playerID, 0);
 		System.out.println(player_pos.values());
 		ids++;
 	}
@@ -157,6 +159,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
 									position_info.put("name", answer[2]);
 									position_info.put("colour", answer[3]);
@@ -169,6 +172,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
 									position_info.put("name", answer[2]);
 									position_info.put("price", answer[4]);
@@ -179,6 +183,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
 									position_info.put("name", answer[2]);
 									position_info.put("price", answer[4]);
