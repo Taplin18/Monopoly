@@ -83,7 +83,6 @@ public class Client{
     coloursTotal.put("lightBlue", 3);
     coloursTotal.put("pink", 3);
     coloursTotal.put("brown", 2);
-    
   }
   
   public void userName(){
@@ -157,10 +156,6 @@ public class Client{
       System.out.println("Failed to get new ID: " + e);
     }
   }
-	
-  public void firstContactForceStart(){
-      
-  }
     
   public void myTurn(){
     if(jail_free>0){ //you have a get out of jail free card
@@ -169,7 +164,7 @@ public class Client{
 	   this.inJail=false;
 	   this.daysInJail=0;
         }
-	  
+    }
     //roll dice
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
@@ -283,7 +278,7 @@ public class Client{
       }else{//build hotel instead
         this.subMoney(property.incNumOfHouses());
       }
-		}
+    }
   }
   
   public void goToJail(){
