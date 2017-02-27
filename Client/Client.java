@@ -353,7 +353,7 @@ public class Client{
     return randomInt+1;
   }
     
-  public String sendMessageToServer(int id, String messageType, String sendMessage){
+  public JSONObject sendMessageToServer(int id, String messageType, String sendMessage){
     try {
       JSONObject jsonMessage = new JSONObject();
       jsonMessage.put("id",new Integer(id));
@@ -376,13 +376,51 @@ public class Client{
       //Get the return message from the server
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String message = br.readLine();
+      JSONObject messageObj=decode(message);
       System.out.println("Message received from the server : " +message);
       
-      return message; //answer
+      return messageObj; //answer
     }catch (IOException exception){
       exception.printStackTrace();
     }
     return message; //answer
+  }
+	  
+  public JSONObject decode(string message){
+    JSONParser parser = new JSONParser();
+      String s = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+		
+      try{
+         Object obj = parser.parse(s);
+         JSONArray array = (JSONArray)obj;
+			
+         System.out.println("The 2nd element of array");
+         System.out.println(array.get(1));
+         System.out.println();
+
+         JSONObject obj2 = (JSONObject)array.get(1);
+         System.out.println("Field \"1\"");
+         System.out.println(obj2.get("1"));    
+
+         s = "{}";
+         obj = parser.parse(s);
+         System.out.println(obj);
+
+         s = "[5,]";
+         obj = parser.parse(s);
+         System.out.println(obj);
+
+         s = "[5,,2]";
+         obj = parser.parse(s);
+         System.out.println(obj);
+	      
+	 return obj
+		 
+      }catch(ParseException pe){
+		
+         System.out.println("position: " + pe.getPosition());
+         System.out.println(pe);
+      }	  
   }
   
   public void setNumberOfPlayers(int number){
