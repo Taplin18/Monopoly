@@ -87,7 +87,7 @@ class ServerThread extends Thread {
 			try{
 				Object obj = parser.parse(line);
 				JSONObject player_info = (JSONObject)obj;
-				while (!started) {
+				while (!game_over) {
 					if (playerName == null) {
 						playerName = String.valueOf(player_info.get("message"));
 						players.put(String.valueOf(playerID), playerName);
@@ -120,9 +120,6 @@ class ServerThread extends Thread {
 						}
 					}
 					//started = true;
-				}
-				System.out.println("The game has started...");
-				if (!game_over) {
 					if(playerID == playerTurn && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))) {
 						if (player_info.get("messageType").equals("position")) {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
@@ -188,7 +185,6 @@ class ServerThread extends Thread {
 
 						}
 					}
-
 				}
 			} catch (Exception e) {
 				System.out.println("JSON error: " + e);
