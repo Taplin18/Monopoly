@@ -102,7 +102,7 @@ class ServerThread extends Thread {
 			try{
 				Object obj = parser.parse(line);
 				JSONObject player_info = (JSONObject)obj;
-				if (!game_over) {
+				while (!game_over) {
 					if (playerName == null) {
 						playerName = String.valueOf(player_info.get("message"));
 						players.put(String.valueOf(playerID), playerName);
@@ -114,9 +114,9 @@ class ServerThread extends Thread {
 						StringWriter out = new StringWriter();
 		         		new_player_id.writeJSONString(out);
 		         		String jsonText = out.toString();
-		         		bw.write(jsonText);
-						bw.newLine();
-						bw.flush();
+		         		threads[playerID].bw.write(jsonText);
+		         		threads[playerID].bw.newLine();
+		         		threads[playerID].bw.flush();
 					}
 					if (!started) {
 						if (player_pos.size() == maxPlayers) {
@@ -131,24 +131,25 @@ class ServerThread extends Thread {
 							for (int i = 0; i < player_names.length; i++) {
 								returnMess += player_names[i] + "\n";
 							}
-							bw.write(returnMess);
-							bw.newLine();
-							bw.flush();
+							threads[playerID].bw.write(returnMess);
+							threads[playerID].bw.newLine();
+							threads[playerID].bw.flush();
 						}
 					}
 					// && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))
-					System.out.println("Turn is :" + playerTurn);
+					System.out.println("\nTurn is: " + playerTurn);
 					if(started){ //&& playerID == playerTurn) {
-						System.out.println("Player is: " + threads[playerTurn].playerID);
+						System.out.println("Player is: " + threads[playerTurn].playerName);
 						JSONObject turn = new JSONObject();
-						turn.put("messageType", "youtTurn");
-						turn.put("id", String.valueOf(playerID));
+						turn.put("messageType", "yourTurn");
+						turn.put("id", String.valueOf(threads[playerTurn].playerID));
 						StringWriter nextTurn = new StringWriter();
 		         		turn.writeJSONString(nextTurn);
 		         		String sendTurn = nextTurn.toString();
-		         		bw.write(sendTurn);
-						bw.newLine();
-						bw.flush();
+		         		System.out.println(sendTurn);
+		         		threads[playerTurn].bw.write(sendTurn);
+						threads[playerTurn].bw.newLine();
+						threads[playerTurn].bw.flush();
 						System.out.println("Sending yourTurn");
 						if (player_info.get("messageType").equals("position")) {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
@@ -225,17 +226,18 @@ class ServerThread extends Thread {
 							StringWriter play_info = new StringWriter();
 			         		position_info.writeJSONString(play_info);
 			         		String send_play_info = play_info.toString();
-			         		bw.write(send_play_info);
-							bw.newLine();
-							bw.flush();
-						} else if (player_info.get("messageType").equals("bye")) {
+			         		threads[playerTurn].bw.write(send_play_info);
+							threads[playerTurn].bw.newLine();
+							threads[playerTurn].bw.flush();
+						} else if (player_info.get("messageType").equals("Bye")) {
+							System.out.println(threads[playerTurn].playerName + "'s turn is over");
 							playerTurn++;
 							if (playerTurn == maxPlayers) {
 								playerTurn = 0;
 							}
 						}
 					}
-					line = br.readLine();
+					line = threads[playerTurn].br.readLine();
 				}
 			} catch (Exception e) {
 				System.out.println("JSON error: " + e);
