@@ -17,8 +17,8 @@ public class PlayerData {
 	}
 	  
 	Object columnNames[] = { "ID", "Username", "Money", "Properties", "Cards" }; // Define text for columns
-        JTable table = new JTable(playerData, columnNames); // Create JTable
-    	JScrollPane scrollPane = new JScrollPane(table); // Create JScrollPane
+        playerStats = new JTable(playerData, columnNames); // Create JTable
+    	scrollPane = new JScrollPane(table); // Create JScrollPane
 	  
 	// Create panel and add table to it
 	playerDataPanel = new JPanel(new flowLayout());
