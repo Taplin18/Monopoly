@@ -455,9 +455,9 @@ public class Client{
         messageType="start";  
       }
     }
-    client.makeListOfPlayers();
+    //client.makeListOfPlayers();
     while(!closed){
-      client.updatePlayersPositions();//get updated info of positions from server
+      //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
       if(client.checkWithServer("yourTurn")){
 	client.myTurn();
