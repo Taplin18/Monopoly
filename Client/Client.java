@@ -450,9 +450,6 @@ public class Client{
     try {
       Object obj = parser.parse((this.getId(), "playersPositions", "playersPositions"));
       JSONObject players_Positions = (JSONObject)obj;
-      //String mess = String.valueOf(players_Positions.get("number"));
-      //int noOfPlayers = Integer.valueOf(mess);
-      
       for(int i=0;i<this.getNumberOfPlayers();i++){
 	playersPositions.put(i,players_Positions.get(i));
       }
@@ -462,7 +459,7 @@ public class Client{
     }
   }
   
-  public boolean checkIfMyTurn(){
+  public boolean checkWithServer(String equals){
     try{
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String message = br.readLine();
@@ -476,22 +473,6 @@ public class Client{
       return false;
     }
   }
-  
-  public boolean checkIfGameStart(){
-    try{
-      BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      String message = br.readLine();
-      JSONObject messageObj=decode(message);
-      if(messageObj.get("messageType").equals("start")){
-	return true;
-      }else{
-	return false;
-      }
-    }catch(Exception e){
-      return false;
-    }
-  }
-  
   public static void main(String[] args)throws IOException{
     try{
       String host = "localhost";
@@ -505,7 +486,7 @@ public class Client{
     Client client= new Client();
     string messageType="firstContact";
     client.firstContactServer(messageType);
-    while(client.checkIfGameStart()){
+    while(client.checkWithServer("start")){
       if(forceStart==true){ //forceStart button pressed
         messageType="start";  
       }
@@ -514,7 +495,7 @@ public class Client{
     while(!closed){
       client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
-      if(client.checkIfMyTurn()){
+      if(client.checkWithServer("yourTurn")){
 	client.myTurn();
 	client.sendMessageToServer(getId(),"Bye","Bye");
       }
