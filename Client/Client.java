@@ -424,6 +424,7 @@ public class Client{
   public boolean checkWithServer(String equals){
     try{
       System.out.println("0");
+      String host = "localhost";
       int port = portNumber;
       InetAddress address = InetAddress.getByName(host);
       socket = new Socket(address, port);
