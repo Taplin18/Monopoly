@@ -423,6 +423,8 @@ public class Client{
   
   public boolean checkWithServer(String equals, Socket socket){
     try{
+      InputStream is = socket.getInputStream();
+      InputStreamReader isr = new InputStreamReader(is);
       System.out.println("0");
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       System.out.println("1");
