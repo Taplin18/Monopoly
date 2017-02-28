@@ -66,6 +66,7 @@ class ServerThread extends Thread {
 	private static boolean game_over = false;
 	private JSONParser parser = new JSONParser();
 	private static JSONObject players = new JSONObject();
+	private static final int maxPlayers = 4;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -113,7 +114,7 @@ class ServerThread extends Thread {
 						bw.flush();
 					}
 					if (!started) {
-						if (player_pos.size() == 4) {
+						if (player_pos.size() == maxPlayers) {
 							started = true;
 						}
 						if(player_info.get("messageType") == "start") {
@@ -129,7 +130,17 @@ class ServerThread extends Thread {
 							bw.flush();
 						}
 					}
-					if(started && playerID == playerTurn && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))) {
+					// && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))
+					if(started && playerID == playerTurn) {
+						JSONObject turn = new JSONObject();
+						turn.put("messageType", "youtTurn");
+						turn.put("id", String.valueOf(playerID));
+						StringWriter nextTurn = new StringWriter();
+		         		turn.writeJSONString(nextTurn);
+		         		String sendTurn = nextTurn.toString();
+		         		bw.write(sendTurn);
+						bw.newLine();
+						bw.flush();
 						if (player_info.get("messageType").equals("position")) {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String[] answer = a.split(" - ");
@@ -140,25 +151,25 @@ class ServerThread extends Thread {
 								position_info.put("chestType", answer[1]);
 								if (answer[1].equals("jail")) {
 									position_info.put("jailType", answer[2]);
-									//position_info.put("message", answer[3]);
+									position_info.put("message", answer[3]);
 								} else {
 									position_info.put("chestAmount", answer[2]);
-									//position_info.put("message", answer[3]);
+									position_info.put("message", answer[3]);
 								}
 							} else if (answer[0].equals("chance")) {
 								position_info.put("positionType", "chance");
 								position_info.put("chanceType", answer[1]);
 								if (answer[1].equals("jail")) {
 									position_info.put("jailType", answer[2]);
-									//position_info.put("message", answer[3]);
+									position_info.put("message", answer[3]);
 								} else {
 									if (answer[1].equals("back")) {
 										String new_pos = String.valueOf(Integer.valueOf(String.valueOf(player_info.get("message"))) - 3);
 										position_info.put("chancePosition", new_pos);
-										//position_info.put("message", answer[3]);
+										position_info.put("message", answer[3]);
 									} else {
 										position_info.put("chancePosition", answer[2]);
-										//position_info.put("message", answer[3]);
+										position_info.put("message", answer[3]);
 									}
 								}
 							} else if (answer[0].equals("property")) {
@@ -201,6 +212,17 @@ class ServerThread extends Thread {
 								position_info.put("taxAmount", answer[1]);
 							} else {
 								position_info.put("positionType", "corner");
+							}
+							StringWriter play_info = new StringWriter();
+			         		position_info.writeJSONString(play_info);
+			         		String send_play_info = play_info.toString();
+			         		bw.write(send_play_info);
+							bw.newLine();
+							bw.flush();
+						} else if (player_info.get("messageType").equals("bye")) {
+							playerTurn++;
+							if (playerTurn == maxPlayers) {
+								playerTurn = 0;
 							}
 						}
 					}
