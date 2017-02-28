@@ -139,6 +139,7 @@ public class Client{
   }
     
   public void myTurn(){
+    System.out.println(this.getUserName()+": Start turn.");
     if(jail_free>0){ //you have a get out of jail free card
 	boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
 	if(decision){
@@ -149,6 +150,8 @@ public class Client{
     //roll dice
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
+    
+    System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
     
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
       daysInJail++;
@@ -163,15 +166,15 @@ public class Client{
       	this.prevInJail=true;
       }
       this.moveToPosition(diceOne, diceTwo);//move to position
-      //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
+      JSONObject returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
       
-      HashMap<String, String> returnedMessage = new HashMap<String, String>();
-      returnedMessage.put("positionType", "chest");
-      returnedMessage.put("chestType", "jail");
-      returnedMessage.put("jailType", "out");
-      returnedMessage.put("rent", "1");
+      //HashMap<String, String> returnedMessage = new HashMap<String, String>();
+      //returnedMessage.put("positionType", "chest");
+     // returnedMessage.put("chestType", "jail");
+     // returnedMessage.put("jailType", "out");
+     // returnedMessage.put("rent", "1");
       
-      
+      System.out.println(this.getUserName()+": Landed on positionType "+returnedMessage.get("positionType")); 
       if(returnedMessage.get("positionType")=="chest"){
 	if(returnedMessage.get("chestType")=="jail"){
 	  if(returnedMessage.get("jailType")=="out"){
@@ -181,38 +184,38 @@ public class Client{
 	  }
 	}else{ //money
 	  if(returnedMessage.get("chestType")=="add"){
-	    this.addMoney(Integer.parseInt(returnedMessage.get("chestAmount")));
+	    this.addMoney(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
 	  }else{
-	    this.pay(Integer.parseInt(returnedMessage.get("chestAmount")));
+	    this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
 	  }
 	}
       }else if(returnedMessage.get("positionType")=="property"){
 	if(returnedMessage.get("ownership")=="owned"){
-	  int rent= Integer.parseInt(returnedMessage.get("rent"));//get rent amount from JSON
+	  int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
 	  this.pay(rent);
 	}else{ //vacant
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), returnedMessage.get("colour"), Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Integer.parseInt(returnedMessage.get("houseCost")));
+	  Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="transport"){
 	if(returnedMessage.get("ownership")=="owned"){
-	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON
+	  int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), "null", Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), 0);
+	  Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
 	if(returnedMessage.get("ownership")=="owned"){
 
-	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON 
+	  int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON 
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), "null", Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), 0);
+	  Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="taxes"){
-	this.pay(Integer.parseInt(returnedMessage.get("taxAmount")));
+	this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
       }else if(returnedMessage.get("positionType")=="chance"){
 	if(returnedMessage.get("chestType")=="jail"){
 	  if(returnedMessage.get("jailType")=="out"){
@@ -221,9 +224,10 @@ public class Client{
 	    this.setPosition(jailPosition);
 	  }
 	}else{ //go to position...
-	  String messageToDisplay= returnedMessage.get("message"); //display on GUI
+	  String messageToDisplay= String.valueOf(returnedMessage.get("message")); //display on GUI
 	  int prevPosition=this.getPosition();
-	  this.setPosition(Integer.parseInt(returnedMessage.get("chancePosition")));
+	  int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
+	  this.setPosition(positionToBeSet);
 	  int currentPosition=this.getPosition();
 	  if(currentPosition-prevPosition<0||currentPosition<prevPosition){
 	    this.addMoney(goAmount);
@@ -418,13 +422,26 @@ public class Client{
     }
   }
   
-  public boolean checkWithServer(String equals){
+  public boolean checkWithServer(String equals, Socket socket){
     try{
+      InputStream is = socket.getInputStream();
+      InputStreamReader isr = new InputStreamReader(is);
+      //System.out.println("0");
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      String message = br.readLine();
-      JSONObject messageObj=decode(message);
-      if(messageObj.get("messageType").equals("yourTurn")){
-	return true;
+      //System.out.println("1");
+      if(br.ready()){
+	String message = br.readLine();
+	System.out.println("message: "+message);
+	System.out.println("2");
+	JSONObject messageObj=decode(message);
+	System.out.println("3");
+	if(messageObj.get("messageType").equals("yourTurn")){
+	  System.out.println("4");
+	  return true;
+	}else{
+	  System.out.println("5");
+	  return false;
+	}
       }else{
 	return false;
       }
@@ -444,18 +461,22 @@ public class Client{
     }
     Client client= new Client();
     String messageType="firstContact";
+    System.out.println(client.getUserName()+" sending firstContact");
     client.firstContactServer(messageType);
+    System.out.println(client.getUserName()+" sent firstContact");
+    System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
-    while(client.checkWithServer("start")){
-      if(forceStart==true){ //forceStart button pressed
-        messageType="start";  
-      }
-    }
-    client.makeListOfPlayers();
+    //while(client.checkWithServer("start", socket)){
+    //  if(forceStart==true){ //forceStart button pressed
+    //    messageType="start";  
+    //  }
+    //}
+    System.out.println(client.getUserName()+" received 'game has started' from server");
+    //client.makeListOfPlayers();
     while(!closed){
-      client.updatePlayersPositions();//get updated info of positions from server
+      //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
-      if(client.checkWithServer("yourTurn")){
+      if(client.checkWithServer("yourTurn", socket)){
 	client.myTurn();
 	client.sendMessageToServer(client.getId(),"Bye","Bye");
       }
