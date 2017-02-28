@@ -139,6 +139,7 @@ public class Client{
   }
     
   public void myTurn(){
+    System.out.println(this.getUserName()+": Start turn.");
     if(jail_free>0){ //you have a get out of jail free card
 	boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
 	if(decision){
@@ -149,6 +150,8 @@ public class Client{
     //roll dice
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
+    
+    System.out.println(this.getUserName()+": rolled=" diceOne + diceTwo);
     
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
       daysInJail++;
