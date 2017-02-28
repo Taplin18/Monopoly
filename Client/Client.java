@@ -445,6 +445,7 @@ public class Client{
     Client client= new Client();
     String messageType="firstContact";
     client.firstContactServer(messageType);
+    System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
     while(client.checkWithServer("start")){
       if(forceStart==true){ //forceStart button pressed
