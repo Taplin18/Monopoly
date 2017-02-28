@@ -447,7 +447,9 @@ public class Client{
     }
     Client client= new Client();
     String messageType="firstContact";
+    System.out.println(client.getUserName()+" sending firstContact");
     client.firstContactServer(messageType);
+    System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
     while(client.checkWithServer("start")){
@@ -455,6 +457,7 @@ public class Client{
         messageType="start";  
       }
     }
+    System.out.println(client.getUserName()+" received 'game has started' from server");
     //client.makeListOfPlayers();
     while(!closed){
       //client.updatePlayersPositions();//get updated info of positions from server
