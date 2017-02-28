@@ -466,11 +466,11 @@ public class Client{
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
-    while(client.checkWithServer("start", socket)){
-      if(forceStart==true){ //forceStart button pressed
-        messageType="start";  
-      }
-    }
+    //while(client.checkWithServer("start", socket)){
+    //  if(forceStart==true){ //forceStart button pressed
+    //    messageType="start";  
+    //  }
+    //}
     System.out.println(client.getUserName()+" received 'game has started' from server");
     //client.makeListOfPlayers();
     while(!closed){
