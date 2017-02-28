@@ -425,9 +425,9 @@ public class Client{
     try{
       InputStream is = socket.getInputStream();
       InputStreamReader isr = new InputStreamReader(is);
-      System.out.println("0");
+      //System.out.println("0");
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      System.out.println("1");
+      //System.out.println("1");
       if(br.ready()){
 	String message = br.readLine();
 	System.out.println("message: "+message);
@@ -442,6 +442,7 @@ public class Client{
 	  return false;
 	}
       }else{
+	System.out.println("NOT READY");
 	return false;
       }
     }catch(Exception e){
