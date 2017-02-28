@@ -428,16 +428,20 @@ public class Client{
       System.out.println("0");
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       System.out.println("1");
-      String message = br.readLine();
-      System.out.println("message: "+message);
-      System.out.println("2");
-      JSONObject messageObj=decode(message);
-      System.out.println("3");
-      if(messageObj.get("messageType").equals("yourTurn")){
-	System.out.println("4");
-	return true;
+      if(br.ready()){
+	String message = br.readLine();
+	System.out.println("message: "+message);
+	System.out.println("2");
+	JSONObject messageObj=decode(message);
+	System.out.println("3");
+	if(messageObj.get("messageType").equals("yourTurn")){
+	  System.out.println("4");
+	  return true;
+	}else{
+	  System.out.println("5");
+	  return false;
+	}
       }else{
-	System.out.println("5");
 	return false;
       }
     }catch(Exception e){
