@@ -151,7 +151,7 @@ public class Client{
     int diceOne=this.rollDice();
     int diceTwo=this.rollDice();
     
-    System.out.println(this.getUserName()+": rolled=" diceOne + diceTwo);
+    System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
     
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
       daysInJail++;
