@@ -184,7 +184,7 @@ public class Client{
       this.moveToPosition(diceOne, diceTwo);//move to position
       //check with server of position
       
-      //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition())); //SERVER NEEDS TO CONVERT THIRD PARAMETER BACK TO INT
+      //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
       
       HashMap<String, String> returnedMessage = new HashMap<String, String>();
       returnedMessage.put("positionType", "chest");
@@ -220,7 +220,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), Null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Null));
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), null));
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
@@ -229,7 +229,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON 
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), Null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), Null);
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), null);
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="taxes"){
@@ -242,6 +242,7 @@ public class Client{
 	    this.setPosition(jailPosition);
 	  }
 	}else{ //go to position...
+	  String messageToDisplay= returnedMessage.get("message"); //display on GUI
 	  int prevPosition=this.getPosition();
 	  this.setPosition(Integer.parseInt(returnedMessage.get("chancePosition")));
 	  int currentPosition=this.getPosition();
@@ -385,10 +386,8 @@ public class Client{
 	  
   public JSONObject decode(string message){
     JSONParser parser = new JSONParser();
-      String s = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
-		
       try{
-         Object obj = parser.parse(s);
+         Object obj = parser.parse(message);
          JSONArray array = (JSONArray)obj;
 			
          System.out.println("The 2nd element of array");
@@ -411,7 +410,7 @@ public class Client{
          obj = parser.parse(s);
          System.out.println(obj);
 	      
-	 return obj
+	 return obj;
 		 
       }catch(ParseException pe){
 		
@@ -430,15 +429,19 @@ public class Client{
   
   public void makeListOfPlayers(){
     try {
-      Object obj = parser.parse((this.getId(), "noOfPlayers", "noOfPlayers"));
-      JSONObject no_of_players = (JSONObject)obj;
-      String mess = String.valueOf(no_of_players.get("number"));
-      int noOfPlayers = Integer.valueOf(mess);
+      //Object obj = parser.parse((this.getId(), "noOfPlayers", "noOfPlayers"));
+      //JSONObject no_of_players = (JSONObject)obj;
+      //String mess = String.valueOf(no_of_players.get("number"));
+      //int noOfPlayers = Integer.valueOf(mess);
+      
+      JSONObject message = this.sendMessageToServer(this.getId(), "noOfPlayers", "noOfPlayers");
+      int noOfPlayers=message.get("number");
+      
       this.setNumberOfPlayers(noOfPlayers);
     } catch (Exception e) {
       System.out.println("Failed to get number of players: " + e);
     }
-    while(int i=0;i<this.getNumberOfPlayers();i++){
+    for(int i=0;i<this.getNumberOfPlayers();i++){
       playersPositions.put(i,goPosition);
     }
   }
@@ -450,12 +453,42 @@ public class Client{
       //String mess = String.valueOf(players_Positions.get("number"));
       //int noOfPlayers = Integer.valueOf(mess);
       
-      while(int i=0;i<this.getNumberOfPlayers();i++){
+      for(int i=0;i<this.getNumberOfPlayers();i++){
 	playersPositions.put(i,players_Positions.get(i));
       }
       
     } catch (Exception e) {
       System.out.println("Failed to get updated player positions: " + e);
+    }
+  }
+  
+  public boolean checkIfMyTurn(){
+    try{
+      BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      String message = br.readLine();
+      JSONObject messageObj=decode(message);
+      if(messageObj.get("messageType").equals("yourTurn")){
+	return true;
+      }else{
+	return false;
+      }
+    }catch(Exception e){
+      return false;
+    }
+  }
+  
+  public boolean checkIfGameStart(){
+    try{
+      BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      String message = br.readLine();
+      JSONObject messageObj=decode(message);
+      if(messageObj.get("messageType").equals("start")){
+	return true;
+      }else{
+	return false;
+      }
+    }catch(Exception e){
+      return false;
     }
   }
   
@@ -470,21 +503,21 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
-    string messageType="";
-    While(messageType=""){
-      if(forceStart==True){ //forceStart button pressed
-        messageType="Start";  
-      }
-      if(Start==True){ //normal start button pressed
-        messageType="firstContact";    
+    string messageType="firstContact";
+    client.firstContactServer(messageType);
+    while(client.checkIfGameStart()){
+      if(forceStart==true){ //forceStart button pressed
+        messageType="start";  
       }
     }
-    client.firstContactServer(messageType);
     client.makeListOfPlayers();
     while(!closed){
       client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
-      client.myTurn();
+      if(client.checkIfMyTurn()){
+	client.myTurn();
+	client.sendMessageToServer(getId(),"Bye","Bye");
+      }
     }
   }
 }
