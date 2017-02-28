@@ -427,6 +427,7 @@ public class Client{
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       System.out.println("1");
       String message = br.readLine();
+      System.out.println("message: "+message);
       System.out.println("2");
       JSONObject messageObj=decode(message);
       System.out.println("3");
