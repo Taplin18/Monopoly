@@ -6,29 +6,35 @@ import java.util.*;
 
 public class PlayerData {
 
-  public void populateTable() {
-  
-	ArrayList<ArrayList<Object>> playerData = new ArrayList<ArrayList<Object>>();
-	ArrayList<Object> player = new ArrayList<Object>();
-	// Iterate through client objects being stored
-		player.add(//Output of getName());
-		player.add(//Output of getID());
-		player.add(//Output of getMoney());
-		player.add(//Output of getSitesOwned());
-		player.add(//Output of card details);
-		playerData.add(player);
-		player.clear();
-
-
-    Object columnNames[] = { "ID", "Username", "Money", "Properties", "Cards" }; // Define text for columns
-    JTable table = new JTable(playerData, columnNames); // Create JTable
-    JScrollPane scrollPane = new JScrollPane(table); // Create JScrollPane
+  JTable playerStats;
+  JScrollPane scrollPane;
 	
+  public PlayerData() {
+	
+	ArrayList<Player> playerData = new ArrayList<Player>(4); // Initialise storage structure for table contents
+	for (int i = 0; i < playerData.size(); i++) {
+	    // Add each client object to ArrayList at position i
+	}
+	  
+	Object columnNames[] = { "ID", "Username", "Money", "Properties", "Cards" }; // Define text for columns
+        JTable table = new JTable(playerData, columnNames); // Create JTable
+    	JScrollPane scrollPane = new JScrollPane(table); // Create JScrollPane
+	  
 	// Create panel and add table to it
 	playerDataPanel = new JPanel(new flowLayout());
 	playerDataPanel.setOpaque(true);
 	playerDataPanel.add(scrollPane);
-
   }
   
-}
+  public void populateTable() {
+	int rowNumber = 0;
+	for (int i = 0; i < playerData.size(); i++) {
+		// Get client ID and add to first column
+		// Get username and add to second column
+		// Get money and add to third column
+		// Get properties owned and add to fourth column
+		// Get GOOJ Card info and add to fifth column
+		row++; // Move to next row
+	}
+  }
+ 
