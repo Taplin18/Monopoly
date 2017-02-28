@@ -174,7 +174,7 @@ public class Client{
       returnedMessage.put("jailType", "out");
       returnedMessage.put("rent", "1");
       
-      
+      System.out.println(this.getUserName()+": Landed on positionType "+returnedMessage.get("positionType")); 
       if(returnedMessage.get("positionType")=="chest"){
 	if(returnedMessage.get("chestType")=="jail"){
 	  if(returnedMessage.get("jailType")=="out"){
