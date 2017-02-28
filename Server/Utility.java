@@ -9,7 +9,9 @@ class Utility {
 	protected int ownerID = -1;
 	
 	/**
-	* Initilise the railroad
+	* Initilise the utility
+	* @param name The name of the utility
+	* @param price The cost of the utility to buy
 	*/
 	public Utility(String name, int price) {
 		this.name = name;

@@ -2,7 +2,6 @@ import java.util.*;
 
 class Square {
 
-	//protected int position;
 	protected Chest chest_cards;
 	protected Chance chance_cards;
 	protected Property property_info;

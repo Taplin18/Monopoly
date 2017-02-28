@@ -6,6 +6,9 @@ import org.json.simple.parser.JSONParser;
 import java.util.*;
 import java.io.*;
 
+/**
+* Creates the server that the game will run on
+*/
 public class Server {
 
 	private static final int port = 2222;
@@ -63,8 +66,10 @@ class ServerThread extends Thread {
 	private static boolean game_over = false;
 	private JSONParser parser = new JSONParser();
 	private static JSONObject players = new JSONObject();
-	//private Board board;
 
+	/**
+	* Creates a thread to deal with each player when they join the game
+	*/
 	public ServerThread(Socket sock, Board board) {
 		this.sock = sock;
 		this.board = board;
@@ -76,6 +81,9 @@ class ServerThread extends Thread {
 		ids++;
 	}
 
+	/**
+	* Runs the thread and contains the players interactions with the server
+	*/
 	public void run() {
 		try {
 			br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -121,8 +129,7 @@ class ServerThread extends Thread {
 							bw.flush();
 						}
 					}
-					//started = true;
-					if(playerID == playerTurn && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))) {
+					if(started && playerID == playerTurn && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))) {
 						if (player_info.get("messageType").equals("position")) {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String[] answer = a.split(" - ");

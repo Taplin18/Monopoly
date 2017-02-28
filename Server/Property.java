@@ -14,6 +14,11 @@ class Property {
 	
 	/**
 	* Initilise the property
+	* @param name The name of the property
+	* @param price The cost of the property to buy
+	* @param rent The rent charged to players when they don't own it
+	* @param colour The colour group of the property
+	* @param buildCost The cost to build a house or a hotel
 	*/
 	public Property(String name, int price, int rent, String colour, int buildCost) {
 		this.name = name;

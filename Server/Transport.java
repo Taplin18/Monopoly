@@ -10,6 +10,9 @@ class Transport {
 	
 	/**
 	* Initilise the railroad
+	* @param name The name of the transport
+	* @param price The cost of the transport to buy
+	* @param rent The rent charged to players when they don't own it
 	*/
 	public Transport(String name, int price, int rent) {
 		this.name = name;

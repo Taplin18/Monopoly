@@ -3,18 +3,18 @@ import java.util.*;
 class Board {
 
 	/**
-	*
-	* num_properties - the number of squares on the board.
-	* chest - the positions of the community chest squares.
-	* chance - the positions of the chance squares.
-	* corners - the positions of the corner squares.
-	* transport - the positions of the transportation squares.
-	* utilities - the position of the untility squares.
-	* taxes - the position of the tax squares.
-	* properties - the positions as keys and values [cost, rent, grouping]
-	* bought_properties - property id as key and owner id as value
-	*
+	* Initilises the board for the game
 	*/
+
+	// num_properties - the number of squares on the board.
+	// chest - the positions of the community chest squares.
+	// chance - the positions of the chance squares.
+	// corners - the positions of the corner squares.
+	// transport - the positions of the transportation squares.
+	// utilities - the position of the untility squares.
+	// taxes - the position of the tax squares.
+	// properties - the positions as keys and values [cost, rent, grouping]
+	// bought_properties - property id as key and owner id as value
 
 	protected int num_properties = 40;
 	protected int[] chest = {2, 17, 33};
