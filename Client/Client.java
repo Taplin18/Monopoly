@@ -14,52 +14,34 @@ import java.util.*;
 
 public class Client{
   public String message; //answer
-  
   private int money;
   private int id;
   private int[] sitesOwned = new int[noOfSites];
   private int position;
-  
   private int setNumberOfPlayers;
-  
   private static int startMoney=2000;
   private static int noOfSites=20;
-  
   private int siteArrayPointer=0;
-  
   private int defaultStartingId=100;
-  
   private static int portNumber=2222;
   private static int positionPortNumber=0;
-  
   private Map <Integer, Property> properties = new HashMap<Integer, Property>();
   private int jail_free = 0;
-  
   private int turnsInJail=0;
   private boolean inJail=false;
   private int daysInJail=0;
   private int jailPosition=20;
-  
   private static Socket socket;
-  
   private static boolean closed=false;
-  
   private boolean prevInJail=false; //at the beginning of the turn client was in jail (nulls second turn on double)
-  
   private static int goAmount=2000;
   private static int startPosition=0;
-  
   private String userName;
-  
   private static BufferedReader br;
-  
   private int noOfDoubles=0;
-  
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
-  
   private Map <Integer, Integer> playersPositions = new HashMap<Integer, Integer>();
-
   private JSONParser parser = new JSONParser();
   
   public Client(){
@@ -147,9 +129,8 @@ public class Client{
   
   public void firstContactServer(String messageType){
     try {
-      Object obj = parser.parse(this.sendMessageToServer(this.getId(), messageType, this.getUserName()));
-      JSONObject new_id = (JSONObject)obj;
-      String mess = String.valueOf(new_id.get("id"));
+      JSONObject obj = this.sendMessageToServer(this.getId(), messageType, this.getUserName());
+      String mess = String.valueOf(obj.get("id"));
       int newId = Integer.valueOf(mess);
       this.setId(newId); //gets ID
     } catch (Exception e) {
@@ -182,8 +163,6 @@ public class Client{
       	this.prevInJail=true;
       }
       this.moveToPosition(diceOne, diceTwo);//move to position
-      //check with server of position
-      
       //JSONArray returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
       
       HashMap<String, String> returnedMessage = new HashMap<String, String>();
@@ -429,11 +408,6 @@ public class Client{
   
   public void makeListOfPlayers(){
     try {
-      //Object obj = parser.parse((this.getId(), "noOfPlayers", "noOfPlayers"));
-      //JSONObject no_of_players = (JSONObject)obj;
-      //String mess = String.valueOf(no_of_players.get("number"));
-      //int noOfPlayers = Integer.valueOf(mess);
-      
       JSONObject message = this.sendMessageToServer(this.getId(), "noOfPlayers", "noOfPlayers");
       int noOfPlayers=message.get("number");
       
