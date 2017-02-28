@@ -106,7 +106,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			okButton.setActionCommand(OK);
 			okButton.addActionListener(this);
 			buttonPanel.add(okButton);
-		    image = GO_IMAGE;
+		    	image = GO_IMAGE;
 		} else if (actionIdentifier == 1 || actionIdentifier == 3 || actionIdentifier == 6 || actionIdentifier == 8
 		|| actionIdentifier == 9 || actionIdentifier == 11 || actionIdentifier == 13 || actionIdentifier == 14 || actionIdentifier == 16
 		|| actionIdentifier == 18 || actionIdentifier == 19 || actionIdentifier == 21 || actionIdentifier == 23
