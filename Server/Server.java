@@ -30,14 +30,14 @@ public class Server {
 
 		while (true) {
 			try {
-				if (currentPlayers != maxPlayers) {
+				if (currentPlayers != maxPlayers+1) {
 					playerSocket = server.accept();
 					System.out.println("New player connected");
 					currentPlayers++;
 					ServerThread st = new ServerThread(playerSocket, board);
 					st.start();
-				} else {
-					System.out.println("Too many players connected");
+				//} else {
+				//	System.out.println("Too many players connected");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -116,6 +116,7 @@ class ServerThread extends Thread {
 					if (!started) {
 						if (player_pos.size() == maxPlayers) {
 							started = true;
+							System.out.println("Game can start");
 						}
 						if(player_info.get("messageType") == "start") {
 							//System.out.println("Monopoly beginning now...");
