@@ -29,11 +29,11 @@ public class PlayerData {
   public void populateTable() {
 	int rowNumber = 0;
 	for (int i = 0; i < playerData.size(); i++) {
-		// Get client ID and add to first column
-		// Get username and add to second column
-		// Get money and add to third column
-		// Get properties owned and add to fourth column
-		// Get GOOJ Card info and add to fifth column
+		// Get client ID at position i and add to first column
+		// Get username at position i and add to second column
+		// Get money at position i and add to third column
+		// Get properties at position i owned and add to fourth column
+		// Get GOOJ Card info at position i and add to fifth column
 		row++; // Move to next row
 	}
   }
