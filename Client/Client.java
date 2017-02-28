@@ -1,8 +1,11 @@
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+
 import java.util.Scanner;
+
 import java.util.Random;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -137,7 +140,7 @@ public class Client{
     
   public void myTurn(){
     if(jail_free>0){ //you have a get out of jail free card
-	boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
+	boolean decision=True;//pop up window asking if user wants to use his get out of jail free card
 	if(decision){
 	   this.inJail=false;
 	   this.daysInJail=0;
@@ -181,8 +184,7 @@ public class Client{
 	    this.addMoney(Integer.parseInt(returnedMessage.get("chestAmount")));
 	  }else{
 	    this.pay(Integer.parseInt(returnedMessage.get("chestAmount")));
-	  }ass Property cannot be applied to given types;
-          Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.
+	  }
 	}
       }else if(returnedMessage.get("positionType")=="property"){
 	if(returnedMessage.get("ownership")=="owned"){
@@ -197,7 +199,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), null);
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), null));
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
@@ -279,10 +281,6 @@ public class Client{
       //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
 	this.buyProperty(this.getPosition(), property.getPrice());
-	String colour=property.getColour();
-	int amount=coloursOwned.get(colour);
-	amount++;
-	coloursOwned.put(colour, amount);
 	this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
 	property.setId(this.getPosition());
       }
@@ -323,7 +321,7 @@ public class Client{
   public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
     this.sendMessageToServer(this.getId(), "buy", String.valueOf(this.getPosition()));
-    
+    coloursOwned.put(property.getColour(), coloursOwned.get(propertu.getColour())++);
   }
     
   public int rollDice(){
@@ -333,7 +331,6 @@ public class Client{
   }
     
   public JSONObject sendMessageToServer(int id, String messageType, String sendMessage){
-    JSONObject messageObj;
     try {
       JSONObject jsonMessage = new JSONObject();
       jsonMessage.put("id",new Integer(id));
@@ -356,25 +353,47 @@ public class Client{
       //Get the return message from the server
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String message = br.readLine();
-      messageObj=decode(message);
+      JSONObject messageObj=decode(message);
       System.out.println("Message received from the server : " +message);
       
       return messageObj; //answer
     }catch (IOException exception){
       exception.printStackTrace();
     }
-    return messageObj; //answer
+    return message; //answer
   }
 	  
-  public JSONObject decode(String message){
+  public JSONObject decode(string message){
     JSONParser parser = new JSONParser();
       try{
          Object obj = parser.parse(message);
-         JSONObject obj2 = (JSONObject)obj;
+         JSONArray array = (JSONArray)obj;
+			
+         System.out.println("The 2nd element of array");
+         System.out.println(array.get(1));
+         System.out.println();
+
+         JSONObject obj2 = (JSONObject)array.get(1);
+         System.out.println("Field \"1\"");
+         System.out.println(obj2.get("1"));    
+
+         s = "{}";
+         obj = parser.parse(s);
+         System.out.println(obj);
+
+         s = "[5,]";
+         obj = parser.parse(s);
+         System.out.println(obj);
+
+         s = "[5,,2]";
+         obj = parser.parse(s);
+         System.out.println(obj);
 	      
-	 return obj2;
+	 return obj;
 		 
-      }catch(Exception pe){
+      }catch(ParseException pe){
+		
+         System.out.println("position: " + pe.getPosition());
          System.out.println(pe);
       }	  
   }
@@ -384,28 +403,29 @@ public class Client{
   }
   
   public int getNumberOfPlayers(){
-    return this.setNumberOfPlayers;
+    return this.numberOfPlayers;
   }
   
   public void makeListOfPlayers(){
     try {
       JSONObject message = this.sendMessageToServer(this.getId(), "noOfPlayers", "noOfPlayers");
-      int noOfPlayers=Integer.valueOf(String.valueOf(message.get("number")));
+      int noOfPlayers=message.get("number");
       
       this.setNumberOfPlayers(noOfPlayers);
     } catch (Exception e) {
       System.out.println("Failed to get number of players: " + e);
     }
     for(int i=0;i<this.getNumberOfPlayers();i++){
-      playersPositions.put(i,startPosition);
+      playersPositions.put(i,goPosition);
     }
   }
   
-  public void updatePlayersPositions(){
+  public void updatePlayersPositions(JSONArray positions){
     try {
-      JSONObject obj = this.sendMessageToServer(this.getId(), "playersPositions", "playersPositions");
+      Object obj = parser.parse((this.getId(), "playersPositions", "playersPositions"));
+      JSONObject players_Positions = (JSONObject)obj;
       for(int i=0;i<this.getNumberOfPlayers();i++){
-	playersPositions.put(i,Integer.valueOf(obj.get(String.valueOf(i))));
+	playersPositions.put(i,players_Positions.get(i));
       }
       
     } catch (Exception e) {
@@ -438,10 +458,9 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
-    String messageType="firstContact";
+    string messageType="firstContact";
     client.firstContactServer(messageType);
     while(client.checkWithServer("start")){
-      boolean forceStart=true; //button is pressed
       if(forceStart==true){ //forceStart button pressed
         messageType="start";  
       }
@@ -452,7 +471,7 @@ public class Client{
       //display info on GUI
       if(client.checkWithServer("yourTurn")){
 	client.myTurn();
-	client.sendMessageToServer(client.getId(),"Bye","Bye");
+	client.sendMessageToServer(getId(),"Bye","Bye");
       }
     }
   }
