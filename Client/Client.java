@@ -137,7 +137,7 @@ public class Client{
     
   public void myTurn(){
     if(jail_free>0){ //you have a get out of jail free card
-	boolean decision=True;//pop up window asking if user wants to use his get out of jail free card
+	boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
 	if(decision){
 	   this.inJail=false;
 	   this.daysInJail=0;
@@ -181,7 +181,8 @@ public class Client{
 	    this.addMoney(Integer.parseInt(returnedMessage.get("chestAmount")));
 	  }else{
 	    this.pay(Integer.parseInt(returnedMessage.get("chestAmount")));
-	  }
+	  }ass Property cannot be applied to given types;
+          Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.
 	}
       }else if(returnedMessage.get("positionType")=="property"){
 	if(returnedMessage.get("ownership")=="owned"){
@@ -278,6 +279,10 @@ public class Client{
       //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
 	this.buyProperty(this.getPosition(), property.getPrice());
+	String colour=property.getColour();
+	int amount=coloursOwned.get(colour);
+	amount++;
+	coloursOwned.put(colour, amount);
 	this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
 	property.setId(this.getPosition());
       }
@@ -318,7 +323,7 @@ public class Client{
   public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
     this.sendMessageToServer(this.getId(), "buy", String.valueOf(this.getPosition()));
-    coloursOwned.put(property.getColour(), coloursOwned.get(propertu.getColour())++);
+    
   }
     
   public int rollDice(){
@@ -328,6 +333,7 @@ public class Client{
   }
     
   public JSONObject sendMessageToServer(int id, String messageType, String sendMessage){
+    JSONObject messageObj;
     try {
       JSONObject jsonMessage = new JSONObject();
       jsonMessage.put("id",new Integer(id));
@@ -350,47 +356,25 @@ public class Client{
       //Get the return message from the server
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String message = br.readLine();
-      JSONObject messageObj=decode(message);
+      messageObj=decode(message);
       System.out.println("Message received from the server : " +message);
       
       return messageObj; //answer
     }catch (IOException exception){
       exception.printStackTrace();
     }
-    return message; //answer
+    return messageObj; //answer
   }
 	  
-  public JSONObject decode(string message){
+  public JSONObject decode(String message){
     JSONParser parser = new JSONParser();
       try{
          Object obj = parser.parse(message);
-         JSONArray array = (JSONArray)obj;
-			
-         System.out.println("The 2nd element of array");
-         System.out.println(array.get(1));
-         System.out.println();
-
-         JSONObject obj2 = (JSONObject)array.get(1);
-         System.out.println("Field \"1\"");
-         System.out.println(obj2.get("1"));    
-
-         s = "{}";
-         obj = parser.parse(s);
-         System.out.println(obj);
-
-         s = "[5,]";
-         obj = parser.parse(s);
-         System.out.println(obj);
-
-         s = "[5,,2]";
-         obj = parser.parse(s);
-         System.out.println(obj);
+         JSONObject obj2 = (JSONObject)obj;
 	      
-	 return obj;
+	 return obj2;
 		 
-      }catch(ParseException pe){
-		
-         System.out.println("position: " + pe.getPosition());
+      }catch(Exception pe){
          System.out.println(pe);
       }	  
   }
@@ -400,13 +384,13 @@ public class Client{
   }
   
   public int getNumberOfPlayers(){
-    return this.numberOfPlayers;
+    return this.setNumberOfPlayers;
   }
   
   public void makeListOfPlayers(){
     try {
       JSONObject message = this.sendMessageToServer(this.getId(), "noOfPlayers", "noOfPlayers");
-      int noOfPlayers=message.get("number");
+      int noOfPlayers=Integer.valueOf(String.valueOf(message.get("number")));
       
       this.setNumberOfPlayers(noOfPlayers);
     } catch (Exception e) {
@@ -421,7 +405,7 @@ public class Client{
     try {
       JSONObject obj = this.sendMessageToServer(this.getId(), "playersPositions", "playersPositions");
       for(int i=0;i<this.getNumberOfPlayers();i++){
-	playersPositions.put(i,obj.get(Integer.toString(i)));
+	playersPositions.put(i,Integer.valueOf(obj.get(String.valueOf(i))));
       }
       
     } catch (Exception e) {
