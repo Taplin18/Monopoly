@@ -12,9 +12,10 @@ import java.io.*;
 public class Server {
 
 	private static final int port = 2222;
-	private static final int maxPlayers = 4;
+	private static final int maxPlayers = 2;
 	private static int currentPlayers = 0;
 	private static Board board = new Board();
+	private static ServerThread[] threads = new ServerThread[maxPlayers];
 
 	public static void main(String[] args) {
 		Socket playerSocket = null;
@@ -33,9 +34,10 @@ public class Server {
 				if (currentPlayers != maxPlayers+1) {
 					playerSocket = server.accept();
 					System.out.println("New player connected");
+					(threads[currentPlayers] = new ServerThread(playerSocket, board, threads)).start();
+					//st.start();
+					//threads[currentPlayers] = st;
 					currentPlayers++;
-					ServerThread st = new ServerThread(playerSocket, board);
-					st.start();
 				//} else {
 				//	System.out.println("Too many players connected");
 				}
@@ -61,19 +63,21 @@ class ServerThread extends Thread {
 	private static HashMap <Integer, Integer> player_pos = new HashMap <Integer, Integer>();
 	private static HashMap <Integer, Integer> rent_owed = new HashMap <Integer, Integer>();
 	private static int ids = 0;
-	private static String[] player_names;
 	private static boolean started = false;
 	private static boolean game_over = false;
 	private JSONParser parser = new JSONParser();
 	private static JSONObject players = new JSONObject();
-	private static final int maxPlayers = 4;
+	private static final int maxPlayers = 2;
+	private static String[] player_names = new String[maxPlayers];
+	private static ServerThread[] threads;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
 	*/
-	public ServerThread(Socket sock, Board board) {
+	public ServerThread(Socket sock, Board board, ServerThread[] threads) {
 		this.sock = sock;
 		this.board = board;
+		this.threads = threads;
 		//this.player_pos = player_pos;
 		playerID = ids;
 		player_pos.put(playerID, 0);
@@ -98,10 +102,11 @@ class ServerThread extends Thread {
 			try{
 				Object obj = parser.parse(line);
 				JSONObject player_info = (JSONObject)obj;
-				while (!game_over) {
+				if (!game_over) {
 					if (playerName == null) {
 						playerName = String.valueOf(player_info.get("message"));
 						players.put(String.valueOf(playerID), playerName);
+						player_names[playerID] = playerName;
 						System.out.println("Name is: " + playerName);
 						JSONObject new_player_id = new JSONObject();
 						new_player_id.put("messageType", "firstContact");
@@ -132,7 +137,9 @@ class ServerThread extends Thread {
 						}
 					}
 					// && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))
-					if(started && playerID == playerTurn) {
+					System.out.println("Turn is :" + playerTurn);
+					if(started){ //&& playerID == playerTurn) {
+						System.out.println("Player is: " + threads[playerTurn].playerID);
 						JSONObject turn = new JSONObject();
 						turn.put("messageType", "youtTurn");
 						turn.put("id", String.valueOf(playerID));
@@ -142,6 +149,7 @@ class ServerThread extends Thread {
 		         		bw.write(sendTurn);
 						bw.newLine();
 						bw.flush();
+						System.out.println("Sending yourTurn");
 						if (player_info.get("messageType").equals("position")) {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String[] answer = a.split(" - ");
