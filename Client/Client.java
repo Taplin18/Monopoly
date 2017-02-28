@@ -1,11 +1,8 @@
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-
 import java.util.Scanner;
-
 import java.util.Random;
-
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -199,7 +196,7 @@ public class Client{
 	  int rent= Integer.parseInt(returnedMessage.get("rent"));//GET RENT FROM JSON
 	  this.pay(rent);
 	}else{
-	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), null));
+	  Property property=new Property(returnedMessage.get("positionType"), returnedMessage.get("name"), null, Integer.parseInt(returnedMessage.get("price")), Integer.parseInt(returnedMessage.get("baseRent")), null);
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
@@ -416,16 +413,15 @@ public class Client{
       System.out.println("Failed to get number of players: " + e);
     }
     for(int i=0;i<this.getNumberOfPlayers();i++){
-      playersPositions.put(i,goPosition);
+      playersPositions.put(i,startPosition);
     }
   }
   
-  public void updatePlayersPositions(JSONArray positions){
+  public void updatePlayersPositions(){
     try {
-      Object obj = parser.parse((this.getId(), "playersPositions", "playersPositions"));
-      JSONObject players_Positions = (JSONObject)obj;
+      JSONObject obj = this.sendMessageToServer(this.getId(), "playersPositions", "playersPositions");
       for(int i=0;i<this.getNumberOfPlayers();i++){
-	playersPositions.put(i,players_Positions.get(i));
+	playersPositions.put(i,obj.get(Integer.toString(i)));
       }
       
     } catch (Exception e) {
@@ -458,9 +454,10 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
-    string messageType="firstContact";
+    String messageType="firstContact";
     client.firstContactServer(messageType);
     while(client.checkWithServer("start")){
+      boolean forceStart=true; //button is pressed
       if(forceStart==true){ //forceStart button pressed
         messageType="start";  
       }
@@ -471,7 +468,7 @@ public class Client{
       //display info on GUI
       if(client.checkWithServer("yourTurn")){
 	client.myTurn();
-	client.sendMessageToServer(getId(),"Bye","Bye");
+	client.sendMessageToServer(client.getId(),"Bye","Bye");
       }
     }
   }
