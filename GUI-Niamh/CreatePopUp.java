@@ -81,7 +81,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	 * and Taxes - these can be made more specific depending on what specific values we plan on having on each square and I will update
 	 * the output accordingly. 
 	 */
-    public CreatePopUp(int squareID) {
+    	public CreatePopUp(int squareID) {
 		myFrame = new JFrame();
 		imagePanel = new JPanel(new FlowLayout());
 		textPanel = new JPanel(new FlowLayout());
@@ -89,14 +89,13 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		displayPopUp(squareID);
 		
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-  
-        this.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(this); // Sets contentPane property
+  		this.setOpaque(true); // Makes contentPane opaque 
+        	myFrame.setContentPane(this); // Sets contentPane property
 		myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(450, 400);
+        	myFrame.setSize(450, 400);
 		myFrame.pack();
 		myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
+        	myFrame.setVisible(true); // Window is displayed
 	}	
 		
 		
@@ -224,13 +223,13 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		imagePanel.add(imageLabel);
 		
 		textArea = new JTextArea(message, 5, 20);
-        textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
-        textArea.setBackground(Color.BLACK);
+        	textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
+        	textArea.setBackground(Color.BLACK);
 		textArea.setForeground(Color.WHITE);
-		textArea.setLineWrap(true);						// Set various attributes as required
-        textArea.setWrapStyleWord(true);
-        textArea.setOpaque(false);
-        textArea.setEditable(false);
+		textArea.setLineWrap(true);				// Set various attributes as required
+        	textArea.setWrapStyleWord(true);
+        	textArea.setOpaque(false);
+        	textArea.setEditable(false);
 		
 		textPanel.add(textArea);
 		textPanel.setBackground(Color.BLACK);
@@ -246,24 +245,24 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	 * Method which checks what command was made by the user and then responds appropriately.
 	 * @param e 
 	 */
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand(); // Store value of command
+    	public void actionPerformed(ActionEvent e) {
+        	String command = e.getActionCommand(); // Store value of command
  
-        if (PAY_RENT.equals(command)) { 
+        	if (PAY_RENT.equals(command)) { 
 			// Code which involves user paying specified amount of rent
-            JOptionPane.showMessageDialog(myFrame, "You have paid your rent.");
+            		JOptionPane.showMessageDialog(myFrame, "You have paid your rent.");
 			myFrame.dispose();
-        } else if (BUY_PROPERTY.equals(command)) { 
+        	} else if (BUY_PROPERTY.equals(command)) { 
 			// Code to purchase property and add it to user's property list
 			JOptionPane.showMessageDialog(myFrame, "You have purchased this property.");
 			myFrame.dispose();
-        } else if (AUCTION_PROPERTY.equals(command)) {
+        	} else if (AUCTION_PROPERTY.equals(command)) {
 			JOptionPane.showMessageDialog(myFrame, "You have put this property to auction.");
 			myFrame.dispose();
 		} else if (OK.equals(command)) {
 			myFrame.dispose();
 		}
-    }
+    	}
 	
 	public static void main(String[] args) {
 		CreatePopUp test = new CreatePopUp(1);
