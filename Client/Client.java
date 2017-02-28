@@ -421,13 +421,9 @@ public class Client{
     }
   }
   
-  public boolean checkWithServer(String equals){
+  public boolean checkWithServer(String equals, Socket socket){
     try{
       System.out.println("0");
-      String host = "localhost";
-      int port = portNumber;
-      InetAddress address = InetAddress.getByName(host);
-      socket = new Socket(address, port);
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       System.out.println("1");
       String message = br.readLine();
@@ -463,7 +459,7 @@ public class Client{
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
-    while(client.checkWithServer("start")){
+    while(client.checkWithServer("start", socket)){
       if(forceStart==true){ //forceStart button pressed
         messageType="start";  
       }
@@ -473,7 +469,7 @@ public class Client{
     while(!closed){
       //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
-      if(client.checkWithServer("yourTurn")){
+      if(client.checkWithServer("yourTurn", socket)){
 	client.myTurn();
 	client.sendMessageToServer(client.getId(),"Bye","Bye");
       }
