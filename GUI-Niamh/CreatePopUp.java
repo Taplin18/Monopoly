@@ -169,10 +169,10 @@ public class CreatePopUp extends JPanel implements ActionListener {
             JOptionPane.showMessageDialog(myFrame, "You have paid your rent.");
 			myFrame.dispose();
         } else if (BUY.equals(command)) { // If Buy button was pressed
-			JOptionPane.showMessageDialog(myFrame, "You have purchased this property.");
+			JOptionPane.showMessageDialog(myFrame, "Your purchase was successful.");
 			myFrame.dispose();
         } else if (AUCTION.equals(command)) { // If Auction button was pressed
-			JOptionPane.showMessageDialog(myFrame, "You have put this property to auction.");
+			JOptionPane.showMessageDialog(myFrame, "This will now be put to auction.");
 			myFrame.dispose();
 	} else if (OK.equals(command)) { // If OK button was pressed
 			myFrame.dispose();
