@@ -17,7 +17,7 @@ class Chest {
 	* @return community chest card information
 	*/
 	public String choose_card() {
-		int index = generator.nextInt(17);
+		int index = generator.nextInt(15);
 		return cards.get(index);
 	}
 
@@ -34,7 +34,7 @@ class Chest {
 		cards.add("chest - add - 50 - Holiday Fund matures -> Receive €50");
 		cards.add("chest - add - 20 - Income tax refund -> Collect €20");
 		cards.add("chest - add - 10 - It's your birthday -> Collect €10");
-		cards.add("chest - add - 100 - Life insurance matures - Collect €100");
+		cards.add("chest - add - 100 - Life insurance matures -> Collect €100");
 		cards.add("chest - pay - 100 - Pay hospital fees of €100");
 		cards.add("chest - pay - 150 - Pay school fees of €150");
 		cards.add("chest - add - 25 - Receive €25 consultancy fee");

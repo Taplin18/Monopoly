@@ -17,7 +17,7 @@ class Chance {
 	* @return chance card information
 	*/
 	public String choose_card() {
-		int index = generator.nextInt(15);
+		int index = generator.nextInt(8);
 		return cards.get(index);
 	}
 

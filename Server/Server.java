@@ -249,7 +249,7 @@ class ServerThread extends Thread {
 							bye_sent = false;
 						} 
 
-						if (player_info.get("messageType").equals("Bye") && !bye_sent) {
+						if (player_info.get("messageType").equals("Bye")){// && !bye_sent) {
 							System.out.println(playerName + "'s turn is over");
 							playerTurn++;
 							if (playerTurn == maxPlayers) {
@@ -265,6 +265,7 @@ class ServerThread extends Thread {
 					}
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println("JSON error: " + e);
 			}
 		} catch (IOException e) {
