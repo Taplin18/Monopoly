@@ -376,9 +376,12 @@ public class Client{
       System.out.println("Message sent to the server : "+jsonMessage);
       
       //Get the return message from the server
+      
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      String message = br.readLine();
-      messageObj=decode(message);
+      while(br.ready()){
+	String message = br.readLine();
+	messageObj=decode(message);
+      }
       System.out.println("Message received from the server : " +message);
       
       return messageObj; //answer
