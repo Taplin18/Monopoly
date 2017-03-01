@@ -66,8 +66,9 @@ class ServerThread extends Thread {
 	private static final int maxPlayers = 2;
 	private static String[] player_names = new String[maxPlayers];
 	private static boolean turn_sent = false;
-	private static boolean message_sent = false;
+	private static boolean position_sent = false;
 	private static boolean bye_sent = false;
+	private boolean num_players_sent = false;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -104,12 +105,15 @@ class ServerThread extends Thread {
 					players.put(String.valueOf(playerID), playerName);
 					player_names[playerID] = playerName;
 					System.out.println("Name is: " + playerName);
+					
 					JSONObject new_player_id = new JSONObject();
 					new_player_id.put("messageType", "firstContact");
 					new_player_id.put("id", String.valueOf(playerID));
+					
 					StringWriter out = new StringWriter();
 	         		new_player_id.writeJSONString(out);
 	         		String jsonText = out.toString();
+	         		System.out.println("first contect message: " + jsonText);
 	         		bw.write(jsonText);
 	         		bw.newLine();
 	         		bw.flush();
@@ -121,17 +125,24 @@ class ServerThread extends Thread {
 					}
 					if(player_info.get("messageType") == "start") {
 						started = true;
-					} else if (player_info.get("messageType") == "check") {
-						String returnMess = "Current Players:\n";
-						for (int i = 0; i < player_names.length; i++) {
-							returnMess += player_names[i] + "\n";
-						}
-						bw.write(returnMess);
-						bw.newLine();
-						bw.flush();
 					}
 				}
-				while (!game_over) {	
+
+				while (!game_over) {
+					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
+						JSONObject numPlayers = new JSONObject();
+						numPlayers.put("number", String.valueOf(maxPlayers));
+						numPlayers.put("id", String.valueOf(playerID));
+						
+						StringWriter num = new StringWriter();
+		         		numPlayers.writeJSONString(num);
+		         		String num_players = num.toString();
+		         		System.out.println("first contect message: " + num_players);
+		         		bw.write(num_players);
+		         		bw.newLine();
+		         		bw.flush();
+		         		num_players_sent = true;
+					}
 					if(started && playerID == playerTurn){
 						if (!turn_sent) {
 							System.out.println("\nPlayer is: " + playerName);
@@ -164,8 +175,24 @@ class ServerThread extends Thread {
 							bw.flush();
 							System.out.println("Sending rent");
 						}
-						if (player_info.get("messageType").equals("position") && !message_sent) {
+						if (player_info.get("messageType").equals("playersPositions")) {
+							JSONObject the_players_pos = new JSONObject();
+							for (int i = 0; i < maxPlayers; i++) {
+								the_players_pos.put(String.valueOf(i), String.valueOf(player_pos.get(i)));
+							}
+							StringWriter sendPlayerPos = new StringWriter();
+			         		the_players_pos.writeJSONString(sendPlayerPos);
+			         		String play_pos = sendPlayerPos.toString();
+			         		System.out.println("sendRent: " + play_pos);
+			         		bw.write(play_pos);
+							bw.newLine();
+							bw.flush();
+							System.out.println("Sending player positions");
+						}
+
+						if (player_info.get("messageType").equals("position")){// && !position_sent) {
 							System.out.println("Check position: " + player_info.get("message"));
+							player_pos.put(playerID, Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String[] answer = a.split(" - ");
 							JSONObject position_info = new JSONObject();
@@ -249,7 +276,7 @@ class ServerThread extends Thread {
 			         		bw.write(send_play_info);
 							bw.newLine();
 							bw.flush();
-							message_sent = true;
+							position_sent = true;
 						} 
 
 						if (player_info.get("messageType").equals("Bye")){
@@ -259,7 +286,7 @@ class ServerThread extends Thread {
 								playerTurn = 0;
 							}
 							turn_sent = false;
-							message_sent = false;
+							position_sent = false;
 						}
 					} 
 					if (br.ready()) {
