@@ -82,7 +82,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	 * and Taxes - these can be made more specific depending on what specific values we plan on having on each square and I will update
 	 * the output accordingly. 
 	 */
-    	public CreatePopUp(HashMap squareInfo) {
+    	public CreatePopUp(HashMap<String, String> squareInfo) {
 		myFrame = new JFrame();
 		imagePanel = new JPanel(new FlowLayout());
 		textPanel = new JPanel(new FlowLayout());
