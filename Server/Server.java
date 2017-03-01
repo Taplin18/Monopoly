@@ -15,7 +15,7 @@ public class Server {
 	private static final int maxPlayers = 2;
 	private static int currentPlayers = 0;
 	private static Board board = new Board();
-	private static ServerThread[] threads = new ServerThread[maxPlayers];
+	//private static ServerThread[] threads = new ServerThread[maxPlayers];
 
 	public static void main(String[] args) {
 		Socket playerSocket = null;
@@ -34,9 +34,9 @@ public class Server {
 				if (currentPlayers != maxPlayers+1) {
 					playerSocket = server.accept();
 					System.out.println("New player connected");
-					(threads[currentPlayers] = new ServerThread(playerSocket, board, threads)).start();
-					//st.start();
-					//threads[currentPlayers] = st;
+					//(threads[currentPlayers] = new ServerThread(playerSocket, board, threads)).start();
+					ServerThread st = new ServerThread(playerSocket, board);
+					st.start();
 					currentPlayers++;
 				//} else {
 				//	System.out.println("Too many players connected");
@@ -54,7 +54,7 @@ class ServerThread extends Thread {
 	private String line = null;
 	private String playerName;
 	private int playerID;
-	private int playerTurn = 0;
+	private static int playerTurn = 0;
 	private BufferedReader br = null;
 	private BufferedWriter bw = null;
 	private PrintStream ps = null;
@@ -69,16 +69,17 @@ class ServerThread extends Thread {
 	private static JSONObject players = new JSONObject();
 	private static final int maxPlayers = 2;
 	private static String[] player_names = new String[maxPlayers];
-	private static ServerThread[] threads;
+	//private static ServerThread[] threads;
+	private static boolean sent = false;
+	//private static boolean match_ids;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
 	*/
-	public ServerThread(Socket sock, Board board, ServerThread[] threads) {
+	public ServerThread(Socket sock, Board board){ //, ServerThread[] threads) {
 		this.sock = sock;
 		this.board = board;
-		this.threads = threads;
-		//this.player_pos = player_pos;
+		//this.threads = threads;
 		playerID = ids;
 		player_pos.put(playerID, 0);
 		rent_owed.put(playerID, 0);
@@ -103,6 +104,7 @@ class ServerThread extends Thread {
 				Object obj = parser.parse(line);
 				JSONObject player_info = (JSONObject)obj;
 				while (!game_over) {
+					//System.out.println("Thread " + playerID + ": starting");
 					if (playerName == null) {
 						playerName = String.valueOf(player_info.get("message"));
 						players.put(String.valueOf(playerID), playerName);
@@ -114,9 +116,9 @@ class ServerThread extends Thread {
 						StringWriter out = new StringWriter();
 		         		new_player_id.writeJSONString(out);
 		         		String jsonText = out.toString();
-		         		threads[playerID].bw.write(jsonText);
-		         		threads[playerID].bw.newLine();
-		         		threads[playerID].bw.flush();
+		         		bw.write(jsonText);
+		         		bw.newLine();
+		         		bw.flush();
 					}
 					if (!started) {
 						if (player_pos.size() == maxPlayers) {
@@ -124,120 +126,134 @@ class ServerThread extends Thread {
 							System.out.println("Game can start");
 						}
 						if(player_info.get("messageType") == "start") {
-							//System.out.println("Monopoly beginning now...");
 							started = true;
 						} else if (player_info.get("messageType") == "check") {
 							String returnMess = "Current Players:\n";
 							for (int i = 0; i < player_names.length; i++) {
 								returnMess += player_names[i] + "\n";
 							}
-							threads[playerID].bw.write(returnMess);
-							threads[playerID].bw.newLine();
-							threads[playerID].bw.flush();
+							bw.write(returnMess);
+							bw.newLine();
+							bw.flush();
 						}
 					}
-					// && playerID == Integer.valueOf(String.valueOf(player_info.get("id")))
-					System.out.println("\nTurn is: " + playerTurn);
-					if(started){ //&& playerID == playerTurn) {
-						System.out.println("Player is: " + threads[playerTurn].playerName);
-						JSONObject turn = new JSONObject();
-						turn.put("messageType", "yourTurn");
-						turn.put("id", String.valueOf(threads[playerTurn].playerID));
-						StringWriter nextTurn = new StringWriter();
-		         		turn.writeJSONString(nextTurn);
-		         		String sendTurn = nextTurn.toString();
-		         		System.out.println(sendTurn);
-		         		threads[playerTurn].bw.write(sendTurn);
-						threads[playerTurn].bw.newLine();
-						threads[playerTurn].bw.flush();
-						System.out.println("Sending yourTurn");
-						if (player_info.get("messageType").equals("position")) {
-							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
-							String[] answer = a.split(" - ");
-							JSONObject position_info = new JSONObject();
-							
-							if (answer[0].equals("chest")) {
-								position_info.put("positionType", "chest");
-								position_info.put("chestType", answer[1]);
-								if (answer[1].equals("jail")) {
-									position_info.put("jailType", answer[2]);
-									position_info.put("message", answer[3]);
-								} else {
-									position_info.put("chestAmount", answer[2]);
-									position_info.put("message", answer[3]);
-								}
-							} else if (answer[0].equals("chance")) {
-								position_info.put("positionType", "chance");
-								position_info.put("chanceType", answer[1]);
-								if (answer[1].equals("jail")) {
-									position_info.put("jailType", answer[2]);
-									position_info.put("message", answer[3]);
-								} else {
-									if (answer[1].equals("back")) {
-										String new_pos = String.valueOf(Integer.valueOf(String.valueOf(player_info.get("message"))) - 3);
-										position_info.put("chancePosition", new_pos);
+								
+					if(started && playerID == playerTurn){
+						if (!sent) {
+							System.out.println("Player is: " + playerName);
+							JSONObject turn = new JSONObject();
+							turn.put("messageType", "yourTurn");
+							turn.put("id", String.valueOf(playerID));
+							StringWriter nextTurn = new StringWriter();
+			         		turn.writeJSONString(nextTurn);
+			         		String sendTurn = nextTurn.toString();
+			         		System.out.println("sendTurn: " + sendTurn);
+			         		bw.write(sendTurn);
+							bw.newLine();
+							bw.flush();
+							System.out.println("Sending yourTurn");
+							sent = true;
+						}
+						if(br.ready()){
+							line = br.readLine();
+							obj = parser.parse(line);
+							player_info = (JSONObject) obj;
+							if (player_info.get("messageType").equals("position")) {
+								String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
+								String[] answer = a.split(" - ");
+								JSONObject position_info = new JSONObject();
+								
+								if (answer[0].equals("chest")) {
+									position_info.put("positionType", "chest");
+									position_info.put("chestType", answer[1]);
+									if (answer[1].equals("jail")) {
+										position_info.put("jailType", answer[2]);
 										position_info.put("message", answer[3]);
 									} else {
-										position_info.put("chancePosition", answer[2]);
+										position_info.put("chestAmount", answer[2]);
 										position_info.put("message", answer[3]);
 									}
-								}
-							} else if (answer[0].equals("property")) {
-								position_info.put("positionType", "property");
-								position_info.put("ownership", answer[1]);
-								if (answer[1].equals("owned")) {
-									position_info.put("rent", answer[2]);
-									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+								} else if (answer[0].equals("chance")) {
+									position_info.put("positionType", "chance");
+									position_info.put("chanceType", answer[1]);
+									if (answer[1].equals("jail")) {
+										position_info.put("jailType", answer[2]);
+										position_info.put("message", answer[3]);
+									} else {
+										if (answer[1].equals("back")) {
+											String new_pos = String.valueOf(Integer.valueOf(String.valueOf(player_info.get("message"))) - 3);
+											position_info.put("chancePosition", new_pos);
+											position_info.put("message", answer[3]);
+										} else {
+											position_info.put("chancePosition", answer[2]);
+											position_info.put("message", answer[3]);
+										}
+									}
+								} else if (answer[0].equals("property")) {
+									position_info.put("positionType", "property");
+									position_info.put("ownership", answer[1]);
+									if (answer[1].equals("owned")) {
+										position_info.put("rent", answer[2]);
+										rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+									} else {
+										position_info.put("name", answer[2]);
+										position_info.put("colour", answer[3]);
+										position_info.put("price", answer[4]);
+										position_info.put("baseRent", answer[5]);
+										position_info.put("buildCost", answer[6]);
+									}
+								} else if (answer[0].equals("utilities")) {
+									position_info.put("positionType", "utilities");
+									position_info.put("ownership", answer[1]);
+									if (answer[1].equals("owned")) {
+										position_info.put("rent", answer[2]);
+										rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+									} else {
+										position_info.put("name", answer[2]);
+										position_info.put("price", answer[4]);
+										position_info.put("baseRent", answer[5]);
+									}
+								} else if (answer[0].equals("transport")) {
+									position_info.put("positionType", "transport");
+									position_info.put("ownership", answer[1]);
+									if (answer[1].equals("owned")) {
+										position_info.put("rent", answer[2]);
+										rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+									} else {
+										position_info.put("name", answer[2]);
+										position_info.put("price", answer[4]);
+										position_info.put("baseRent", answer[5]);
+									}
+								} else if (answer[0].equals("Tax")) {
+									position_info.put("positionType", "taxes");
+									position_info.put("taxAmount", answer[1]);
 								} else {
-									position_info.put("name", answer[2]);
-									position_info.put("colour", answer[3]);
-									position_info.put("price", answer[4]);
-									position_info.put("baseRent", answer[5]);
-									position_info.put("buildCost", answer[6]);
+									position_info.put("positionType", "corner");
 								}
-							} else if (answer[0].equals("utilities")) {
-								position_info.put("positionType", "utilities");
-								position_info.put("ownership", answer[1]);
-								if (answer[1].equals("owned")) {
-									position_info.put("rent", answer[2]);
-									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
-								} else {
-									position_info.put("name", answer[2]);
-									position_info.put("price", answer[4]);
-									position_info.put("baseRent", answer[5]);
+								StringWriter play_info = new StringWriter();
+				         		position_info.writeJSONString(play_info);
+				         		String send_play_info = play_info.toString();
+				         		System.out.println("send_play_info: " + send_play_info);
+				         		bw.write(send_play_info);
+								bw.newLine();
+								bw.flush();
+							} else if (player_info.get("messageType").equals("Bye")) {
+								System.out.println(playerName + "'s turn is over");
+								playerTurn++;
+								if (playerTurn == maxPlayers) {
+									playerTurn = 0;
 								}
-							} else if (answer[0].equals("transport")) {
-								position_info.put("positionType", "transport");
-								position_info.put("ownership", answer[1]);
-								if (answer[1].equals("owned")) {
-									position_info.put("rent", answer[2]);
-									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
-								} else {
-									position_info.put("name", answer[2]);
-									position_info.put("price", answer[4]);
-									position_info.put("baseRent", answer[5]);
-								}
-							} else if (answer[0].equals("Tax")) {
-								position_info.put("positionType", "taxes");
-								position_info.put("taxAmount", answer[1]);
+								sent = false;
 							} else {
-								position_info.put("positionType", "corner");
-							}
-							StringWriter play_info = new StringWriter();
-			         		position_info.writeJSONString(play_info);
-			         		String send_play_info = play_info.toString();
-			         		threads[playerTurn].bw.write(send_play_info);
-							threads[playerTurn].bw.newLine();
-							threads[playerTurn].bw.flush();
-						} else if (player_info.get("messageType").equals("Bye")) {
-							System.out.println(threads[playerTurn].playerName + "'s turn is over");
-							playerTurn++;
-							if (playerTurn == maxPlayers) {
-								playerTurn = 0;
+								System.out.println("Nope");
 							}
 						}
+					} 
+					//System.out.println("Thread " + playerID + ": getting to end");
+					if (br.ready()) {
+						line = br.readLine();
 					}
-					line = threads[playerTurn].br.readLine();
+					//System.out.println("Thread " + playerID + ": checking after\n");
 				}
 			} catch (Exception e) {
 				System.out.println("JSON error: " + e);
