@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
  
 public class CreatePopUp extends JPanel implements ActionListener { 
 	
-	private HashMap<String, String> = hashMap;	
+	private HashMap<String, String> hashMap;	
    /*
 	* Images for each square type stored in static variables.
-	*/
+	
 	private static final String GO_IMAGE = "go.jpg";
 	// Properties' images
 	private static final String MED_AVENUE = "med_avenue.jpg";
@@ -100,7 +100,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	}	
 		
 		
-	public void displayPopUp(int actionIdentifier) {
+	/*public void displayPopUp(int actionIdentifier) {
 		if (actionIdentifier == 0) {
 			message = "You are currently on 'Go!' - let's get started!";
 			JButton okButton = new JButton("OK");
@@ -246,7 +246,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	 * Method which checks what command was made by the user and then responds appropriately.
 	 * @param e 
 	 */
-    	public void actionPerformed(ActionEvent e) {
+    	/*public void actionPerformed(ActionEvent e) {
         	String command = e.getActionCommand(); // Store value of command
  
         	if (PAY_RENT.equals(command)) { 
@@ -267,6 +267,6 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	
 	public static void main(String[] args) {
 		CreatePopUp test = new CreatePopUp(1);
-	}
+	} */
 }	
 	
