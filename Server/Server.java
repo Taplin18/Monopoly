@@ -15,7 +15,6 @@ public class Server {
 	private static final int maxPlayers = 2;
 	private static int currentPlayers = 0;
 	private static Board board = new Board();
-	//private static ServerThread[] threads = new ServerThread[maxPlayers];
 
 	public static void main(String[] args) {
 		Socket playerSocket = null;
@@ -34,12 +33,9 @@ public class Server {
 				if (currentPlayers != maxPlayers+1) {
 					playerSocket = server.accept();
 					System.out.println("New player connected");
-					//(threads[currentPlayers] = new ServerThread(playerSocket, board, threads)).start();
 					ServerThread st = new ServerThread(playerSocket, board);
 					st.start();
 					currentPlayers++;
-				//} else {
-				//	System.out.println("Too many players connected");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -137,8 +133,7 @@ class ServerThread extends Thread {
 						bw.flush();
 					}
 				}
-				while (!game_over) {
-					//System.out.println("player ID: " + playerID);		
+				while (!game_over) {	
 					if(started && playerID == playerTurn){
 						if (!turn_sent) {
 							System.out.println("\nPlayer is: " + playerName);
@@ -154,10 +149,8 @@ class ServerThread extends Thread {
 							bw.flush();
 							System.out.println("Sending yourTurn");
 							turn_sent = true;
-							//bye_sent = false;
 						}
 
-						//line = br.readLine();
 						obj = parser.parse(line);
 						player_info = (JSONObject) obj;
 						if (player_info.get("messageType").equals("position") && !message_sent) {
@@ -246,10 +239,9 @@ class ServerThread extends Thread {
 							bw.newLine();
 							bw.flush();
 							message_sent = true;
-							bye_sent = false;
 						} 
 
-						if (player_info.get("messageType").equals("Bye")){// && !bye_sent) {
+						if (player_info.get("messageType").equals("Bye")){
 							System.out.println(playerName + "'s turn is over");
 							playerTurn++;
 							if (playerTurn == maxPlayers) {
@@ -257,7 +249,6 @@ class ServerThread extends Thread {
 							}
 							turn_sent = false;
 							message_sent = false;
-							bye_sent = true;
 						}
 					} 
 					if (br.ready()) {
