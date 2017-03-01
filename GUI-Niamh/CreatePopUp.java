@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
  
 public class CreatePopUp extends JPanel implements ActionListener { 
 	
+	private HashMap<String, String> = hashMap;	
    /*
 	* Images for each square type stored in static variables.
 	*/
@@ -86,7 +87,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		imagePanel = new JPanel(new FlowLayout());
 		textPanel = new JPanel(new FlowLayout());
 		buttonPanel = new JPanel(new FlowLayout());
-		//displayPopUp(squareID);
+		hashMap = squareInfo;
 		
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
   		this.setOpaque(true); // Makes contentPane opaque 
