@@ -10,35 +10,33 @@ import java.awt.image.BufferedImage;
  
 public class CreatePopUp extends JPanel implements ActionListener {    
 	
-    private String message;
-    private String name;
-    private String title;
-    private String image;
-    private String positionType;
-    private String ownership;
-    private int rent;
-    private int price;
-    private int taxOwed;
-    private int messageType = JOptionPane.PLAIN_MESSAGE;
-    private ImageIcon popUpIcon = null;
-    private BufferedImage popUpImg = null;
-    private JFrame myFrame;
-    private JPanel imagePanel;
-    private JPanel textPanel;
-    private JPanel buttonPanel;
+    private String message;					// message - Text to be displayed about the current square
+    private String name;					// name - Name of the the property/utility/tranport square
+    private String image;					// image - Name of the image associate with the square
+    private String positionType;				// positionType - Type of square
+    private String ownership;					// ownership - Whether the property/utility/transport is owned/available
+    private int rent;						// rent - Cost of rent at an already owned square
+    private int price;						// price - Cost of buying at an availabe square
+    private int taxOwed;					// taxOwed - The tax owed at a Tax square
+    private int messageType = JOptionPane.PLAIN_MESSAGE;	// messageType - Determines style of pop-up
+    private ImageIcon popUpIcon = null;				// popUpIcon - Used to store image as ImageIcon object
+    private BufferedImage popUpImg = null;			// popUpImg - Stores image when it is being read in
+    private JFrame myFrame;					// myFrame - JFrame object which holds all other components
+    private JPanel imagePanel;					// imagePanel - Holds image components
+    private JPanel textPanel;					// textPanel - Holds text components
+    private JPanel buttonPanel;					// buttonPanel - Holds button components
     private JLabel imageLabel;
-    private JTextArea textArea;
-    private static String OK = "OK";
-    private static String PAY_RENT = "Pay Rent";
-    private static String BUY = "Buy";
-    private static String AUCTION = "Auction";
-    private HashMap<String, String> squareInfo;
+    private JTextArea textArea;					// textArea - Holds message to be displayed in pop-up
+    private static String OK = "OK";				// OK - String to be displayed on button
+    private static String PAY_RENT = "Pay Rent";		// PAY_RENT - String to be displayed on button
+    private static String BUY = "Buy";				// BUY - String to be displayed on button
+    private static String AUCTION = "Auction";			// AUCTION - String to be displayed on button
+    private HashMap<String, String> squareInfo;			// squareInfo - HashMap used to store square information
 	
    /**
-    * The ID of the square the player has just landed on is passed in each time a player moves to a new square and the output is a pop-up which tells the user what square they have landed on accompanied by an appropriate icon.
-    * For now, the details of each square are broadly divided into Go, Chest, Chance, Property, Corner, Transport, Utilities,
-    * and Taxes - these can be made more specific depending on what specific values we plan on having on each square and I will update
-    * the output accordingly. 
+    * The details of the type of square the player is currently on is passed in as a HashMap object, which is then passed 
+    * to the displayPopUp() method where the required information is extracted and placed appropriately placed on to the JFrame.
+    * @param squareInfo - HashMap object containing information on current square
     */
     public CreatePopUp(HashMap<String, String> squareInfo) {
 	// Create JFrame and JPanels
@@ -60,7 +58,11 @@ public class CreatePopUp extends JPanel implements ActionListener {
         myFrame.setVisible(true); // Window is displayed
     }	
 		
-		
+   /**
+    * Method which takes in as a parameter the HashMap containing info on the current square and then creates appropriate
+    * JFrame components based on the values passed in.
+    * @param squareInfo - HashMap object containing information on the current square 
+    */
     public void displayPopUp(HashMap<String, String> squareInfo) {
         positionType = squareInfo.get("positionType");
         image = squareInfo.get("picture");
