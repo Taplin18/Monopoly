@@ -91,7 +91,7 @@ class Board {
 		for (int i = 0; i < transport.length; i++) {
 			if (position == transport[i]) {
 				if (check_if_bought(position)) {
-					return String.format("transport - owned - %s - %s", squares.trans_rent(position), squares.trans_owned_by(position));
+					return String.format("transport - owned - %s - %s - %s", squares.trans_rent(position), squares.trans_owned_by(position), squares.trans_name(position));
 				} else {
 					return String.format("transport - available - %s - %s - %s", squares.trans_name(position), squares.trans_price(position), squares.trans_rent(position));
 				}
@@ -101,7 +101,7 @@ class Board {
 		for (int i = 0; i < utilities.length; i++) {
 			if (position == utilities[i]) {
 				if (check_if_bought(position)) {
-					return String.format("utility - owned %s - %s", squares.util_owned_by(position), squares.util_owned_by(position));
+					return String.format("utility - owned %s - %s - %s", squares.util_owned_by(position), squares.util_owned_by(position), squares.util_name(position));
 				} else {
 					return String.format("utility - %s - %s - %s", squares.util_name(position), squares.util_price(position), squares.util_rent(position));
 				}
@@ -123,9 +123,9 @@ class Board {
 		for (int i = 0; i < properties.length; i++) {
 			if (position == properties[i]) {
 				if (check_if_bought(position)) {
-					return String.format("property - owned - %s - %s", squares.prop_rent(position), squares.prop_owned_by(position));
+					return String.format("property - owned - %s - %s - %s - %s", squares.prop_rent(position), squares.prop_owned_by(position), squares.prop_name(position), squares.prop_picture(position));
 				} else {
-					return String.format("property - available - %s - %s - %s - %s - %s", squares.prop_name(position), squares.prop_colour(position), squares.prop_price(position), squares.prop_rent(position), squares.prop_buildCost(position));
+					return String.format("property - available - %s - %s - %s - %s - %s - %s", squares.prop_name(position), squares.prop_colour(position), squares.prop_price(position), squares.prop_rent(position), squares.prop_buildCost(position), squares.prop_picture(position));
 				}
 			}
 		}

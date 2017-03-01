@@ -197,6 +197,8 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									position_info.put("name", answer[4]);
+									position_info.put("picture", answer[5]);
 									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
 									position_info.put("name", answer[2]);
@@ -204,12 +206,14 @@ class ServerThread extends Thread {
 									position_info.put("price", answer[4]);
 									position_info.put("baseRent", answer[5]);
 									position_info.put("buildCost", answer[6]);
+									position_info.put("picture", answer[7]);
 								}
 							} else if (answer[0].equals("utilities")) {
 								position_info.put("positionType", "utilities");
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									position_info.put("name", answer[4]);
 									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
 									position_info.put("name", answer[2]);
@@ -221,6 +225,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									position_info.put("name", answer[4]);
 									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
 									position_info.put("name", answer[2]);

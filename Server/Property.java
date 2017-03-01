@@ -9,6 +9,7 @@ class Property {
 	protected boolean bought = false;
 	protected int ownerID;
 	protected int buildCost;
+	protected String picture;
 	protected int houses = 0;
 	protected int hotel = 0;
 	
@@ -20,12 +21,13 @@ class Property {
 	* @param colour The colour group of the property
 	* @param buildCost The cost to build a house or a hotel
 	*/
-	public Property(String name, int price, int rent, String colour, int buildCost) {
+	public Property(String name, int price, int rent, String colour, int buildCost, String picture) {
 		this.name = name;
 		this.rent = rent;
 		this.price = price;
 		this.colour = colour;
 		this.buildCost = buildCost;
+		this.picture = picture;
 	}
 
 	/**
@@ -59,6 +61,14 @@ class Property {
 	*/
 	public int cost() {
 		return price;
+	}
+
+	/**
+	* Return the name of the property's picture
+	* @return the name of the picture
+	*/
+	public String picture() {
+		return picture;
 	}
 
 	/**
