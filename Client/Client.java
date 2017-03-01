@@ -1,15 +1,11 @@
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-
 import java.util.Scanner;
-
 import java.util.Random;
-
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
-
 import java.util.*; 
 
 public class Client{
@@ -47,7 +43,7 @@ public class Client{
   private int diceTwo;
   private String picture;
   private CreatePopUp popUp;
-  private Map <String, String> squareInfo;
+  private HashMap <String, String> squareInfo;
   
   public int getDiceOne(){
     return this.diceOne;
@@ -122,7 +118,7 @@ public class Client{
   }
   
   public void subMoney(int amount){
-    money=money-amount;
+    money=money+(amount);
   }
   
   public void addSite(int idOfSite){ //server has array of all Sites that corrosponds with this id
@@ -187,12 +183,6 @@ public class Client{
       }
       this.moveToPosition(diceOne, diceTwo);//move to position
       JSONObject returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
-      
-      //HashMap<String, String> returnedMessage = new HashMap<String, String>();
-      //returnedMessage.put("positionType", "chest");
-     // returnedMessage.put("chestType", "jail");
-     // returnedMessage.put("jailType", "out");
-     // returnedMessage.put("rent", "1");
       
       System.out.println(this.getUserName()+": Landed on positionType "+returnedMessage.get("positionType")); 
       squareInfo = new HashMap<String, String>();
@@ -313,7 +303,8 @@ public class Client{
         System.out.println("You do not own all of the colour "+property.getColour()+" sites.");
       }else if(property.getNumOfHouses()==5){ //you have aready built max amount
         System.out.println("You have built the maximum amount.");
-      }else{//build hotel instead
+      }else{
+	this.sendMessageToServer(this.getId(), "incNumOfHouses", String.valueOf(property.getId()));
         this.subMoney(property.incNumOfHouses());
       }
     }
@@ -370,10 +361,12 @@ public class Client{
   }
   
   public int sellHouse(Property property){
+    this.sendMessageToServer(this.getId(), "decNumOfHouses", String.valueOf(property.getId()));
     return property.decNumOfHouses();
   }
   
   public int sellSite(Property property){
+    //auction
     this.sendMessageToServer(this.getId(), "sell", String.valueOf(property.getId())); //sends the id of the property to the server
     return 0; //amount
   }
@@ -561,6 +554,8 @@ public class Client{
       //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){
+	JSONObject possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
+	client.addMoney(possibleRent.get("rent"));
 	client.myTurn();
 	client.sendByeMessage(client.getId(),"Bye","Bye");
       }
