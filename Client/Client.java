@@ -191,6 +191,7 @@ public class Client{
       squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
       if(returnedMessage.get("positionType")=="chest"){
 	squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
+	squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
 	if(returnedMessage.get("chestType")=="jail"){
 	  if(returnedMessage.get("jailType")=="out"){
 	    this.jail_free++;
@@ -211,6 +212,7 @@ public class Client{
 	  }
 	}
       }else if(returnedMessage.get("positionType")=="property"){
+	squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
 	squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
 	if(returnedMessage.get("ownership")=="owned"){
 	  squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
@@ -225,6 +227,7 @@ public class Client{
 	  
 	}
       }else if(returnedMessage.get("positionType")=="transport"){
+	squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
 	squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
 	if(returnedMessage.get("ownership")=="owned"){
 	  squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
@@ -238,6 +241,8 @@ public class Client{
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
+	squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
+	squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
 	if(returnedMessage.get("ownership")=="owned"){
 	  squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
 	  popUp = new CreatePopUp(squareInfo);
@@ -254,8 +259,9 @@ public class Client{
 	  popUp = new CreatePopUp(squareInfo);
 	this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
       }else if(returnedMessage.get("positionType")=="chance"){
-	squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
-	if(returnedMessage.get("chestType")=="jail"){
+	squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
+	squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
+	if(returnedMessage.get("chanceType")=="jail"){
 	  squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
 	  popUp = new CreatePopUp(squareInfo);
 	  if(returnedMessage.get("jailType")=="out"){
