@@ -81,12 +81,12 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	 * and Taxes - these can be made more specific depending on what specific values we plan on having on each square and I will update
 	 * the output accordingly. 
 	 */
-    	public CreatePopUp(int squareID) {
+    	public CreatePopUp(HashMap squareInfo) {
 		myFrame = new JFrame();
 		imagePanel = new JPanel(new FlowLayout());
 		textPanel = new JPanel(new FlowLayout());
 		buttonPanel = new JPanel(new FlowLayout());
-		displayPopUp(squareID);
+		//displayPopUp(squareID);
 		
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
   		this.setOpaque(true); // Makes contentPane opaque 
