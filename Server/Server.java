@@ -65,11 +65,9 @@ class ServerThread extends Thread {
 	private static JSONObject players = new JSONObject();
 	private static final int maxPlayers = 2;
 	private static String[] player_names = new String[maxPlayers];
-	//private static ServerThread[] threads;
 	private static boolean turn_sent = false;
 	private static boolean message_sent = false;
 	private static boolean bye_sent = false;
-	//private static boolean match_ids;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -153,6 +151,19 @@ class ServerThread extends Thread {
 
 						obj = parser.parse(line);
 						player_info = (JSONObject) obj;
+						if (player_info.get("messageType").equals("rentDue")) {
+							JSONObject rent = new JSONObject();
+							rent.put("rent", String.valueOf(rent_owed.get(playerID)));
+							rent.put("id", String.valueOf(playerID));
+							StringWriter sendRent = new StringWriter();
+			         		rent.writeJSONString(sendRent);
+			         		String rent_amt = sendRent.toString();
+			         		System.out.println("sendRent: " + rent_amt);
+			         		bw.write(rent_amt);
+							bw.newLine();
+							bw.flush();
+							System.out.println("Sending rent");
+						}
 						if (player_info.get("messageType").equals("position") && !message_sent) {
 							System.out.println("Check position: " + player_info.get("message"));
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
