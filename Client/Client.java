@@ -212,6 +212,7 @@ public class Client{
 	  }
 	}
       }else if(returnedMessage.get("positionType")=="property"){
+	squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
 	squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
 	if(returnedMessage.get("ownership")=="owned"){
 	  squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
@@ -226,6 +227,7 @@ public class Client{
 	  
 	}
       }else if(returnedMessage.get("positionType")=="transport"){
+	squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
 	squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
 	if(returnedMessage.get("ownership")=="owned"){
 	  squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
@@ -239,6 +241,8 @@ public class Client{
 	  this.optionToBuy(property);
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
+	squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
+	squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
 	if(returnedMessage.get("ownership")=="owned"){
 	  squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
 	  popUp = new CreatePopUp(squareInfo);
