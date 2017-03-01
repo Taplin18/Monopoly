@@ -191,6 +191,7 @@ public class Client{
       squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
       if(returnedMessage.get("positionType")=="chest"){
 	squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
+	squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
 	if(returnedMessage.get("chestType")=="jail"){
 	  if(returnedMessage.get("jailType")=="out"){
 	    this.jail_free++;
@@ -255,6 +256,7 @@ public class Client{
 	this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
       }else if(returnedMessage.get("positionType")=="chance"){
 	squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
+	squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
 	if(returnedMessage.get("chanceType")=="jail"){
 	  squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
 	  popUp = new CreatePopUp(squareInfo);
