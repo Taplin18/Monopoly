@@ -66,8 +66,8 @@ class ServerThread extends Thread {
 	private static final int maxPlayers = 2;
 	private static String[] player_names = new String[maxPlayers];
 	private static boolean turn_sent = false;
-	private static boolean position_sent = false;
-	private static boolean bye_sent = false;
+	private boolean position_sent = false;
+	private boolean bye_sent = false;
 	private boolean num_players_sent = false;
 
 	/**
@@ -129,6 +129,10 @@ class ServerThread extends Thread {
 				}
 
 				while (!game_over) {
+					if (br.ready()) {
+						line = br.readLine();
+					}
+					this.sleep(500);
 					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
 						JSONObject numPlayers = new JSONObject();
 						numPlayers.put("number", String.valueOf(maxPlayers));
@@ -158,6 +162,7 @@ class ServerThread extends Thread {
 							bw.flush();
 							System.out.println("Sending yourTurn");
 							turn_sent = true;
+							bye_sent = false;
 						}
 
 						obj = parser.parse(line);
@@ -190,7 +195,7 @@ class ServerThread extends Thread {
 							System.out.println("Sending player positions");
 						}
 
-						if (player_info.get("messageType").equals("position")){// && !position_sent) {
+						if (player_info.get("messageType").equals("position") && !position_sent) {
 							System.out.println("Check position: " + player_info.get("message"));
 							player_pos.put(playerID, Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
@@ -279,7 +284,12 @@ class ServerThread extends Thread {
 							position_sent = true;
 						} 
 
-						if (player_info.get("messageType").equals("Bye")){
+						if (player_info.get("messageType").equals("Again")){
+							System.out.println(playerName + " rolls again");
+							position_sent = false;
+						}
+
+						if (player_info.get("messageType").equals("Bye") && !bye_sent){
 							System.out.println(playerName + "'s turn is over");
 							playerTurn++;
 							if (playerTurn == maxPlayers) {
@@ -287,11 +297,12 @@ class ServerThread extends Thread {
 							}
 							turn_sent = false;
 							position_sent = false;
+							bye_sent = true;
 						}
-					} 
-					if (br.ready()) {
-						line = br.readLine();
 					}
+					/*if (br.ready()) {
+						line = br.readLine();
+					}*/
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -42,6 +42,7 @@ public class Client{
   private JSONParser parser = new JSONParser();
   private int diceOne;
   private int diceTwo;
+  private static boolean rolled_double = false;
   private String picture;
   //private CreatePopUp popUp;
   private HashMap <String, String> squareInfo;
@@ -132,7 +133,11 @@ public class Client{
   }
 
   public void addPosition(int number){
-    position=position+number;
+    if (position + number >= 40) {
+      position += number - 40;
+    } else {
+      position += number;
+    }
   }
 
   public int getPosition(){
@@ -155,7 +160,7 @@ public class Client{
   }
 
   public void myTurn(){
-    System.out.println(this.getUserName()+": Start turn.");
+    System.out.println("\n"+this.getUserName()+": Start turn.");
     if(jail_free>0 || inJail==true){ //you have a get out of jail free card
       boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
       if(decision){
@@ -167,9 +172,14 @@ public class Client{
     //roll dice
     diceOne=this.rollDice();
     diceTwo=this.rollDice();
+
     this.setDiceNumber(diceOne, diceTwo);
 
     System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
+
+    if (diceOne == diceTwo) {
+      rolled_double = true;
+    }
 
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
       daysInJail++;
@@ -500,7 +510,7 @@ public class Client{
       //System.out.println("0");
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       //System.out.println("1");
-      if(br.ready()){
+      //if(br.ready()){
         String message = br.readLine();
         System.out.println("message: "+message);
         System.out.println("2");
@@ -513,9 +523,9 @@ public class Client{
           System.out.println("5");
           return false;
         }
-      }else{
-        return false;
-      }
+      //}else{
+      //  return false;
+      //}
     }catch(Exception e){
       return false;
     }
@@ -555,6 +565,9 @@ public class Client{
         //possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
         //client.addMoney(possibleRent.get("rent"));
         client.myTurn();
+        if (rolled_double) {
+          client.sendByeMessage(client.getId(),"Again","Again");
+        }
         client.sendByeMessage(client.getId(),"Bye","Bye");
       }
     }
