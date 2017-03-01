@@ -44,6 +44,7 @@ public class Client{
   private String picture;
   private CreatePopUp popUp;
   private HashMap <String, String> squareInfo;
+  private JSONObject possibleRent;
   
   public int getDiceOne(){
     return this.diceOne;
@@ -554,7 +555,7 @@ public class Client{
       //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){
-	JSONObject possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
+	possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
 	client.addMoney(possibleRent.get("rent"));
 	client.myTurn();
 	client.sendByeMessage(client.getId(),"Bye","Bye");
