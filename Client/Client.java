@@ -236,7 +236,6 @@ public class Client{
 	  popUp = new CreatePopUp(squareInfo);
 	  Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
 	  this.optionToBuy(property);
-	  
 	}
       }else if(returnedMessage.get("positionType")=="utilities"){
 	if(returnedMessage.get("ownership")=="owned"){
@@ -550,9 +549,9 @@ public class Client{
     //  }
     //}
     System.out.println(client.getUserName()+" received 'game has started' from server");
-    //client.makeListOfPlayers();
+    client.makeListOfPlayers();
     while(!closed){
-      //client.updatePlayersPositions();//get updated info of positions from server
+      client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){
 	possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
