@@ -43,6 +43,21 @@ public class Client{
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
   private Map <Integer, Integer> playersPositions = new HashMap<Integer, Integer>();
   private JSONParser parser = new JSONParser();
+  private int diceOne;
+  private int diceTwo;
+  
+  public int getDiceOne(){
+    return this.diceOne;
+  }
+  
+  public int getDiceTwo(){
+    return this.diceTwo;
+  }
+  
+  public void setDiceNumber(int diceOne, int diceTwo){
+    this.diceTwo=diceTwo;
+    this.diceOne=diceOne;
+  }
   
   public Client(){
     id=defaultStartingId;
@@ -140,16 +155,18 @@ public class Client{
     
   public void myTurn(){
     System.out.println(this.getUserName()+": Start turn.");
-    if(jail_free>0){ //you have a get out of jail free card
+    if(jail_free>0 || inJail==true){ //you have a get out of jail free card
 	boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
 	if(decision){
 	   this.inJail=false;
+	   jail_free--;
 	   this.daysInJail=0;
         }
     }
     //roll dice
-    int diceOne=this.rollDice();
-    int diceTwo=this.rollDice();
+    diceOne=this.rollDice();
+    diceTwo=this.rollDice();
+    this.setDiceNumber(diceOne, diceTwo);
     
     System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
     
@@ -370,6 +387,32 @@ public class Client{
     }
     return messageObj; //answer
   }
+  
+  public JSONObject sendByeMessage(int id, String messageType, String sendMessage){
+    JSONObject messageObj=new JSONObject();
+    try {
+      JSONObject jsonMessage = new JSONObject();
+      jsonMessage.put("id",new Integer(id));
+      jsonMessage.put("messageType",messageType);
+      jsonMessage.put("message", sendMessage);
+    
+  
+      //Send the message to the server
+      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+      
+      StringWriter out = new StringWriter();
+      jsonMessage.writeJSONString(out);
+      String jsonText = out.toString();
+      
+      bw.write(jsonText);
+      bw.newLine();
+      bw.flush();
+      System.out.println("Message sent to the server : "+jsonMessage);
+    }catch (IOException exception){
+      exception.printStackTrace();
+    }
+    return messageObj; //answer
+  }
 	  
   public JSONObject decode(String message){
     JSONParser parser = new JSONParser();
@@ -478,7 +521,7 @@ public class Client{
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){
 	client.myTurn();
-	client.sendMessageToServer(client.getId(),"Bye","Bye");
+	client.sendByeMessage(client.getId(),"Bye","Bye");
       }
     }
   }
