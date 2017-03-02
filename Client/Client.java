@@ -424,6 +424,17 @@ public class Client{
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       String message = br.readLine();
       messageObj=decode(message);
+      if (messageType.equals("position")) {
+        while (String.valueOf(messageObj.get("messageType")).equals("yourTurn")) {
+          bw.write(jsonText);
+          bw.newLine();
+          bw.flush();
+
+          message = br.readLine();
+          messageObj=decode(message);
+        }
+        
+      }
       System.out.println("Message received from the server : " +message);
 
       return messageObj; //answer
