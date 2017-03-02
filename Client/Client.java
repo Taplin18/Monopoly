@@ -200,7 +200,7 @@ public class Client{
       System.out.println(this.getUserName()+": Landed on positionType "+returnedMessage.get("positionType")); 
       squareInfo = new HashMap<String, String>();
       squareInfo.put("positionType", String.valueOf(returnedMessage.get("positionType")));
-      squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
+      //squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
       if(returnedMessage.get("positionType")=="chest"){
         squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
