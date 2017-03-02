@@ -58,6 +58,7 @@ class ServerThread extends Thread {
 	private Board board = null;
 	private static HashMap <Integer, Integer> player_pos = new HashMap <Integer, Integer>();
 	private static HashMap <Integer, Integer> rent_owed = new HashMap <Integer, Integer>();
+	private static HashMap <Integer, String> player_usernames = new HashMap <Integer, String>();
 	private static int ids = 0;
 	private static boolean started = false;
 	private static boolean game_over = false;
@@ -104,6 +105,7 @@ class ServerThread extends Thread {
 					playerName = String.valueOf(player_info.get("message"));
 					players.put(String.valueOf(playerID), playerName);
 					player_names[playerID] = playerName;
+					player_usernames.put(playerID, playerName);
 					System.out.println("Name is: " + playerName);
 					
 					JSONObject new_player_id = new JSONObject();
@@ -234,6 +236,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
 									position_info.put("name", answer[4]);
 									position_info.put("picture", answer[5]);
 									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
@@ -250,6 +253,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
 									position_info.put("name", answer[4]);
 									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
@@ -262,6 +266,7 @@ class ServerThread extends Thread {
 								position_info.put("ownership", answer[1]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
+									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
 									position_info.put("name", answer[4]);
 									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
 								} else {
