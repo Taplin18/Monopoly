@@ -27,7 +27,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	* hasUserName - Boolean variable tracking whether or not the user has set a username
 	*/
 	
-	private JFrame controllingFrame; 
+	private JFrame myFrame; 
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
     	private static String RULES = "Rules";
@@ -41,11 +41,19 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * on panels and then adds them to the given JFrame.
 	 * @param f A JFrame object
 	 */
-    	public WelcomeScreen(JFrame f) {
+    	public WelcomeScreen() {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
-        	controllingFrame = f; 
-		controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
+		
+        	myFrame = new JFrame("Welcome to Zebropoly!"); 
+		myFrame.setLayout(new BoxLayout(myFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
+		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when closed
+        	contentPane.setOpaque(true); // Makes contentPane opaque 
+        	myFrame.setContentPane(contentPane); // Sets contentPane property
+		myFrame.getContentPane().setBackground(Color.black);
+        	myFrame.setSize(550, 500);
+		myFrame.setLocationRelativeTo(null);
+        	myFrame.setVisible(true); // Window is displayed
 		
 		// Initialise JLabels variable to null
 		JLabel monopolyIconLabel = null;
@@ -205,31 +213,4 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 			}
 		}
     	 }
-	
-
- 
-	/**
-	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
-	 * with this JFrame passed in as a parameter.
-	 */
-    	private static void createAndDisplay() {
-        	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
- 
-	        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        	contentPane.setOpaque(true); // Makes contentPane opaque 
-        	myFrame.setContentPane(contentPane); // Sets contentPane property
-		myFrame.getContentPane().setBackground(Color.black);
-        	myFrame.setSize(550, 500);
-        	myFrame.setVisible(true); // Window is displayed
-    	}
-	
-	/**
-	 * Main method which calls the createAndShowGUI() method.
-	 */
-    	public static void main(String[] args) {
-        
-        	createAndDisplay();
-            
-    	}
 }
