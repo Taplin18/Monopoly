@@ -113,7 +113,7 @@ class ServerThread extends Thread {
 					StringWriter out = new StringWriter();
 	         		new_player_id.writeJSONString(out);
 	         		String jsonText = out.toString();
-	         		System.out.println("first contect message: " + jsonText);
+	         		System.out.println("first contect message sent: " + jsonText);
 	         		bw.write(jsonText);
 	         		bw.newLine();
 	         		bw.flush();
@@ -201,6 +201,7 @@ class ServerThread extends Thread {
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String[] answer = a.split(" - ");
 							JSONObject position_info = new JSONObject();
+							position_info.put("messageType", "position");
 							
 							if (answer[0].equals("chest")) {
 								position_info.put("positionType", "chest");
@@ -289,7 +290,7 @@ class ServerThread extends Thread {
 							position_sent = false;
 						}
 
-						if (player_info.get("messageType").equals("Bye") && !bye_sent){
+						if (player_info.get("messageType").equals("Bye")){ //&& !bye_sent){
 							System.out.println(playerName + "'s turn is over");
 							playerTurn++;
 							if (playerTurn == maxPlayers) {
