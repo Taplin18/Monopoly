@@ -11,6 +11,7 @@ public class AuctionChat extends JPanel implements ActionListener {
 	JPanel messagePanel;
 	JPanel displayPanel;
 	private String username;
+	private String message;
 	JTextArea chatText;
 	JTextField messageField;
 	JScrollPane scrollPane;
@@ -67,11 +68,17 @@ public class AuctionChat extends JPanel implements ActionListener {
 	    JOptionPane.showMessageDialog(myFrame,
                     "You must enter at least one character in to the message field.");
         } else { // There is content in the message field
-            chatText.append("<" + username + ">:  " + messageField.getText() + "\n"); // Add the text from the message field to the chat box along with username
-	    messageField.setText(""); // Clear the message field
+            message = messageField.getText();
         }
     }
 	
+    public String getMessage() {
+        return this.message;
+  
+    public void display(String message) {
+    	chatText.append(message + "\n");
+    }
+ 	
     public static void main(String[] args) {
         AuctionChat chat = new AuctionChat();
 	chat.createAndDisplay();
