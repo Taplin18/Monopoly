@@ -195,7 +195,7 @@ class ServerThread extends Thread {
 							System.out.println("Sending player positions");
 						}
 
-						if (player_info.get("messageType").equals("position") && !position_sent) {
+						if (player_info.get("messageType").equals("position")){// && !position_sent) {
 							System.out.println("Check position: " + player_info.get("message"));
 							player_pos.put(playerID, Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
