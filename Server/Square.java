@@ -4,10 +4,10 @@ class Square {
 
 	protected Chest chest_cards;
 	protected Chance chance_cards;
-	protected Property property_info;
+	protected Server_Property property_info;
 	protected Transport transport_info;
 	protected Utility utility_info;
-	protected HashMap <Integer, Property> properties = new HashMap <Integer, Property>();
+	protected HashMap <Integer, Server_Property> properties = new HashMap <Integer, Server_Property>();
 	protected HashMap <Integer, Transport> transports = new HashMap <Integer, Transport>();
 	protected HashMap <Integer, Utility> utilities = new HashMap <Integer, Utility>();
 	protected List <List <Object>> property_values = new ArrayList < List <Object>>();
@@ -28,7 +28,7 @@ class Square {
 	public Square() {
 		chest_cards = new Chest();
 		chance_cards = new Chance();
-		property();
+		Server_Property();
 		transport();
 		utility();
 	}
@@ -77,18 +77,18 @@ class Square {
 	}
 
 	/**
-	* Buy the property and set owners id to players id
-	* @param position the property id
+	* Buy the Server_Property and set owners id to players id
+	* @param position the Server_Property id
 	* @param playerID the players id
 	*/
 	public void buy_property(int position, int playerID) {
-		Property purchase = properties.get(position);
+		Server_Property purchase = properties.get(position);
 		purchase.buy_property(playerID);
 	}
 
 	/**
 	* Get the owner ID
-	* @param position the property id
+	* @param position the Server_Property id
 	* @return the owners id
 	*/
 	public int prop_owned_by(int position) {
@@ -97,9 +97,9 @@ class Square {
 	}
 
 	/**
-	* Get the name of the property
-	* @param position the property id
-	* @return the name of the property
+	* Get the name of the Server_Property
+	* @param position the Server_Property id
+	* @return the name of the Server_Property
 	*/
 	public String prop_name(int position) {
 		property_info = properties.get(position);
@@ -107,8 +107,8 @@ class Square {
 	}
 
 	/**
-	* Get the cost to build on the property
-	* @param position the property id
+	* Get the cost to build on the Server_Property
+	* @param position the Server_Property id
 	* @return the build cost
 	*/
 	public int prop_buildCost(int position) {
@@ -117,9 +117,9 @@ class Square {
 	}
 
 	/**
-	* Get the price of the property
-	* @param position the property id
-	* @return the cost of the property
+	* Get the price of the Server_Property
+	* @param position the Server_Property id
+	* @return the cost of the Server_Property
 	*/
 	public int prop_price(int position) {
 		property_info = properties.get(position);
@@ -127,9 +127,9 @@ class Square {
 	}
 
 	/**
-	* Get the rent of the bought property
-	* @param position the property id
-	* @return the rent of the property
+	* Get the rent of the bought Server_Property
+	* @param position the Server_Property id
+	* @return the rent of the Server_Property
 	*/
 	public int prop_rent(int position) {
 		property_info = properties.get(position);
@@ -137,9 +137,9 @@ class Square {
 	}
 
 	/**
-	* Get the colour of the property (for it's grouping)
-	* @param position the property id
-	* @return the colour of the property
+	* Get the colour of the Server_Property (for it's grouping)
+	* @param position the Server_Property id
+	* @return the colour of the Server_Property
 	*/
 	public String prop_colour(int position) {
 		property_info = properties.get(position);
@@ -147,9 +147,9 @@ class Square {
 	}
 
 	/**
-	* Get the picutre name of the property
-	* @param position the property id
-	* @return the picture name of the property
+	* Get the picutre name of the Server_Property
+	* @param position the Server_Property id
+	* @return the picture name of the Server_Property
 	*/
 	public String prop_picture(int position) {
 		property_info = properties.get(position);
@@ -217,7 +217,7 @@ class Square {
 
 	/**
 	* Buy the utility and set owners id to players id
-	* @param position the property id
+	* @param position the Server_Property id
 	* @param playerID the players id
 	*/
 	public void buy_utility(int position, int playerID) {
@@ -274,8 +274,8 @@ class Square {
 		return utility_info.rent();
 	}
 
-	//Initilise the property values
-	private void property(){
+	//Initilise the Server_Property values
+	private void Server_Property(){
 		property_values.add(Arrays.asList("Mediterranean Avenue", 60, 10, "brown", 50, "med_avenue.jpg"));
 		property_values.add(Arrays.asList("Baltic Avenue", 60, 20, "brown", 50, "baltic_avenue.jpg"));
 		property_values.add(Arrays.asList("Oriental Avenue", 100, 30, "blue", 50, "oriental_avenue"));
@@ -301,7 +301,7 @@ class Square {
 
 		for (int i = 0; i < property_values.size(); i++) {
 			List <Object> values = property_values.get(i);
-			property_info = new Property((String)values.get(0), (int)values.get(1), (int)values.get(2), (String)values.get(3), (int)values.get(4), (String)values.get(5));
+			property_info = new Server_Property((String)values.get(0), (int)values.get(1), (int)values.get(2), (String)values.get(3), (int)values.get(4), (String)values.get(5));
 			properties.put(property_ids[i], property_info);
 		}
 	}
