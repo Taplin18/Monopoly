@@ -45,6 +45,7 @@ public class Client{
   private static boolean rolled_double = false;
   private String picture;
   //private CreatePopUp popUp;
+  private AuctionChat chatBox;
   private HashMap <String, String> squareInfo;
   private JSONObject possibleRent;
 
@@ -513,6 +514,8 @@ public class Client{
       System.out.println("Failed to get updated player positions: " + e);
     }
   }
+  
+  public 
 
   public boolean checkWithServer(String equals, Socket socket){
     try{
@@ -565,6 +568,8 @@ public class Client{
     //  }
     //}
     System.out.println(client.getUserName()+" received 'game has started' from server");
+    chatBox=new AuctionChat();
+    chatBox.main();
     while(!closed){
       //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
@@ -580,6 +585,12 @@ public class Client{
           client.sendByeMessage(client.getId(),"Again","Again");
         }
         client.sendByeMessage(client.getId(),"Bye","Bye");
+      }else{
+	if(chatBox.actionPerformed()){
+	  
+	}else{//listen for chat updates
+	  
+	}
       }
     }
   }
