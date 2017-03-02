@@ -10,28 +10,28 @@ import java.awt.image.BufferedImage;
  
 public class CreatePopUp extends JPanel implements ActionListener {    
 	
-    private String message;					// message - Text to be displayed about the current square
-    private String name;					// name - Name of the the property/utility/tranport square
-    private String image;					// image - Name of the image associate with the square
-    private String positionType;				// positionType - Type of square
-    private String ownership;					// ownership - Whether the property/utility/transport is owned/available
-    private int rent;						// rent - Cost of rent at an already owned square
-    private int price;						// price - Cost of buying at an availabe square
-    private int taxOwed;					// taxOwed - The tax owed at a Tax square
-    private int messageType = JOptionPane.PLAIN_MESSAGE;	// messageType - Determines style of pop-up
-    private ImageIcon popUpIcon = null;				// popUpIcon - Used to store image as ImageIcon object
-    private BufferedImage popUpImg = null;			// popUpImg - Stores image when it is being read in
-    private JFrame myFrame;					// myFrame - JFrame object which holds all other components
-    private JPanel imagePanel;					// imagePanel - Holds image components
-    private JPanel textPanel;					// textPanel - Holds text components
-    private JPanel buttonPanel;					// buttonPanel - Holds button components
-    private JLabel imageLabel;
-    private JTextArea textArea;					// textArea - Holds message to be displayed in pop-up
-    private static String OK = "OK";				// OK - String to be displayed on button
-    private static String PAY_RENT = "Pay Rent";		// PAY_RENT - String to be displayed on button
-    private static String BUY = "Buy";				// BUY - String to be displayed on button
-    private static String AUCTION = "Auction";			// AUCTION - String to be displayed on button
-    private HashMap<String, String> squareInfo;			// squareInfo - HashMap used to store square information
+    private String message;					// - Text to be displayed about the current square
+    private String name;					// - Name of the the property/utility/tranport square
+    private String image;					// - Name of the image associate with the square
+    private String positionType;				// - Type of square
+    private String ownership;					// - Whether the property/utility/transport is owned/available
+    private int rent;						// - Cost of rent at an already owned square
+    private int price;						// - Cost of buying at an availabe square
+    private int taxOwed;					// - The tax owed at a Tax square
+    private int messageType = JOptionPane.PLAIN_MESSAGE;	// - Determines style of pop-up
+    private ImageIcon popUpIcon = null;				// - Used to store image as ImageIcon object
+    private BufferedImage popUpImg = null;			// - Stores image when it is being read in
+    private JFrame myFrame;					// - JFrame object which holds all other components
+    private JPanel imagePanel;					// - Holds image components
+    private JPanel textPanel;					// - Holds text components
+    private JPanel buttonPanel;					// - Holds button components
+    private JLabel imageLabel;					// - ImageIcon is inserted here
+    private JTextArea textArea;					// - Holds message to be displayed in pop-up
+    private static String OK = "OK";				// - String to be displayed on button
+    private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
+    private static String BUY = "Buy";				// - String to be displayed on button
+    private static String AUCTION = "Auction";			// - String to be displayed on button
+    private HashMap<String, String> squareInfo;			// - HashMap used to store square information
 	
    /**
     * The details of the type of square the player is currently on is passed in as a HashMap object, which is then passed 
