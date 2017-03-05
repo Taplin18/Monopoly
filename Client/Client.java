@@ -673,7 +673,7 @@ public class Client{
 		client.setUsername(welcomeScreen.getUsername());
 	}
 	boolean start=false;
-	while(start){
+	while(!start){
 		  if(client.checkWithServer("start", socket)){
 			windowScreen.closeScreen();
 			//create board
@@ -690,11 +690,6 @@ public class Client{
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
-    //while(client.checkWithServer("start", socket)){
-    //  if(forceStart==true){ //forceStart button pressed
-    //    messageType="start";  
-    //  }
-    //}
     System.out.println(client.getUserName()+" received 'game has started' from server");
     chatBox=new AuctionChat();
     chatBox.main();
