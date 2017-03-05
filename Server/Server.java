@@ -77,7 +77,6 @@ class ServerThread extends Thread {
 	public ServerThread(Socket sock, Board board){ //, ServerThread[] threads) {
 		this.sock = sock;
 		this.board = board;
-		//this.threads = threads;
 		playerID = ids;
 		player_pos.put(playerID, 0);
 		rent_owed.put(playerID, 0);
@@ -101,6 +100,8 @@ class ServerThread extends Thread {
 			try{
 				Object obj = parser.parse(line);
 				JSONObject player_info = (JSONObject)obj;
+
+				// Get the players username and send them their new ID
 				if (playerName == null) {
 					playerName = String.valueOf(player_info.get("message"));
 					players.put(String.valueOf(playerID), playerName);
@@ -120,6 +121,8 @@ class ServerThread extends Thread {
 	         		bw.newLine();
 	         		bw.flush();
 				}
+
+				// Check if the game can start
 				if (!started) {
 					if (player_pos.size() == maxPlayers) {
 						started = true;
@@ -130,11 +133,14 @@ class ServerThread extends Thread {
 					}
 				}
 
+				// Playing the game
 				while (!game_over) {
 					if (br.ready()) {
 						line = br.readLine();
 					}
 					this.sleep(500);
+
+					// Send the number of clients playing
 					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
 						JSONObject numPlayers = new JSONObject();
 						numPlayers.put("number", String.valueOf(maxPlayers));
@@ -149,6 +155,8 @@ class ServerThread extends Thread {
 		         		bw.flush();
 		         		num_players_sent = true;
 					}
+
+					// Let the client know that it their turn
 					if(started && playerID == playerTurn){
 						if (!turn_sent) {
 							System.out.println("\nPlayer is: " + playerName);
@@ -169,6 +177,8 @@ class ServerThread extends Thread {
 
 						obj = parser.parse(line);
 						player_info = (JSONObject) obj;
+
+						// Send the rent that is due to a client
 						if (player_info.get("messageType").equals("rentDue")) {
 							JSONObject rent = new JSONObject();
 							rent.put("rent", String.valueOf(rent_owed.get(playerID)));
@@ -182,6 +192,8 @@ class ServerThread extends Thread {
 							bw.flush();
 							System.out.println("Sending rent");
 						}
+
+						// Send the position of the players to update the current players board
 						if (player_info.get("messageType").equals("playersPositions")) {
 							JSONObject the_players_pos = new JSONObject();
 							for (int i = 0; i < maxPlayers; i++) {
@@ -190,13 +202,15 @@ class ServerThread extends Thread {
 							StringWriter sendPlayerPos = new StringWriter();
 			         		the_players_pos.writeJSONString(sendPlayerPos);
 			         		String play_pos = sendPlayerPos.toString();
-			         		System.out.println("sendRent: " + play_pos);
+			         		System.out.println("sendPlayerPos: " + play_pos);
 			         		bw.write(play_pos);
 							bw.newLine();
 							bw.flush();
 							System.out.println("Sending player positions");
 						}
 
+						// Check the position the player has landed on and
+						// send that positions information
 						if (player_info.get("messageType").equals("position")){// && !position_sent) {
 							System.out.println("Check position: " + player_info.get("message"));
 							player_pos.put(playerID, Integer.valueOf(String.valueOf(player_info.get("message"))));
@@ -239,7 +253,8 @@ class ServerThread extends Thread {
 									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
 									position_info.put("name", answer[4]);
 									position_info.put("picture", answer[5]);
-									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+									int new_rent = rent_owed.get(Integer.valueOf(answer[3]) + Integer.valueOf(answer[2]));
+									rent_owed.put(Integer.valueOf(answer[3]), new_rent);
 								} else {
 									position_info.put("name", answer[2]);
 									position_info.put("colour", answer[3]);
@@ -255,7 +270,8 @@ class ServerThread extends Thread {
 									position_info.put("rent", answer[2]);
 									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
 									position_info.put("name", answer[4]);
-									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+									int new_rent = rent_owed.get(Integer.valueOf(answer[3]) + Integer.valueOf(answer[2]));
+									rent_owed.put(Integer.valueOf(answer[3]), new_rent);
 								} else {
 									position_info.put("name", answer[2]);
 									position_info.put("price", answer[3]);
@@ -268,7 +284,8 @@ class ServerThread extends Thread {
 									position_info.put("rent", answer[2]);
 									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
 									position_info.put("name", answer[4]);
-									rent_owed.put(Integer.valueOf(answer[3]), Integer.valueOf(answer[2]));
+									int new_rent = rent_owed.get(Integer.valueOf(answer[3]) + Integer.valueOf(answer[2]));
+									rent_owed.put(Integer.valueOf(answer[3]), new_rent);
 								} else {
 									position_info.put("name", answer[2]);
 									position_info.put("price", answer[3]);
@@ -290,11 +307,12 @@ class ServerThread extends Thread {
 							position_sent = true;
 						} 
 
-						if (player_info.get("messageType").equals("Again")){
+						/*if (player_info.get("messageType").equals("Again")){
 							System.out.println(playerName + " rolls again");
 							position_sent = false;
-						}
+						}*/
 
+						// End the current players turn
 						if (player_info.get("messageType").equals("Bye")){ //&& !bye_sent){
 							System.out.println(playerName + "'s turn is over");
 							playerTurn++;
@@ -306,9 +324,6 @@ class ServerThread extends Thread {
 							bye_sent = true;
 						}
 					}
-					/*if (br.ready()) {
-						line = br.readLine();
-					}*/
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
