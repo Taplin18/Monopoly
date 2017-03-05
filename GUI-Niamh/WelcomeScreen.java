@@ -44,7 +44,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * on panels and then adds them to the given JFrame.
 	 * @param f A JFrame object
 	 */
-    public WelcomeScreen(JFrame f) {
+    	 public WelcomeScreen(JFrame f) {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
         	controllingFrame = f; 
@@ -94,7 +94,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
                 5, 
                 20);
         	textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
-        	textArea.setBackground(Color.BLACK);
+       		textArea.setBackground(Color.BLACK);
 		textArea.setForeground(Color.WHITE);
 		textArea.setLineWrap(true);						// Set various attributes as required
         	textArea.setWrapStyleWord(true);
@@ -164,7 +164,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		welcomeMessagePanel.setForeground(Color.WHITE);
 		
 		// Add user name components to user name panel
-        	userNamePanel.add(userNameLabel);
+       	 	userNamePanel.add(userNameLabel);
         	userNamePanel.add(userNameField);
 		userNamePanel.add(createNameButton);
 		
@@ -202,11 +202,9 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand(); // Store value of command
  
-        if (CREATE_NAME.equals(command)) { 
-            String newUserName = userNameField.getText(); // Get content of user name text field
-            if (newUserName.trim().isEmpty() == false) { // If at least one character has been entered into the field
-				// Code to store user name somewhere 
-				hasUserName = true; // Marks that user name has been set
+        if (CREATE_NAME.equals(command)) { // The user wants to create a username
+            username = userNameField.getText(); // Get content of user name text field
+            if (username != "") { // If at least one character has been entered into the field
                 JOptionPane.showMessageDialog(controllingFrame,
                     "Success! You have successfully created a new user name.");	// Display success message
 			} else { // If the user name field was empty
@@ -215,9 +213,9 @@ public class WelcomeScreen extends JPanel implements ActionListener {
         } else if (RULES.equals(command)) { //The user wishes to view the rules
             JOptionPane.showMessageDialog(controllingFrame,
                 "Here are the rules."); // Insert rules here	
-        } else {
-			if (hasUserName == false) { // Only allow user to proceed if they have created a user name
-				JOptionPane.showMessageDialog(controllingFrame, "You must create a user name before beginning.");
+        } else { // Force Start button was pressed
+			if (readyToStart == false) { // Only allow user to proceed if they have created a user name
+				JOptionPane.showMessageDialog(controllingFrame, "You cannot start yet. Please be sure that you have created at least two players.");
 			} else {
 				// Launch game
 			}
