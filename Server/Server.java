@@ -156,6 +156,23 @@ class ServerThread extends Thread {
 		         		num_players_sent = true;
 					}
 
+					// Send the position of the players to update the current players board
+					if (player_info.get("messageType").equals("playersPositions")) {
+						JSONObject the_players_pos = new JSONObject();
+						for (int i = 0; i < maxPlayers; i++) {
+							the_players_pos.put(String.valueOf(i), String.valueOf(player_pos.get(i)));
+						}
+						the_players_pos.put("messageType", "playersPositions");
+						StringWriter sendPlayerPos = new StringWriter();
+		         		the_players_pos.writeJSONString(sendPlayerPos);
+		         		String play_pos = sendPlayerPos.toString();
+		         		System.out.println("sendPlayerPos: " + play_pos);
+		         		bw.write(play_pos);
+						bw.newLine();
+						bw.flush();
+						System.out.println("Sending player positions");
+					}
+
 					// Let the client know that it their turn
 					if(started && playerID == playerTurn){
 						if (!turn_sent) {
@@ -181,6 +198,7 @@ class ServerThread extends Thread {
 						// Send the rent that is due to a client
 						if (player_info.get("messageType").equals("rentDue")) {
 							JSONObject rent = new JSONObject();
+							rent.put("messageType", "rent");
 							rent.put("rent", String.valueOf(rent_owed.get(playerID)));
 							rent.put("id", String.valueOf(playerID));
 							StringWriter sendRent = new StringWriter();
