@@ -48,7 +48,7 @@ public class Client{
   private AuctionChat chatBox;
   private WelcomeScreen welcomeScreen;
   private HashMap <String, String> squareInfo;
-  private JSONObject possibleRent;
+  private static JSONObject possibleRent;
 
   /**
   * Getter method for returning the number dice one has rolled on.
@@ -105,7 +105,7 @@ public class Client{
   * @param String username
   */
   public void setUsername(String username){
-	this.username=username;
+    this.username=username;
   }
 
   /**
@@ -516,7 +516,7 @@ public class Client{
       String message = br.readLine();
       messageObj=decode(message);
       if (messageType.equals("position")) {
-        while (String.valueOf(messageObj.get("messageType")).equals("yourTurn")) {
+        while (!String.valueOf(messageObj.get("messageType")).equals("position")) {
           bw.write(jsonText);
           bw.newLine();
           bw.flush();
@@ -619,7 +619,7 @@ public class Client{
     try {
       JSONObject obj=this.sendMessageToServer(this.getId(), "playersPositions", "playersPositions");
       for(int i=0;i<this.getNumberOfPlayers();i++){
-        int playerPosition= Integer.valueOf(String.valueOf(obj.get(i)));
+        int playerPosition= Integer.valueOf(String.valueOf(obj.get(String.valueOf(i))));
         playersPositions.put(i,playerPosition);
       }
     } catch (Exception e) {
@@ -694,21 +694,22 @@ public class Client{
     chatBox=new AuctionChat();
     chatBox.main();
     while(!closed){
-      //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
 	  if (!getNumPlayers) {
 	    client.makeListOfPlayers();
 	    getNumPlayers = true;
 	  }
-	  //possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
-	  //client.addMoney(possibleRent.get("rent"));
+	  possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
+	  client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
 	  client.myTurn();
 	  if (rolled_double) {
 	    client.sendByeMessage(client.getId(),"Again","Again");
 	  }
 	  client.sendByeMessage(client.getId(),"Bye","Bye");	
-      }
+      } //else {
+	  //client.updatePlayersPositions();//get updated info of positions from server
+      //}
     }
   }
 }
