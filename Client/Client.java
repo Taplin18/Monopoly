@@ -42,7 +42,6 @@ public class Client{
   private JSONParser parser = new JSONParser();
   private int diceOne;
   private int diceTwo;
-  private static boolean rolled_double = false;
   private String picture;
   //private CreatePopUp popUp;
   private AuctionChat chatBox;
@@ -222,9 +221,6 @@ public class Client{
     diceTwo=this.rollDice();
     this.setDiceNumber(diceOne, diceTwo);
     System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
-    if (diceOne == diceTwo) {
-      rolled_double = true;
-    }
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didn't roll double
       daysInJail++;
       if(this.daysInJail==3){
@@ -524,6 +520,15 @@ public class Client{
           message = br.readLine();
           messageObj=decode(message);
         }
+      } else if (messageType.equals("rentDue")) {
+        while (!String.valueOf(messageObj.get("messageType")).equals("rent")) {
+          bw.write(jsonText);
+          bw.newLine();
+          bw.flush();
+
+          message = br.readLine();
+          messageObj=decode(message);
+        }
         
       }
       System.out.println("Message received from the server : " +message);
@@ -636,20 +641,13 @@ public class Client{
     try{
       InputStream is = socket.getInputStream();
       InputStreamReader isr = new InputStreamReader(is);
-      //System.out.println("0");
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      //System.out.println("1");
-      //if(br.ready()){
         String message = br.readLine();
         System.out.println("message: "+message);
-        System.out.println("2");
         JSONObject messageObj=decode(message);
-        System.out.println("3");
         if(messageObj.get("messageType").equals(equals)){
-          System.out.println("4");
           return true;
         }else{
-          System.out.println("5");
           return false;
         }
     }catch(Exception e){
@@ -702,10 +700,8 @@ public class Client{
 	  }
 	  possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
 	  client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
+	  //client.updatePlayersPositions();//get updated info of positions from server
 	  client.myTurn();
-	  if (rolled_double) {
-	    client.sendByeMessage(client.getId(),"Again","Again");
-	  }
 	  client.sendByeMessage(client.getId(),"Bye","Bye");	
       } //else {
 	  //client.updatePlayersPositions();//get updated info of positions from server
