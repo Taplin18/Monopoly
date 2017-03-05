@@ -9,7 +9,7 @@ import org.json.simple.parser.JSONParser;
 import java.util.*; 
 
 public class Client{
-  public String message; //answer
+//  public String message; //answer
   private int money;
   private int id;
   private int[] sitesOwned = new int[noOfSites];
@@ -45,27 +45,43 @@ public class Client{
   private static boolean rolled_double = false;
   private String picture;
   //private CreatePopUp popUp;
+  private AuctionChat chatBox;
+  private WelcomeScreen welcomeScreen;
   private HashMap <String, String> squareInfo;
   private JSONObject possibleRent;
 
+  /**
+  * Getter method for returning the number dice one has rolled on.
+  * @return integer
+  */
   public int getDiceOne(){
     return this.diceOne;
   }
 
+  /**
+  * Getter method for returning the number dice two has rolled on.
+  * @return integer
+  */
   public int getDiceTwo(){
     return this.diceTwo;
   }
 
+  /**
+  * Setter method for dice one and dice two.
+  * @param integer diceOne, integer diceTwo
+  */
   public void setDiceNumber(int diceOne, int diceTwo){
     this.diceTwo=diceTwo;
     this.diceOne=diceOne;
   }
 
+  /**
+  * Constructor initialising client id, money, position, coloursOwned and the total number of each colour property
+  */
   public Client(){
     id=defaultStartingId;
     money=startMoney;
     position=startPosition;
-    this.userName();
 
     coloursOwned.put("red", 0);
     coloursOwned.put("orange", 0);
@@ -83,55 +99,67 @@ public class Client{
     coloursTotal.put("pink", 3);
     coloursTotal.put("brown", 2);
   }
-
-  public void userName(){
-    System.out.print("Enter your username: ");
-    Scanner scanner = new Scanner(System.in);
-    String username = scanner.nextLine();
-    while(username.equals("")){
-      System.out.print("Enter your username: ");
-      username = scanner.nextLine();
-    }
-    userName = username;
-    System.out.println("Your username is " + username);
+  
+  /**
+  * Setter method for client's username.
+  * @param String username
+  */
+  public void setUsername(String username){
+	this.username=username;
   }
 
-  public String getUserName(){
-    return this.userName;
-  }
-
+  /**
+  * Getter method for client's money.
+  * @param integer money
+  */
   public int getMoney(){
     return money;
   }
 
-  public int[] getSitesOwned(){
-    return sitesOwned;
-  }
-
+  /**
+  * Getter method for client's id.
+  * @return integer id
+  */
   public int getId(){
     return id;
   }
 
+  /**
+  * Setter method for client's money.
+  * @param integer money amount
+  */
   public void setMoney(int amount){
     money=amount;
   }
 
+  /**
+  * Adds an amount of money to client's money.
+  * @param integer money amount
+  */
   public void addMoney(int amount){
     money=money+amount;
   }
-
+  
+  /**
+  * Subtracts an amount of money from client's money.
+  * @param integer money amount
+  */
   public void subMoney(int amount){
     money=money+(amount);
   }
 
-  public void addSite(int idOfSite){ //server has array of all Sites that corrosponds with this id
-    sitesOwned[siteArrayPointer]=idOfSite;
-  }
-
+  /**
+  * Setter method for client's id.
+  * @param integer id
+  */
   public void setId(int number){
     id=number;
   }
 
+  /**
+  * Adds an amount of spaces moved to client's current position.
+  * @param integer number dice rolled
+  */
   public void addPosition(int number){
     if (position + number >= 40) {
       position += number - 40;
@@ -140,25 +168,46 @@ public class Client{
     }
   }
 
+  /**
+  * Getter method for client's position.
+  * @return integer position
+  */
   public int getPosition(){
     return position;
   }
 
+  /**
+  * Setter method for client's position.
+  * @param integer position
+  */
   public void setPosition(int number){
     position=number;
   }
 
+  /**
+  * Sends a first contact message to the server.
+  */
   public void firstContactServer(String messageType){
     try {
-      JSONObject obj = this.sendMessageToServer(this.getId(), messageType, this.getUserName());
-      String mess = String.valueOf(obj.get("id"));
+      JSONObject obj = this.sendMessageToServer(this.getId(), messageType, this.getUserName()); //stores the returned reply message from the server
+      String mess = String.valueOf(obj.get("id")); //gets the value that is linked to "id" key from the reply JSON message
       int newId = Integer.valueOf(mess);
-      this.setId(newId); //gets ID
+      this.setId(newId); //sets id
     } catch (Exception e) {
       System.out.println("Failed to get new ID: " + e);
     }
   }
 
+  /**
+  * method which pertains to the client's turn. The following occurs:
+  * 	1) Checks are made to see if the players is in jail (and if so whether he has a get out of jail free card).
+  *		2) Client rolls dice.
+  *		3) Records if client rolled a double.
+  *		4) Checks are made in relation to jail.
+  *		5) Message is sent to the server regarding the client's position.
+  *		6) Server replies with position type and checks are made regarding the appropriate action the user makes according to the position type (property, transport, utility, chest, chance).
+  *		&) Further action is taken in relation to doubles and jail.
+  */
   public void myTurn(){
     System.out.println("\n"+this.getUserName()+": Start turn.");
     if(jail_free>0 || inJail==true){ //you have a get out of jail free card
@@ -169,19 +218,14 @@ public class Client{
         this.daysInJail=0;
       }
     }
-    //roll dice
     diceOne=this.rollDice();
     diceTwo=this.rollDice();
-
     this.setDiceNumber(diceOne, diceTwo);
-
     System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
-
     if (diceOne == diceTwo) {
       rolled_double = true;
     }
-
-    if(this.inJail==true && diceOne!=diceTwo){ //in jail and didnt roll double
+    if(this.inJail==true && diceOne!=diceTwo){ //in jail and didn't roll double
       daysInJail++;
       if(this.daysInJail==3){
         this.inJail=false;
@@ -201,16 +245,20 @@ public class Client{
       squareInfo.put("positionType", String.valueOf(returnedMessage.get("positionType")));
       //squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
       if(returnedMessage.get("positionType")=="chest"){
+        squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
         if(returnedMessage.get("chestType")=="jail"){
           if(returnedMessage.get("jailType")=="out"){
             this.jail_free++;
+            squareInfo.put("jailType", "out");
             //popUp = new CreatePopUp(squareInfo);
           }else{
+            squareInfo.put("jailType", "in");
             //popUp = new CreatePopUp(squareInfo);
             this.setPosition(jailPosition);
           }
         }else{ //money
+          squareInfo.put("chestAmount", String.valueOf(returnedMessage.get("chestAmount")));
           //popUp = new CreatePopUp(squareInfo);
           if(returnedMessage.get("chestType")=="add"){
             this.addMoney(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
@@ -268,8 +316,10 @@ public class Client{
         squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
         if(returnedMessage.get("chanceType")=="jail"){
+          squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
           //popUp = new CreatePopUp(squareInfo);
           if(returnedMessage.get("jailType")=="out"){
+            squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
             //popUp = new CreatePopUp(squareInfo);
             jail_free++;
           }else{
@@ -277,7 +327,7 @@ public class Client{
           }
         }else{ //go to position...
           //String messageToDisplay= String.valueOf(returnedMessage.get("message")); //display on GUI
-          
+          squareInfo.put("chancePosition", String.valueOf(returnedMessage.get("chancePosition")));
           //popUp = new CreatePopUp(squareInfo);
           int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
@@ -305,13 +355,17 @@ public class Client{
     }
   }
 
+  /**
+  * Builds house on property in parameter
+  * @param Property property
+  */
   public void build(Property property){
     if(property.getType()=="site"){
       if(this.getMoney()<property.getHouseCost()){
         System.out.println("You do not have enough money");
       }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
         System.out.println("You do not own all of the colour "+property.getColour()+" sites.");
-      }else if(property.getNumOfHouses()==5){ //you have aready built max amount
+      }else if(property.getNumOfHouses()==5){ //you have already built max amount
         System.out.println("You have built the maximum amount.");
       }else{
         this.sendMessageToServer(this.getId(), "incNumOfHouses", String.valueOf(property.getId()));
@@ -320,11 +374,18 @@ public class Client{
     }
   }
 
+  /**
+  * Sets client's position to jail.
+  */
   public void goToJail(){
     this.setPosition(jailPosition);
     this.inJail=true;
   }
 
+  /**
+  * Moves client's position to specified position number
+  * @param integer diceOne, integer diceTwo
+  */
   public void moveToPosition(int diceOne, int diceTwo){
     int prevPosition=this.getPosition();
     this.addPosition(diceOne+diceTwo);
@@ -333,6 +394,10 @@ public class Client{
     }
   }
 
+  /**
+  * Gives client the option to buy property, checks whether it has the money, records related information.
+  * @param Property property
+  */
   public void optionToBuy(Property property){
     //DISPLAY POP UP WINDOW OF CARD DETAILS
     String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
@@ -353,6 +418,10 @@ public class Client{
     }
   }
 
+  /**
+  * Allows client to pay a specified amount of money. Allows checks to see if the client is in debt after the payment and allows the client to pay off its debt.
+  * @param integer amount
+  */
   public void pay(int amount){
     this.subMoney(amount);
     if(this.getMoney()<0){
@@ -366,15 +435,30 @@ public class Client{
     }
   }
 
+  /**
+  * Getter method for getting the cost of the property.
+  * @return integer
+  * @param integer position
+  */
   public int getCostOfProperty(int position){
     return properties.get(position).getPrice();
   }
 
+  /**
+  * Allows the client to sell houses on a specified property.
+  * @param Property property
+  * @return integer money gained
+  */
   public int sellHouse(Property property){
     this.sendMessageToServer(this.getId(), "decNumOfHouses", String.valueOf(property.getId()));
     return property.decNumOfHouses();
   }
 
+  /**
+  * Allows the client to sell a site.
+  * @param Property property
+  * @return integer money gained
+  */
   public int sellSite(Property property){
     //auction
     this.sendMessageToServer(this.getId(), "sell", String.valueOf(property.getId())); //sends the id of the property to the server
@@ -383,17 +467,30 @@ public class Client{
 
   //public void bid
 
+  /**
+  * Allows the client buy property.
+  * @param integer property's id, integer cost
+  */
   public void buyProperty(int property_ID, int cost){
     this.subMoney(cost);
     this.sendMessageToServer(this.getId(), "buy", String.valueOf(this.getPosition()));
   }
 
+  /**
+  * Allows the client to roll dice.
+  * @return integer number dice landed on
+  */
   public int rollDice(){
     Random randomGenerator = new Random();
     int randomInt = randomGenerator.nextInt(6);
     return randomInt+1;
   }
 
+  /**
+  * Encodes message in a JSON object and sends it to the server via a Java socket. Decodes the reply message from the server and returns it.
+  * @param integer client id, String  messageType, String sendMessage
+  * @return JSONObject reply from server
+  */
   public JSONObject sendMessageToServer(int id, String messageType, String sendMessage){
     JSONObject messageObj=new JSONObject();
     try {
@@ -438,7 +535,11 @@ public class Client{
     return messageObj; //answer
   }
 
-  public JSONObject sendByeMessage(int id, String messageType, String sendMessage){
+  /**
+  * Client's sends bye message to server and doesn't wait for a response.
+  * @param integer client id, String messageType, String sendMessage
+  */
+  public void sendByeMessage(int id, String messageType, String sendMessage){
     JSONObject messageObj=new JSONObject();
     try {
       JSONObject jsonMessage = new JSONObject();
@@ -461,6 +562,11 @@ public class Client{
     return messageObj; //answer
   }
 
+  /**
+  * Decodes server's reply into a JSON object
+  * @param String message
+  * @return JSONObject
+  */
   public JSONObject decode(String message){
     JSONParser parser = new JSONParser();
     JSONObject obj2=new JSONObject();
@@ -474,19 +580,29 @@ public class Client{
     return obj2;
   }
 
+  /**
+  * Setter method for number of players
+  * @param integer number
+  */
   public void setNumberOfPlayers(int number){
     this.setNumberOfPlayers=number;
   }
 
+  /**
+  * Getter method for number of players
+  * @return integer number of players
+  */
   public int getNumberOfPlayers(){
     return this.setNumberOfPlayers;
   }
 
+  /**
+  * Learns from the server how many players there are and sets all of their position values in the hashmap as the startPosition.
+  */
   public void makeListOfPlayers(){
     try {
       JSONObject message = this.sendMessageToServer(this.getId(), "noOfPlayers", "noOfPlayers");
       int noOfPlayers=Integer.valueOf(String.valueOf(message.get("number")));
-
       this.setNumberOfPlayers(noOfPlayers);
     } catch (Exception e) {
       System.out.println("Failed to get number of players: " + e);
@@ -496,6 +612,9 @@ public class Client{
     }
   }
 
+  /**
+  * Updates the player positions.
+  */
   public void updatePlayersPositions(){
     try {
       JSONObject obj=this.sendMessageToServer(this.getId(), "playersPositions", "playersPositions");
@@ -507,9 +626,12 @@ public class Client{
       System.out.println("Failed to get updated player positions: " + e);
     }
   }
-  
-  public 
 
+  /**
+  * Sends a message to the server checking a certain condition.
+  * @param String equals, Socket socket
+  * @return boolean
+  */
   public boolean checkWithServer(String equals, Socket socket){
     try{
       InputStream is = socket.getInputStream();
@@ -523,16 +645,13 @@ public class Client{
         System.out.println("2");
         JSONObject messageObj=decode(message);
         System.out.println("3");
-        if(messageObj.get("messageType").equals("yourTurn")){
+        if(messageObj.get("messageType").equals(equals)){
           System.out.println("4");
           return true;
         }else{
           System.out.println("5");
           return false;
         }
-      //}else{
-      //  return false;
-      //}
     }catch(Exception e){
       return false;
     }
@@ -548,7 +667,23 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
-
+	
+	welcomeScreen = new WelcomeScreen();
+	do-while (welcomeScreen.getUsername()==""){
+		client.setUsername(welcomeScreen.getUsername());
+	}
+	boolean start=false;
+	while(start){
+		  if(client.checkWithServer("start", socket)){
+			windowScreen.closeScreen();
+			//create board
+			start=true;
+		  }else if(windowScreen.getForceStart()){
+			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
+			//create board
+			start=true;
+		  }
+	}
     String messageType="firstContact";
     System.out.println(client.getUserName()+" sending firstContact");
     client.firstContactServer(messageType);
@@ -561,21 +696,23 @@ public class Client{
     //  }
     //}
     System.out.println(client.getUserName()+" received 'game has started' from server");
+    chatBox=new AuctionChat();
+    chatBox.main();
     while(!closed){
       //client.updatePlayersPositions();//get updated info of positions from server
       //display info on GUI
-      if(client.checkWithServer("yourTurn", socket)){
-        if (!getNumPlayers) {
-          client.makeListOfPlayers();
-          getNumPlayers = true;
-        }
-        //possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
-        //client.addMoney(possibleRent.get("rent"));
-        client.myTurn();
-        if (rolled_double) {
-          client.sendByeMessage(client.getId(),"Again","Again");
-        }
-        client.sendByeMessage(client.getId(),"Bye","Bye");
+      if(client.checkWithServer("yourTurn", socket)){ //my turn
+	  if (!getNumPlayers) {
+	    client.makeListOfPlayers();
+	    getNumPlayers = true;
+	  }
+	  //possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
+	  //client.addMoney(possibleRent.get("rent"));
+	  client.myTurn();
+	  if (rolled_double) {
+	    client.sendByeMessage(client.getId(),"Again","Again");
+	  }
+	  client.sendByeMessage(client.getId(),"Bye","Bye");	
       }
     }
   }
