@@ -1,21 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @stephenhannon01
- Sign out
- Watch 2
-  Star 0
-  Fork 0 Taplin18/Project
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Pulse  Graphs
-Branch: master Find file Copy pathProject/Client/Client.java
-eb26b6f  19 hours ago
-@Taplin18 Taplin18 Update Client.java
-3 contributors @stephenhannon01 @Taplin18 @nimar21
-RawBlameHistory     
-712 lines (661 sloc)  24.6 KB
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -730,6 +712,3 @@ public class Client{
       //}
     }
   }
-}
-Contact GitHub API Training Shop Blog About
-© 2017 GitHub, Inc. Terms Privacy Security Status Help
