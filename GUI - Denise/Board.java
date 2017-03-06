@@ -14,7 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import static monopoly3.Buttons.client;
 
-
+/**
+ * The board class is used to display the monopoly board image, as well as draw the player
+ * @author cascadafreak07
+ */
 class Board extends JPanel implements ActionListener {
 
     //Timer for the game loop
@@ -27,7 +30,10 @@ class Board extends JPanel implements ActionListener {
     static ArrayList<Points> array = new ArrayList<Points>();
     
     BufferedImage[]playerImages;
-    
+
+    /**
+     * The Board Constructor, the board image is loaded and added to be displayed on the JPanel
+     */
     public Board() {
         //Initiliazing the variables
         t = new Timer(10, this);
@@ -49,7 +55,9 @@ class Board extends JPanel implements ActionListener {
         p.setPlayer(playerImages[client.getId()]);
         
     }      
-    
+    /**
+     * Possible positions on board are added to an ArrayList
+     */
     //Populating the array with possible board positions
     public void boardPositions(){
         Points p;
@@ -95,7 +103,10 @@ class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {        
         repaint();
     }
-    
+    /**
+     * The paintComponent method is responsible for drawing of both the player and the board on screen
+     * @param g 
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(img, 0, 0, 900, 800, this);
