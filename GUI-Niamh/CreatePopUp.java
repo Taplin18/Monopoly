@@ -118,7 +118,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
             }
 			
         // Read in image file
-	/*try {
+	try {
 	    popUpImg = ImageIO.read(new File(image));
 	    popUpIcon = new ImageIcon(popUpImg);
 	    Image myImage = popUpIcon.getImage(); 
@@ -133,7 +133,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	imagePanel = new JPanel(new FlowLayout());
 	imagePanel.setBackground(Color.BLACK);
 	imagePanel.setOpaque(true);	
-	imagePanel.add(imageLabel); */
+	imagePanel.add(imageLabel); 
 		
 	textArea = new JTextArea(message, 5, 20);
         textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
