@@ -568,7 +568,6 @@ public class Client{
     }catch (IOException exception){
       exception.printStackTrace();
     }
-    return messageObj; //answer
   }
 
   /**
