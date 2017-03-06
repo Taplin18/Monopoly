@@ -123,6 +123,8 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
 	    
+	FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
+	    
 	JLabel monopolyIconLabel = null;
 	JLabel messageLabel = null;
 	JLabel userNameLabel = null;
