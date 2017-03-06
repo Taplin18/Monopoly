@@ -41,13 +41,18 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	private String username = "";
 	private boolean forceStartState = false;
 	private boolean readyToStart = false;
+	private String message = "";
 	
 	/**
 	 * Constructor method which creates and sets up various fields/labels
 	 * on panels and then adds them to the given JFrame.
 	 * @param f A JFrame object
 	 */
-    	 public WelcomeScreen(JFrame f) {
+    	 public WelcomeScreen() {
+		createAndDisplay(); 
+	 }
+	
+	 public void setUp(JFrame f) {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
         	controllingFrame = f; 
@@ -232,24 +237,26 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
 	 * with this JFrame passed in as a parameter.
 	 */
-    private static void createAndDisplay() {
+    private void createAndDisplay() {
         JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        contentPane.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(contentPane); // Sets contentPane property
+        //final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        //contentPane.setOpaque(true); // Makes contentPane opaque 
+        //myFrame.setContentPane(contentPane); // Sets contentPane property
 	myFrame.getContentPane().setBackground(Color.black);
         myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
+	    
+	setUp(myFrame);
     }
 	
 	/**
 	 * Main method which calls the createAndDisplay() method.
 	 */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         
         createAndDisplay();
             
-    }
+    }*/
 }
