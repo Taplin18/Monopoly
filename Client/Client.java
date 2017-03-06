@@ -697,6 +697,9 @@ public class Client{
 	  System.out.println(" username gone done gotten and set hopefree");
 	System.out.println("Username: "+client.getUserName());
 	boolean start=false;
+	String messageType="firstContact";
+        System.out.println(client.getUserName()+" sending firstContact");
+        client.firstContactServer(messageType);
 	while(!start){
 		System.out.println("I is in loop yass");
 		  if(client.checkWithServer("start", socket)){
