@@ -671,9 +671,9 @@ public class Client{
     Client client= new Client();
 	
 	welcomeScreen = new WelcomeScreen();
-	do-while (welcomeScreen.getUsername()==""){
+	do{
 		client.setUsername(welcomeScreen.getUsername());
-	}
+	} while (welcomeScreen.getUsername()=="");
 	boolean start=false;
 	while(!start){
 		  if(client.checkWithServer("start", socket)){
@@ -712,3 +712,4 @@ public class Client{
       //}
     }
   }
+}
