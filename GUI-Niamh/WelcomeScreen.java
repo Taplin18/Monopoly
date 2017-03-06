@@ -38,6 +38,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	private String username = "";
 	private boolean forceStartState = false;
 	private boolean readyToStart = false;
+	private boolean existsUsername = false;
 	
 	/**
 	 * Constructor method which creates and sets up various fields/labels
@@ -192,7 +193,15 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     }
    
     public void closeScreen() {
-        myFrame.dispose();
+        controllingFrame.dispose();
+    }
+	
+    public boolean getExistsUsername() {
+    	return existsUsername;
+    }
+	
+    public void setExistsUsername(boolean y) {
+    	existsUsername = y;
     }
  
 	/**
@@ -204,22 +213,23 @@ public class WelcomeScreen extends JPanel implements ActionListener {
  
         if (CREATE_NAME.equals(command)) { // The user wants to create a username
             username = userNameField.getText(); // Get content of user name text field
-            if (username != "") { // If at least one character has been entered into the field
+            if (username.trim().isEmpty() == false) { // If at least one character has been entered into the field
                 JOptionPane.showMessageDialog(controllingFrame,
                     "Success! You have successfully created a new user name.");	// Display success message
-			} else { // If the user name field was empty
-				JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
-			}
+		    setExistsUsername(true);
+	    } else { // If the user name field was empty
+		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
+	    }
         } else if (RULES.equals(command)) { //The user wishes to view the rules
             JOptionPane.showMessageDialog(controllingFrame,
                 "Here are the rules."); // Insert rules here	
         } else { // Force Start button was pressed
-			if (readyToStart == false) { // Only allow user to proceed if they have created a user name
-				JOptionPane.showMessageDialog(controllingFrame, "You cannot start yet. Please be sure that you have created at least two players.");
-			} else {
-				// Launch game
-			}
+	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
+			JOptionPane.showMessageDialog(controllingFrame, "You cannot start yet. Please be sure that you have created at least two players.");
+		} else {
+			// Launch game
 		}
+	}
     }
 	
 
