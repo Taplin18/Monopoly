@@ -195,14 +195,6 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     public void closeScreen() {
         controllingFrame.dispose();
     }
-	
-    public boolean getExistsUsername() {
-    	return existsUsername;
-    }
-	
-    public void setExistsUsername(boolean y) {
-    	existsUsername = y;
-    }
  
 	/**
 	 * Method which checks what command was made by the user and then responds appropriately.
@@ -212,11 +204,11 @@ public class WelcomeScreen extends JPanel implements ActionListener {
         String command = e.getActionCommand(); // Store value of command
  
         if (CREATE_NAME.equals(command)) { // The user wants to create a username
-            username = userNameField.getText(); // Get content of user name text field
-            if (username.trim().isEmpty() == false) { // If at least one character has been entered into the field
+            if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
                 JOptionPane.showMessageDialog(controllingFrame,
                     "Success! You have successfully created a new user name.");	// Display success message
-		    setExistsUsername(true);
+		    username = userNameField.getText()
+	            setReadyState(true);
 	    } else { // If the user name field was empty
 		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
 	    }
@@ -225,9 +217,9 @@ public class WelcomeScreen extends JPanel implements ActionListener {
                 "Here are the rules."); // Insert rules here	
         } else { // Force Start button was pressed
 	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
-			JOptionPane.showMessageDialog(controllingFrame, "You cannot start yet. Please be sure that you have created at least two players.");
+			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
 		} else {
-			// Launch game
+		    forceStartState = true;
 		}
 	}
     }
