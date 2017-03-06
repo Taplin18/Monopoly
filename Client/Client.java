@@ -680,7 +680,7 @@ public class Client{
 	boolean start=false;
 	while(!start){
 		  if(client.checkWithServer("start", socket)){
-			windowScreen.closeScreen();
+			welcomeScreen.closeScreen();
 			//create board
 			start=true;
 		  }else if(windowScreen.getForceStart()){
