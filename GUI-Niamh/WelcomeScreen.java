@@ -9,15 +9,15 @@ import java.awt.image.BufferedImage;
 
 /**
  * Class which displays a welcome screen to the user which offers the following options:
- * 	- Create User Name: The user types and submits the user name they would like for the game.
+ *  - Create User Name: The user types and submits the user name they would like for the game.
  *  - Force Start: The user forces the game to start regardless of whether the game is full yet.
  *  - Rules: The user can familiarise themselves with the rules of the game. 
  */
  
 public class WelcomeScreen extends JPanel implements ActionListener {
     
-   /**
-    * controllingFrame - Represents the JFrame object passed into the constructor
+       /**
+    	* controllingFrame - Represents the JFrame object passed into the constructor
 	* CREATE_NAME - Static string to represent text for Create Name button
 	* FORCE_START - Static string to represent text for Force Start button
 	* RULES - Static string to represent text for Rules button
@@ -25,6 +25,9 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	* USER_ICON - Holds name of file which contains user icon 
 	* userNameField - Empty field where user will enter their username
 	* hasUserName - Boolean variable tracking whether or not the user has set a username
+	* username - Holds name of the user
+	* forceStartState - Whether user has requested to force start
+	* readyToStart - Whether user is ready to start, i.e. they have created a username
 	*/
 	
 	private JFrame controllingFrame; 
@@ -38,7 +41,6 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	private String username = "";
 	private boolean forceStartState = false;
 	private boolean readyToStart = false;
-	private boolean existsUsername = false;
 	
 	/**
 	 * Constructor method which creates and sets up various fields/labels
