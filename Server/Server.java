@@ -70,6 +70,7 @@ class ServerThread extends Thread {
 	private boolean position_sent = false;
 	private boolean bye_sent = false;
 	private boolean num_players_sent = false;
+	private boolean startedMessage = false;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -142,15 +143,14 @@ class ServerThread extends Thread {
 
 					// Send the number of clients playing
 					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
-						JSONObject numPlayers = new JSONObject();
-						numPlayers.put("number", String.valueOf(maxPlayers));
-						numPlayers.put("id", String.valueOf(playerID));
+						JSONObject starting = new JSONObject();
+						starting.put("number", String.valueOf(maxPlayers));
+						starting.put("id", String.valueOf(playerID));
 						
-						StringWriter num = new StringWriter();
-		         		numPlayers.writeJSONString(num);
-		         		String num_players = num.toString();
-		         		System.out.println("first contect message: " + num_players);
-		         		bw.write(num_players);
+						StringWriter start_game = new StringWriter();
+		         		starting.writeJSONString(start_game);
+		         		String start_mon = start_game.toString();
+		         		bw.write(start_mon);
 		         		bw.newLine();
 		         		bw.flush();
 		         		num_players_sent = true;
@@ -175,6 +175,19 @@ class ServerThread extends Thread {
 
 					// Let the client know that it their turn
 					if(started && playerID == playerTurn){
+						if (!startedMessage) {
+							JSONObject numPlayers = new JSONObject();
+							numPlayers.put("messageType", "start");
+							
+							StringWriter num = new StringWriter();
+			         		numPlayers.writeJSONString(num);
+			         		String num_players = num.toString();
+			         		System.out.println("first contect message: " + num_players);
+			         		bw.write(num_players);
+			         		bw.newLine();
+			         		bw.flush();
+			         		startedMessage = true;
+						}
 						if (!turn_sent) {
 							System.out.println("\nPlayer is: " + playerName);
 							JSONObject turn = new JSONObject();
