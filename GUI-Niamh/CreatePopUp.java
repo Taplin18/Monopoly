@@ -77,7 +77,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		okButton.setActionCommand(OK);
 		okButton.addActionListener(this);
 		buttonPanel.add(okButton);
-	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities")		
+	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities") {		
 		name = squareInfo.get("name");
 		message = "You have landed on " + name + "!\n";
 		ownership = squareInfo.get("ownership");
