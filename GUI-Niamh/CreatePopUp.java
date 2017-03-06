@@ -27,10 +27,10 @@ public class CreatePopUp extends JPanel implements ActionListener {
     private JPanel buttonPanel;					// - Holds button components
     private JLabel imageLabel;					// - ImageIcon is inserted here
     private JTextArea textArea;					// - Holds message to be displayed in pop-up
-    private JButton okButton;
-    private JButton payRentButton;
-    private JButton auctionButton;
-    private JButton buyButton;
+    private JButton okButton;					// - JButton for OK button
+    private JButton payRentButton;				// - JButton for Pay Rent button
+    private JButton auctionButton;				// - JButton for Auction button
+    private JButton buyButton;					// - JButton for Buy button
     private static String OK = "OK";				// - String to be displayed on button
     private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
     private static String BUY = "Buy";				// - String to be displayed on button
