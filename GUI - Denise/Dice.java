@@ -6,25 +6,46 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+/**
+ *
+ * @author cascadafreak07
+ */
 public class Dice {
     
-    private int dice;  
+    //private int dice;  
     
     ImageIcon[] images;
-    public int getDice() {
+
+    /**
+     *
+     * @return
+     */
+  /*  public int getDice() {
         return dice;
     }
 
-    public void setDice(int dice) {
+    /**
+     *
+     * @param dice
+     */
+    /*public void setDice(int dice) {
         this.dice = dice;
     }
-
+*/
+    /**
+     *
+     * @return
+     */
     public int rollDice(){
         Random randomGenerator = new Random();
         int randomInt = randomGenerator.nextInt(6);
         return randomInt+1;
     }    
     
+    /**
+     * Gets the images of the dice sides and adds them to an ImageIcon array
+     * @return dice
+     */
     public ImageIcon[] getImages(){
         ImageIcon [] dice = new ImageIcon[6];
         BufferedImage img;
@@ -42,5 +63,3 @@ public class Dice {
     }
 
 }
-
-   
