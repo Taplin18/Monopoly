@@ -1,178 +1,256 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+
+/**
+ * Class which displays a welcome screen to the user which offers the following options:
+ *  - Create User Name: The user types and submits the user name they would like for the game.
+ *  - Force Start: The user forces the game to start regardless of whether the game is full yet.
+ *  - Rules: The user can familiarise themselves with the rules of the game. 
+ */
  
- 
-public class CreatePopUp extends JPanel implements ActionListener {    
-	
-    private String message;					// - Text to be displayed about the current square
-    private String name;					// - Name of the the property/utility/tranport square
-    private String image;					// - Name of the image associate with the square
-    private String positionType;				// - Type of square
-    private String ownership;					// - Whether the property/utility/transport is owned/available
-    private int rent;						// - Cost of rent at an already owned square
-    private int price;						// - Cost of buying at an availabe square
-    private int taxOwed;					// - The tax owed at a Tax square
-    private int messageType = JOptionPane.PLAIN_MESSAGE;	// - Determines style of pop-up
-    private ImageIcon popUpIcon = null;				// - Used to store image as ImageIcon object
-    private BufferedImage popUpImg = null;			// - Stores image when it is being read in
-    private JFrame myFrame;					// - JFrame object which holds all other components
-    private JPanel imagePanel;					// - Holds image components
-    private JPanel textPanel;					// - Holds text components
-    private JPanel buttonPanel;					// - Holds button components
-    private JLabel imageLabel;					// - ImageIcon is inserted here
-    private JTextArea textArea;					// - Holds message to be displayed in pop-up
-    private JButton okButton;					// - JButton for OK button
-    private JButton payRentButton;				// - JButton for Pay Rent button
-    private JButton auctionButton;				// - JButton for Auction button
-    private JButton buyButton;					// - JButton for Buy button
-    private static String OK = "OK";				// - String to be displayed on button
-    private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
-    private static String BUY = "Buy";				// - String to be displayed on button
-    private static String AUCTION = "Auction";			// - String to be displayed on button
-	
-   /**
-    * The details of the type of square the player is currently on is passed in as a HashMap object, which is then passed 
-    * to the displayPopUp() method where the required information is extracted and placed appropriately on to the JFrame.
-    * @param squareInfo - HashMap object containing information on current square
-    */
-    public CreatePopUp(HashMap<String, String> squareInfo) {
-	// Create JFrame and JPanels
-	myFrame = new JFrame();
-	imagePanel = new JPanel(new FlowLayout());
-	textPanel = new JPanel(new FlowLayout());
-	buttonPanel = new JPanel(new FlowLayout());
-		
-	displayPopUp(squareInfo);
-		
-	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        this.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(this); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(450, 400);
-	myFrame.setTitle("Current Square Update");
-	myFrame.pack();
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-    }	
-		
-   /**
-    * Method which takes in as a parameter the HashMap containing info on the current square and then creates appropriate
-    * JFrame components based on the values passed in.
-    * @param squareInfo - HashMap object containing information on the current square 
-    */
-    public void displayPopUp(HashMap<String, String> squareInfo) {
-        positionType = squareInfo.get("positionType");
-        //image = squareInfo.get("picture");
-		
-	if (positionType == "chest" || positionType == "chance") {
-		message = squareInfo.get("message");
-		// Create OK button, add action command and listener, and add to button panel
-		okButton = new JButton("OK");
-		okButton.setActionCommand(OK);
-		okButton.addActionListener(this);
-		buttonPanel.add(okButton);
-	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities") {		
-		name = squareInfo.get("name");
-		message = "You have landed on " + name + "!\n";
-		ownership = squareInfo.get("ownership");
-		if (ownership == "owned") {
-			rent = Integer.valueOf(String.valueOf(squareInfo.get("rent")));
-			message += "This is already owned by another player. You must pay rent of " + rent + "dollars.";
-					
-			// Create Pay Rent button, add action command and listener, and add to button panel
-			payRentButton = new JButton("Pay Rent"); 
-			payRentButton.setActionCommand(PAY_RENT);
-			payRentButton.addActionListener(this);
-			buttonPanel.add(payRentButton);
-					
-		} else { // Property is available
-			price = Integer.valueOf(String.valueOf(squareInfo.get("price")));
-			message += "This is available and costs " + price + " dollars.\n Would you like to buy it or go to auction?";
-					
-			// Create Buy and Auction buttons, add action command and listener, and add to button panel
-			buyButton = new JButton("Buy"); // Pay rent button
-			buyButton.setActionCommand(BUY);
-			buyButton.addActionListener(this);
-			auctionButton = new JButton("Auction"); // Pay rent button
-			auctionButton.setActionCommand(AUCTION);
-			auctionButton.addActionListener(this);
-					
-			// Add buttons to button panel
-			buttonPanel.add(buyButton);
-			buttonPanel.add(auctionButton);
-		}
-    	    } else if (positionType == "taxes") {
-		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
-		message = "You have landed on a Tax square. You must pay a tax of " + taxOwed + " dollars.";
-		// Create OK button, add action command and listener, and add to button panel
-		okButton = new JButton("OK");
-		okButton.setActionCommand(OK);
-		okButton.addActionListener(this);
-		buttonPanel.add(okButton);
-            }
-			
-        // Read in image file
-	try {
-	    popUpImg = ImageIO.read(new File(image));
-	    popUpIcon = new ImageIcon(popUpImg);
-	    Image myImage = popUpIcon.getImage(); 
-	    Image myImageCopy = myImage.getScaledInstance(350, 150,  java.awt.Image.SCALE_SMOOTH); // Scale / re-size the image 
-	    popUpIcon = new ImageIcon(myImageCopy); 
-	} catch (IOException e) { // Catch any errors which may occur when reading in the file
-	    e.printStackTrace();
-	}
-		
-	imageLabel = new JLabel(popUpIcon, JLabel.CENTER);
-		
-	imagePanel = new JPanel(new FlowLayout());
-	imagePanel.setBackground(Color.BLACK);
-	imagePanel.setOpaque(true);	
-	imagePanel.add(imageLabel); 
-		
-	textArea = new JTextArea(message, 5, 20);
-        textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
-        textArea.setBackground(Color.BLACK);
-	textArea.setForeground(Color.WHITE);
-	textArea.setLineWrap(true);			// Set various attributes as required
-        textArea.setWrapStyleWord(true);
-        textArea.setOpaque(false);
-        textArea.setEditable(false);
-		
-	textPanel.add(textArea);
-	textPanel.setBackground(Color.BLACK);
-		
-	buttonPanel.setBackground(Color.BLACK);
-		
-	//add(imagePanel);
-	add(textPanel);
-	add(buttonPanel);
-    }
-	
-   /**
-    * Method which checks what command was made by the user and then responds appropriately.
-    * @param e 
-    */
-    public void actionPerformed(ActionEvent e) {
+public class WelcomeScreen extends JPanel implements ActionListener {
     
-	String command = e.getActionCommand(); // Store value of command
+       /**
+    	* controllingFrame - Represents the JFrame object passed into the constructor
+	* CREATE_NAME - Static string to represent text for Create Name button
+	* FORCE_START - Static string to represent text for Force Start button
+	* RULES - Static string to represent text for Rules button
+	* MONOPOLY_LOGO - Holds name of file which contains Zebropoly logo
+	* USER_ICON - Holds name of file which contains user icon 
+	* userNameField - Empty field where user will enter their username
+	* hasUserName - Boolean variable tracking whether or not the user has set a username
+	* username - Holds name of the user
+	* forceStartState - Whether user has requested to force start
+	* readyToStart - Whether user is ready to start, i.e. they have created a username
+	*/
+	
+	private JFrame controllingFrame; 
+	private static String CREATE_NAME = "Create Name";
+	private static String FORCE_START = "Force Start";
+    	private static String RULES = "Rules";
+	private static final String MONOPOLY_LOGO = "zebropoly2.png";
+	private static final String USER_ICON = "usericon2.jpg";
+    	private JTextField userNameField; 
+	private boolean hasUserName = false;
+	private String username = "";
+	private boolean forceStartState = false;
+	private boolean readyToStart = false;
+	
+	/**
+	 * Constructor method which creates and sets up various fields/labels
+	 * on panels and then adds them to the given JFrame.
+	 * @param f A JFrame object
+	 */
+    	 public WelcomeScreen(JFrame f) {
+		
+		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
+        	controllingFrame = f; 
+		controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
+		
+		// Initialise JLabels variable to null
+		JLabel monopolyIconLabel = null;
+		JLabel messageLabel = null;
+		JLabel userNameLabel = null;
+		
+		// Initialise ImageIcon variables to null
+		ImageIcon monopolyIcon = null;
+		ImageIcon userIcon = null;
+		
+		// Set up user name field
+        	userNameField = new JTextField(12); // Length = 12
+        	userNameField.setActionCommand(CREATE_NAME);  
+        	userNameField.addActionListener(this);
+		
+		// Create ImageIcon for Monopoly logo and user icon
+		try {
+			// Monopoly icon creation
+			BufferedImage imgMonopoly = ImageIO.read(new File(MONOPOLY_LOGO));
+			monopolyIcon = new ImageIcon(imgMonopoly);
+			Image image1 = monopolyIcon.getImage(); 
+			Image newimg1 = image1.getScaledInstance(400, 140,  java.awt.Image.SCALE_SMOOTH); // Set the size / scaling
+			monopolyIcon = new ImageIcon(newimg1); 
+			
+			// User icon creation
+			BufferedImage imgUserIcon = ImageIO.read(new File(USER_ICON));
+			userIcon = new ImageIcon(imgUserIcon);
+			Image image2 = userIcon.getImage();
+			Image newimg2 = image2.getScaledInstance(15, 15, java.awt.Image.SCALE_SMOOTH); // Set the size / scaling
+			userIcon = new ImageIcon(newimg2);
+		
+		} catch (IOException e) { // Exception handling in the case of the image files being inaccessible
+			e.printStackTrace();
+        	}
  
-        if (PAY_RENT.equals(command)) { // If Pay Rent button was pressed
-            JOptionPane.showMessageDialog(myFrame, "You have paid your rent.");
-			myFrame.dispose();
-        } else if (BUY.equals(command)) { // If Buy button was pressed
-			JOptionPane.showMessageDialog(myFrame, "Your purchase was successful.");
-			myFrame.dispose();
-        } else if (AUCTION.equals(command)) { // If Auction button was pressed
-			JOptionPane.showMessageDialog(myFrame, "This will now be put to auction.");
-			myFrame.dispose();
-	} else if (OK.equals(command)) { // If OK button was pressed
-			myFrame.dispose();
+		// Add Monopoly icon to a JLabel and specify horizontal alignment
+		monopolyIconLabel = new JLabel(monopolyIcon, JLabel.CENTER);
+		
+		// Create JTextArea for welcome message
+		JTextArea textArea = new JTextArea(
+                "         Welcome to Zebropoly! \n\nPlease enter your username below and then " +
+                "either Force Start or wait until 4 players have joined.\n\n                   Have fun!", 
+                5, 
+                20);
+        	textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
+       		textArea.setBackground(Color.BLACK);
+		textArea.setForeground(Color.WHITE);
+		textArea.setLineWrap(true);						// Set various attributes as required
+        	textArea.setWrapStyleWord(true);
+        	textArea.setOpaque(false);
+        	textArea.setEditable(false);
+		
+		// Add user icon to a JLabel, specify horizontal alignment, and add a String to tell user what to enter in the box
+        	userNameLabel = new JLabel("Username: ", userIcon, JLabel.CENTER);
+        	userNameLabel.setLabelFor(userNameField);
+		userNameLabel.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 13));
+		userNameLabel.setForeground(Color.WHITE);
+		
+        	//Create, set up, and customise buttons
+		JButton createNameButton = new JButton("Create Name"); // Check button
+		JButton forceStartButton = new JButton("Force Start"); // Criteria button
+		JButton rulesButton = new JButton("Rules"); // Rules button
+        	createNameButton.setActionCommand(CREATE_NAME);
+        	forceStartButton.setActionCommand(FORCE_START);
+		rulesButton.setActionCommand(RULES);
+        	createNameButton.addActionListener(this);
+        	forceStartButton.addActionListener(this);
+		rulesButton.addActionListener(this);
+		
+		createNameButton.setBackground(new Color(59, 89, 182));
+        	createNameButton.setForeground(Color.WHITE);
+        	createNameButton.setFocusPainted(false);
+        	createNameButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+
+		forceStartButton.setBackground(new Color(59, 89, 182));
+        	forceStartButton.setForeground(Color.WHITE);
+        	forceStartButton.setFocusPainted(false);
+        	forceStartButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+		
+		rulesButton.setBackground(new Color(59, 89, 182));
+        	rulesButton.setForeground(Color.WHITE);
+        	rulesButton.setFocusPainted(false);
+        	rulesButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+		
+		// Create JPanel object for Monopoly image component
+		JPanel imagePanel = new JPanel();
+		imagePanel.setLayout(flowLayout); // Set layout for panel
+		imagePanel.setBackground(Color.BLACK);
+		imagePanel.setOpaque(true);
+		
+		// Create JPanel for welcome message
+		JPanel welcomeMessagePanel = new JPanel();
+		welcomeMessagePanel.setLayout(flowLayout);
+		
+		// Create JPanel object for user options
+		JPanel userNamePanel = new JPanel();
+		userNamePanel = new JPanel(flowLayout);
+		userNamePanel.setBackground(Color.BLACK);
+		userNamePanel.setOpaque(true);
+		
+		// Create JPanel object for remaining two buttons
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(flowLayout);
+		buttonsPanel.setBackground(Color.BLACK);
+		buttonsPanel.setOpaque(true);
+		
+		// Add Monopoly image component to image panel
+		imagePanel.add(monopolyIconLabel);
+		
+		// Add JLabel welcome message to associated panel
+		welcomeMessagePanel.add(textArea);
+		welcomeMessagePanel.setBackground(Color.BLACK);
+		welcomeMessagePanel.setForeground(Color.WHITE);
+		
+		// Add user name components to user name panel
+       	 	userNamePanel.add(userNameLabel);
+        	userNamePanel.add(userNameField);
+		userNamePanel.add(createNameButton);
+		
+		// Add remaining two buttons to buttons panel
+		buttonsPanel.add(forceStartButton);
+		buttonsPanel.add(rulesButton);
+		
+		// Add panels to JFrame
+		add(imagePanel);
+		add(welcomeMessagePanel);
+        	add(userNamePanel);
+        	add(buttonsPanel);
+    }
+	
+    public String getUsername() {
+        return username;
+    }
+ 
+    public void setReadyState(boolean x) {
+        readyToStart = x;
+    }
+       
+    public boolean getForceStart() {
+        return forceStartState;
+    }
+   
+    public void closeScreen() {
+        controllingFrame.dispose();
+    }
+ 
+	/**
+	 * Method which checks what command was made by the user and then responds appropriately.
+	 * @param e 
+	 */
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand(); // Store value of command
+ 
+        if (CREATE_NAME.equals(command)) { // The user wants to create a username
+            if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
+                JOptionPane.showMessageDialog(controllingFrame,
+                    "Success! You have successfully created a new user name.");	// Display success message
+		    username = userNameField.getText();
+	            setReadyState(true);
+	    } else { // If the user name field was empty
+		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
+	    }
+        } else if (RULES.equals(command)) { //The user wishes to view the rules
+            JOptionPane.showMessageDialog(controllingFrame,
+                "Here are the rules."); // Insert rules here	
+        } else { // Force Start button was pressed
+	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
+			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
+		} else {
+		    forceStartState = true;
+		}
 	}
     }
+	
+
+ 
+	/**
+	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
+	 * with this JFrame passed in as a parameter.
+	 */
+    /*private static void createAndDisplay() {
+        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+ 
+        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        contentPane.setOpaque(true); // Makes contentPane opaque 
+        myFrame.setContentPane(contentPane); // Sets contentPane property
+		myFrame.getContentPane().setBackground(Color.black);
+        myFrame.setSize(550, 500);
+		myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true); // Window is displayed
+    }*/
+	
+	/**
+	 * Main method which calls the createAndDisplay() method.
+	 */
+    /*public static void main(String[] args) {
+        
+        createAndDisplay();
+            
+    }*/
 }
