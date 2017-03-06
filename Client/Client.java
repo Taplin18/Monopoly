@@ -680,6 +680,7 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
+	  System.out.println("I done got created ");
 	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
         WelcomeScreen welcomeScreen = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
@@ -689,24 +690,22 @@ public class Client{
         myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
-	  int busyWork=0;
-	while (welcomeScreen.getUsername().equals("")){busyWork++;}
+	  System.out.println("frame done got made ");
+	while (welcomeScreen.getUsername().equals("")){System.out.println("LOOP-DEE-LOOP ");}
+	  System.out.println("while loop done got exited ");
 	client.setUsername(welcomeScreen.getUsername());
+	  System.out.println(" username gone done gotten and set hopefree");
 	System.out.println("Username: "+client.getUserName());
 	boolean start=false;
 	while(!start){
-		System.out.println("lets do this");
 		  if(client.checkWithServer("start", socket)){
 			welcomeScreen.closeScreen();
 			//create board
 			start=true;
-			  System.out.println("playin this bitch");
 		  }else if(welcomeScreen.getForceStart()){
-			welcomeScreen.closeScreen();
 			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
 			//create board
 			start=true;
-			  System.out.println("force lets do itttt");
 		  }
 	}
     String messageType="firstContact";
