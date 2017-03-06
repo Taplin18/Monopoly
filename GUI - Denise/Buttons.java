@@ -12,8 +12,10 @@ import javax.swing.JTextArea;
 import static monopoly3.Board.array;
 import static monopoly3.Board.p;
 
-
-
+/**
+ * The gui functionality of monopoly, this includes the use of the buttons, text-boxes and labels to add functionality and display the dice images 
+ * @author cascadafreak07
+ */
 public class Buttons extends JPanel implements ActionListener {
    
     //Rolling, buying, selling and end turn buttons
@@ -48,6 +50,9 @@ public class Buttons extends JPanel implements ActionListener {
         init();
     }
     
+    /**
+     * The initilization method, all the JButtons, JLabels and JTextAreas are created and added to the JPanel
+     */
     public void init()
     {
         setLayout(null);
@@ -95,15 +100,20 @@ public class Buttons extends JPanel implements ActionListener {
         add(send);
     
     }
+    /**
+     * The action performed class, activates when an event is triggered such as pressing a button 
+    */
     public void actionPerformed(ActionEvent e) {
          
         String action = e.getActionCommand();
         //When the roll button is clicked
         if(action.equals("Roll")){
             //get the values of the dice
-            int value = client.getDice1();
-            int value2 = client.getDice2();
-            
+            //MAYBE CHANGE CLIENT.MYTURN()//GETDICE().....ARE CLIENT AND GUI GETTING SAME DICE TOTAL?????
+            int value = client.getDiceOne();
+            int value2 = client.getDiceTwo();
+            //FOR TESTING
+            //int diceNumber = value + value2;
                        
             for(int i = 1; i < 7; i++){
                 if(value == i){       
@@ -121,7 +131,8 @@ public class Buttons extends JPanel implements ActionListener {
             
             //Add to the position of the player
             positionInArray = client.getPosition();
-            
+            //FOR TESTING
+            //positionInArray = diceNumber;
             
             //Create new point with new player location
             Points points = new Points(array.get(positionInArray).getX(), array.get(positionInArray).getY());
@@ -138,14 +149,15 @@ public class Buttons extends JPanel implements ActionListener {
             repaint();
        
         }
-        else if(action.equals("Buy")){
+        //else if(action.equals("Buy")){
 
             
-        }
-        else if(action.equals("Sell")){
+        //}
+        //else if(action.equals("Sell")){
             
-        }
+        //}
         else if(action.equals("End Turn")){           
+            client.sendByeMessage();
             repaint();
         }        
     }
