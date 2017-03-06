@@ -689,7 +689,8 @@ public class Client{
         myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
-	while (welcomeScreen.getUsername().equals("")){}
+	  int busyWork=0;
+	while (welcomeScreen.getUsername().equals("")){busyWork++;}
 	client.setUsername(welcomeScreen.getUsername());
 	System.out.println("Username: "+client.getUserName());
 	boolean start=false;
