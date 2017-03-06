@@ -691,7 +691,7 @@ public class Client{
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
 	  System.out.println("frame done got made ");
-	while (welcomeScreen.getUsername().equals("")){}
+	while (welcomeScreen.getUsername().equals("")){System.out.println("LOOP-DEE-LOOP ");}
 	  System.out.println("while loop done got exited ");
 	client.setUsername(welcomeScreen.getUsername());
 	  System.out.println(" username gone done gotten and set hopefree");
