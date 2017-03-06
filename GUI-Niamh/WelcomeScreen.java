@@ -52,27 +52,91 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		createAndDisplay(); 
 	 }
 	
-	 public void setUp(JFrame f) {
+	 /*public void setUp(JFrame f) {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
         	controllingFrame = f; 
 		//controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
 		
 		// Initialise JLabels variable to null
-		JLabel monopolyIconLabel = null;
-		JLabel messageLabel = null;
-		JLabel userNameLabel = null;
 		
-		// Initialise ImageIcon variables to null
-		ImageIcon monopolyIcon = null;
-		ImageIcon userIcon = null;
+    }*/
+	
+    public String getUsername() {
+        return username;
+    }
+ 
+    public void setReadyState(boolean x) {
+        readyToStart = x;
+    }
+       
+    public boolean getForceStart() {
+        return forceStartState;
+    }
+   
+    public void closeScreen() {
+        controllingFrame.dispose();
+    }
+ 
+	/**
+	 * Method which checks what command was made by the user and then responds appropriately.
+	 * @param e 
+	 */
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand(); // Store value of command
+ 
+        if (CREATE_NAME.equals(command)) { // The user wants to create a username
+            if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
+                JOptionPane.showMessageDialog(controllingFrame,
+                    "Success! You have successfully created a new user name.");	// Display success message
+		    username = userNameField.getText();
+	            setReadyState(true);
+	    } else { // If the user name field was empty
+		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
+	    }
+        } else if (RULES.equals(command)) { //The user wishes to view the rules
+            JOptionPane.showMessageDialog(controllingFrame,
+                "Here are the rules."); // Insert rules here	
+        } else { // Force Start button was pressed
+	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
+			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
+		} else {
+		    forceStartState = true;
+		}
+	}
+    }
+	
+
+ 
+	/**
+	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
+	 * with this JFrame passed in as a parameter.
+	 */
+    private void createAndDisplay() {
+        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+        //final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        //contentPane.setOpaque(true); // Makes contentPane opaque 
+        //myFrame.setContentPane(contentPane); // Sets contentPane property
+	myFrame.getContentPane().setBackground(Color.black);
+        myFrame.setSize(550, 500);
+	myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true); // Window is displayed
+	    
+	JLabel monopolyIconLabel = null;
+	JLabel messageLabel = null;
+	JLabel userNameLabel = null;
 		
-		// Set up user name field
-        	userNameField = new JTextField(12); // Length = 12
-        	userNameField.setActionCommand(CREATE_NAME);  
-        	userNameField.addActionListener(this);
+	// Initialise ImageIcon variables to null
+	ImageIcon monopolyIcon = null;
+	ImageIcon userIcon = null;
 		
-		// Create ImageIcon for Monopoly logo and user icon
+	// Set up user name field
+        userNameField = new JTextField(12); // Length = 12
+        userNameField.setActionCommand(CREATE_NAME);  
+        userNameField.addActionListener(this);
+		
+	// Create ImageIcon for Monopoly logo and user icon
 		try {
 			// Monopoly icon creation
 			BufferedImage imgMonopoly = ImageIO.read(new File(MONOPOLY_LOGO));
@@ -185,70 +249,6 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		add(welcomeMessagePanel);
         	add(userNamePanel);
         	add(buttonsPanel);
-    }
-	
-    public String getUsername() {
-        return username;
-    }
- 
-    public void setReadyState(boolean x) {
-        readyToStart = x;
-    }
-       
-    public boolean getForceStart() {
-        return forceStartState;
-    }
-   
-    public void closeScreen() {
-        controllingFrame.dispose();
-    }
- 
-	/**
-	 * Method which checks what command was made by the user and then responds appropriately.
-	 * @param e 
-	 */
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand(); // Store value of command
- 
-        if (CREATE_NAME.equals(command)) { // The user wants to create a username
-            if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
-                JOptionPane.showMessageDialog(controllingFrame,
-                    "Success! You have successfully created a new user name.");	// Display success message
-		    username = userNameField.getText();
-	            setReadyState(true);
-	    } else { // If the user name field was empty
-		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
-	    }
-        } else if (RULES.equals(command)) { //The user wishes to view the rules
-            JOptionPane.showMessageDialog(controllingFrame,
-                "Here are the rules."); // Insert rules here	
-        } else { // Force Start button was pressed
-	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
-			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
-		} else {
-		    forceStartState = true;
-		}
-	}
-    }
-	
-
- 
-	/**
-	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
-	 * with this JFrame passed in as a parameter.
-	 */
-    private void createAndDisplay() {
-        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        //final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        //contentPane.setOpaque(true); // Makes contentPane opaque 
-        //myFrame.setContentPane(contentPane); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-	    
-	setUp(myFrame);
     }
 	
 	/**
