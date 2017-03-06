@@ -30,17 +30,17 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	* readyToStart - Whether user is ready to start, i.e. they have created a username
 	*/
 	
-	private JFrame myFrame; 
+	private static JFrame myFrame; 
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
     	private static String RULES = "Rules";
 	private static final String MONOPOLY_LOGO = "zebropoly2.png";
 	private static final String USER_ICON = "usericon2.jpg";
-    	private JTextField userNameField; 
-	private boolean hasUserName = false;
-	private String username = "";
-	private boolean forceStartState = false;
-	private boolean readyToStart = false;
+    	private static JTextField userNameField; 
+	private static boolean hasUserName = false;
+	private static String username = "";
+	private static boolean forceStartState = false;
+	private static boolean readyToStart = false;
 	
 	/**
 	 * Constructor method which creates and sets up various fields/labels
@@ -51,7 +51,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		 
 	 }
 	
-	 public static void start(JFrame f) {
+	 public void start(JFrame f) {
 		 
 		myFrame = f;
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
