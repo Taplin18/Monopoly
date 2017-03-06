@@ -247,7 +247,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
         testFrame.setSize(550, 500);
 	testFrame.setLocationRelativeTo(null);
         testFrame.setVisible(true); // Window is displayed
-    } */
+    } 
 	
 	/**
 	 * Main method which calls the createAndDisplay() method.
