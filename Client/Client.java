@@ -689,9 +689,8 @@ public class Client{
         myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
-	do{
-		client.setUsername(welcomeScreen.getUsername());
-	} while (welcomeScreen.getUsername()=="");
+	while (welcomeScreen.getUsername()==""){}
+	client.setUsername(welcomeScreen.getUsername());
 	boolean start=false;
 	while(!start){
 		  if(client.checkWithServer("start", socket)){
