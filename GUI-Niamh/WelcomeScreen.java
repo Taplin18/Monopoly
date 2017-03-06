@@ -49,17 +49,11 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 */
     	 public WelcomeScreen() {
 		 
-		JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
- 
-        	//final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        	//contentPane.setOpaque(true); // Makes contentPane opaque 
-        	//myFrame.setContentPane(contentPane); // Sets contentPane property
-		//myFrame.getContentPane().setBackground(Color.black);
-        	myFrame.setSize(550, 500);
-		myFrame.setLocationRelativeTo(null);
-        	myFrame.setVisible(true); // Window is displayed
-		
+	 }
+	
+	 public void start(JFrame f) {
+		 
+		myFrame = f;
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
 		//myFrame.setLayout(new BoxLayout(myFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
 		
@@ -242,25 +236,25 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
 	 * with this JFrame passed in as a parameter.
 	 */
-    /*private static void createAndDisplay() {
-        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+    private static void createAndDisplay() {
+        JFrame testFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
  
-        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        contentPane.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(contentPane); // Sets contentPane property
-		myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-		myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
+        start(testFrame); // Create instance of WelcomeScreen 
+        //contentPane.setOpaque(true); // Makes contentPane opaque 
+        //testFrame.setContentPane(contentPane); // Sets contentPane property
+	//testFrame.getContentPane().setBackground(Color.black);
+        testFrame.setSize(550, 500);
+	testFrame.setLocationRelativeTo(null);
+        testFrame.setVisible(true); // Window is displayed
     } */
 	
 	/**
 	 * Main method which calls the createAndDisplay() method.
 	 */
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         
-        WelcomeScreen ws = new WelcomeScreen();
+        createAndDisplay();
             
-    } */
+    } 
 }
