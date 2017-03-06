@@ -7,14 +7,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import java.util.*; 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
-import javax.imageio.ImageIO;
-//import java.io.File;
-//import java.io.IOException;
-import java.awt.image.BufferedImage;
 
 public class Client{
 //  public String message; //answer
@@ -681,18 +673,7 @@ public class Client{
     }
     Client client= new Client();
 	
-	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
- 
-        WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        contentPane.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(contentPane); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-	  
-	  
+	welcomeScreen = new WelcomeScreen();
 	do{
 		client.setUsername(welcomeScreen.getUsername());
 	} while (welcomeScreen.getUsername()=="");
@@ -713,7 +694,6 @@ public class Client{
     client.firstContactServer(messageType);
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
-    boolean forceStart=true; // button
     System.out.println(client.getUserName()+" received 'game has started' from server");
     //chatBox=new AuctionChat();
     //chatBox.main();
