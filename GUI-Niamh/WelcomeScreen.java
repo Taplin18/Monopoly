@@ -30,32 +30,28 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	* readyToStart - Whether user is ready to start, i.e. they have created a username
 	*/
 	
-	private static JFrame myFrame; 
+	private JFrame controllingFrame; 
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
     	private static String RULES = "Rules";
 	private static final String MONOPOLY_LOGO = "zebropoly2.png";
 	private static final String USER_ICON = "usericon2.jpg";
-    	private static JTextField userNameField; 
-	private static boolean hasUserName = false;
-	private static String username = "";
-	private static boolean forceStartState = false;
-	private static boolean readyToStart = false;
+    	private JTextField userNameField; 
+	private boolean hasUserName = false;
+	private String username = "";
+	private boolean forceStartState = false;
+	private boolean readyToStart = false;
 	
 	/**
 	 * Constructor method which creates and sets up various fields/labels
 	 * on panels and then adds them to the given JFrame.
 	 * @param f A JFrame object
 	 */
-    	 public WelcomeScreen() {
-		 
-	 }
-	
-	 public static void start(JFrame f) {
-		 
-		myFrame = f;
+    	 public WelcomeScreen(JFrame f) {
+		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
-		//myFrame.setLayout(new BoxLayout(myFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
+        	controllingFrame = f; 
+		controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
 		
 		// Initialise JLabels variable to null
 		JLabel monopolyIconLabel = null;
@@ -199,7 +195,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     }
    
     public void closeScreen() {
-        myFrame.dispose();
+        controllingFrame.dispose();
     }
  
 	/**
@@ -211,19 +207,19 @@ public class WelcomeScreen extends JPanel implements ActionListener {
  
         if (CREATE_NAME.equals(command)) { // The user wants to create a username
             if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
-                JOptionPane.showMessageDialog(myFrame,
+                JOptionPane.showMessageDialog(controllingFrame,
                     "Success! You have successfully created a new user name.");	// Display success message
 		    username = userNameField.getText();
 	            setReadyState(true);
 	    } else { // If the user name field was empty
-		JOptionPane.showMessageDialog(myFrame, "Your user name must contain at least one character");
+		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
 	    }
         } else if (RULES.equals(command)) { //The user wishes to view the rules
-            JOptionPane.showMessageDialog(myFrame,
+            JOptionPane.showMessageDialog(controllingFrame,
                 "Here are the rules."); // Insert rules here	
         } else { // Force Start button was pressed
 	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
-			JOptionPane.showMessageDialog(myFrame, "Please create a username before starting.");
+			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
 		} else {
 		    forceStartState = true;
 		}
@@ -237,17 +233,16 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * with this JFrame passed in as a parameter.
 	 */
     private static void createAndDisplay() {
-        JFrame testFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
- 
-        start(testFrame); // Create instance of WelcomeScreen 
-        //contentPane.setOpaque(true); // Makes contentPane opaque 
-        //testFrame.setContentPane(contentPane); // Sets contentPane property
-	//testFrame.getContentPane().setBackground(Color.black);
-        testFrame.setSize(550, 500);
-	testFrame.setLocationRelativeTo(null);
-        testFrame.setVisible(true); // Window is displayed
-    } 
+        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        contentPane.setOpaque(true); // Makes contentPane opaque 
+        myFrame.setContentPane(contentPane); // Sets contentPane property
+	myFrame.getContentPane().setBackground(Color.black);
+        myFrame.setSize(550, 500);
+	myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true); // Window is displayed
+    }
 	
 	/**
 	 * Main method which calls the createAndDisplay() method.
@@ -256,5 +251,5 @@ public class WelcomeScreen extends JPanel implements ActionListener {
         
         createAndDisplay();
             
-    } 
+    }
 }
