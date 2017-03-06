@@ -75,7 +75,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     }
    
     public void closeScreen() {
-        controllingFrame.dispose();
+        myFrame.dispose();
     }
  
 	/**
@@ -87,19 +87,19 @@ public class WelcomeScreen extends JPanel implements ActionListener {
  
         if (CREATE_NAME.equals(command)) { // The user wants to create a username
             if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
-                JOptionPane.showMessageDialog(controllingFrame,
+                JOptionPane.showMessageDialog(myFrame,
                     "Success! You have successfully created a new user name.");	// Display success message
 		    username = userNameField.getText();
 	            setReadyState(true);
 	    } else { // If the user name field was empty
-		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
+		JOptionPane.showMessageDialog(myFrame, "Your user name must contain at least one character");
 	    }
         } else if (RULES.equals(command)) { //The user wishes to view the rules
-            JOptionPane.showMessageDialog(controllingFrame,
+            JOptionPane.showMessageDialog(myFrame,
                 "Here are the rules."); // Insert rules here	
         } else { // Force Start button was pressed
 	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
-			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
+			JOptionPane.showMessageDialog(myFrame, "Please create a username before starting.");
 		} else {
 		    forceStartState = true;
 		}
@@ -115,7 +115,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     private void createAndDisplay() {
         JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        final WelcomeScreen contentPane = new WelcomeScreen(); // Create instance of WelcomeScreen 
         contentPane.setOpaque(true); // Makes contentPane opaque 
         myFrame.setContentPane(contentPane); // Sets contentPane property
 	myFrame.getContentPane().setBackground(Color.black);
