@@ -220,7 +220,7 @@ class Square {
 	* @param position the transport id
 	* @return the picture name of the transport
 	*/
-	public String util_picture(int position) {
+	public String trans_picture(int position) {
 		transport_info = transports.get(position);
 		return transport_info.picture();
 	}
@@ -335,7 +335,7 @@ class Square {
 
 		for (int i = 0; i < 4; i++) {
 			List <Object> values = transport_values.get(i);
-			transport_info = new Transport((String)values.get(0), (int)values.get(1), (int)values.get(2));
+			transport_info = new Transport((String)values.get(0), (int)values.get(1), (int)values.get(2), (String)values.get(3));
 			transports.put(transport_id[i], transport_info);
 		}
 	}
@@ -347,7 +347,7 @@ class Square {
 
 		for (int i = 0; i < 2; i++) {
 			List <Object> values = utility_values.get(i);
-			utility_info = new Utility((String)values.get(0), (int)values.get(1));
+			utility_info = new Utility((String)values.get(0), (int)values.get(1), (String)values.get(2));
 			utilities.put(utility_id[i], utility_info);
 		}
 	}
