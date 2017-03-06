@@ -209,7 +209,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
             if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
                 JOptionPane.showMessageDialog(controllingFrame,
                     "Success! You have successfully created a new user name.");	// Display success message
-		    username = userNameField.getText()
+		    username = userNameField.getText();
 	            setReadyState(true);
 	    } else { // If the user name field was empty
 		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
