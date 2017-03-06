@@ -680,10 +680,8 @@ public class Client{
       exception.printStackTrace();
     }
     Client client= new Client();
-	
 	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
- 
         WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
         contentPane.setOpaque(true); // Makes contentPane opaque 
         myFrame.setContentPane(contentPane); // Sets contentPane property
@@ -691,8 +689,6 @@ public class Client{
         myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
-	  
-	  
 	do{
 		client.setUsername(welcomeScreen.getUsername());
 	} while (welcomeScreen.getUsername()=="");
