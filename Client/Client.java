@@ -700,6 +700,7 @@ public class Client{
 	while(!start){
 		System.out.println("I is in loop yass");
 		  if(client.checkWithServer("start", socket)){
+			  System.out.println("hello laurentttt");
 			welcomeScreen.closeScreen();
 			//create board
 			start=true;
