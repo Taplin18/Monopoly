@@ -258,9 +258,9 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	/**
 	 * Main method which calls the createAndDisplay() method.
 	 */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         
         WelcomeScreen ws = new WelcomeScreen();
             
-    }
+    } */
 }
