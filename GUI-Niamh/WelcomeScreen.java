@@ -1,33 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Gist
-
-    @Taplin18
-
-2
-0
-
-    0
-
-Taplin18/Project
-Code
-Issues 0
-Pull requests 0
-Projects 0
-Wiki
-Pulse
-Graphs
-Settings
-Project/GUI-Niamh/CreatePopUp.java
-58da261 6 minutes ago
-@Taplin18 Taplin18 Update CreatePopUp.java
-@nimar21
-@Taplin18
-257 lines (215 sloc) 10.4 KB
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
