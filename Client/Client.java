@@ -715,9 +715,6 @@ public class Client{
 			  System.out.println("YASS we force startin");
 		  }
 	}
-    String messageType="firstContact";
-    System.out.println(client.getUserName()+" sending firstContact");
-    client.firstContactServer(messageType);
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     System.out.println(client.getUserName()+" received 'game has started' from server");
