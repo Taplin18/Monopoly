@@ -51,7 +51,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
         	controllingFrame = f; 
-		controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
+		controllingFrame.setLayout(flowLayout); // Set layout of the JFrame object
 		
 		// Initialise JLabels variable to null
 		JLabel monopolyIconLabel = null;
