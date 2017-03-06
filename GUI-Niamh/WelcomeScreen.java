@@ -51,7 +51,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 		 
 	 }
 	
-	 public void start(JFrame f) {
+	 public static void start(JFrame f) {
 		 
 		myFrame = f;
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
