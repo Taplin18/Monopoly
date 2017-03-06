@@ -691,6 +691,7 @@ public class Client{
         myFrame.setVisible(true); // Window is displayed
 	while (welcomeScreen.getUsername()==""){}
 	client.setUsername(welcomeScreen.getUsername());
+	System.out.println("Username: "+client.getUserName());
 	boolean start=false;
 	while(!start){
 		  if(client.checkWithServer("start", socket)){
