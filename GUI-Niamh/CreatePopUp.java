@@ -86,7 +86,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			message += "This is already owned by another player. You must pay rent of " + rent + "dollars.";
 					
 			// Create Pay Rent button, add action command and listener, and add to button panel
-			JButton payRentButton = new JButton("Pay Rent"); 
+			payRentButton = new JButton("Pay Rent"); 
 			payRentButton.setActionCommand(PAY_RENT);
 			payRentButton.addActionListener(this);
 			buttonPanel.add(payRentButton);
@@ -96,10 +96,10 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			message += "This is available and costs " + price + " dollars.\n Would you like to buy it or go to auction?";
 					
 			// Create Buy and Auction buttons, add action command and listener, and add to button panel
-			JButton buyButton = new JButton("Buy"); // Pay rent button
+			buyButton = new JButton("Buy"); // Pay rent button
 			buyButton.setActionCommand(BUY);
 			buyButton.addActionListener(this);
-			JButton auctionButton = new JButton("Auction"); // Pay rent button
+			auctionButton = new JButton("Auction"); // Pay rent button
 			auctionButton.setActionCommand(AUCTION);
 			auctionButton.addActionListener(this);
 					
