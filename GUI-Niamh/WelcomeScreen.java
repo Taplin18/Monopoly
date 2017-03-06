@@ -30,7 +30,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	* readyToStart - Whether user is ready to start, i.e. they have created a username
 	*/
 	
-	//private JFrame controllingFrame; 
+	private JFrame myFrame; 
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
     	private static String RULES = "Rules";
@@ -113,7 +113,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	 * with this JFrame passed in as a parameter.
 	 */
     private void createAndDisplay() {
-        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
         final WelcomeScreen contentPane = new WelcomeScreen(); // Create instance of WelcomeScreen 
         contentPane.setOpaque(true); // Makes contentPane opaque 
