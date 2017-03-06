@@ -698,14 +698,17 @@ public class Client{
 	System.out.println("Username: "+client.getUserName());
 	boolean start=false;
 	while(!start){
+		System.out.println("I is in loop yass");
 		  if(client.checkWithServer("start", socket)){
 			welcomeScreen.closeScreen();
 			//create board
 			start=true;
+			  System.out.println("YASSS we startin!");
 		  }else if(welcomeScreen.getForceStart()){
 			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
 			//create board
 			start=true;
+			  System.out.println("YASS we force startin");
 		  }
 	}
     String messageType="firstContact";
