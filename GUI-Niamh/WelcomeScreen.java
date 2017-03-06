@@ -115,10 +115,10 @@ public class WelcomeScreen extends JPanel implements ActionListener {
     private void createAndDisplay() {
         myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        final WelcomeScreen contentPane = new WelcomeScreen(); // Create instance of WelcomeScreen 
-        contentPane.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(contentPane); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
+        //final WelcomeScreen contentPane = new WelcomeScreen(); // Create instance of WelcomeScreen 
+        //contentPane.setOpaque(true); // Makes contentPane opaque 
+        //myFrame.setContentPane(contentPane); // Sets contentPane property
+	//myFrame.getContentPane().setBackground(Color.black);
         myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
