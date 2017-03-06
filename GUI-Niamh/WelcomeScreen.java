@@ -1,3 +1,33 @@
+
+Skip to content
+This repository
+
+    Pull requests
+    Issues
+    Gist
+
+    @Taplin18
+
+2
+0
+
+    0
+
+Taplin18/Project
+Code
+Issues 0
+Pull requests 0
+Projects 0
+Wiki
+Pulse
+Graphs
+Settings
+Project/GUI-Niamh/CreatePopUp.java
+58da261 6 minutes ago
+@Taplin18 Taplin18 Update CreatePopUp.java
+@nimar21
+@Taplin18
+257 lines (215 sloc) 10.4 KB
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -30,7 +60,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	* readyToStart - Whether user is ready to start, i.e. they have created a username
 	*/
 	
-	private JFrame myFrame; 
+	private JFrame controllingFrame; 
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
     	private static String RULES = "Rules";
@@ -41,105 +71,33 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	private String username = "";
 	private boolean forceStartState = false;
 	private boolean readyToStart = false;
-	private String message = "";
 	
 	/**
 	 * Constructor method which creates and sets up various fields/labels
 	 * on panels and then adds them to the given JFrame.
 	 * @param f A JFrame object
 	 */
-    	 public WelcomeScreen() {
-		createAndDisplay(); 
-	 }
-	
-	 /*public void setUp(JFrame f) {
+    	 public WelcomeScreen(JFrame f) {
 		
 		FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
         	controllingFrame = f; 
-		//controllingFrame.setLayout(new BoxLayout(controllingFrame, BoxLayout.Y_AXIS)); // Set layout of the JFrame object
+		controllingFrame.setLayout(flowLayout); // Set layout of the JFrame object
 		
 		// Initialise JLabels variable to null
+		JLabel monopolyIconLabel = null;
+		JLabel messageLabel = null;
+		JLabel userNameLabel = null;
 		
-    }*/
-	
-    public String getUsername() {
-        return username;
-    }
- 
-    public void setReadyState(boolean x) {
-        readyToStart = x;
-    }
-       
-    public boolean getForceStart() {
-        return forceStartState;
-    }
-   
-    public void closeScreen() {
-        myFrame.dispose();
-    }
- 
-	/**
-	 * Method which checks what command was made by the user and then responds appropriately.
-	 * @param e 
-	 */
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand(); // Store value of command
- 
-        if (CREATE_NAME.equals(command)) { // The user wants to create a username
-            if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
-                JOptionPane.showMessageDialog(myFrame,
-                    "Success! You have successfully created a new user name.");	// Display success message
-		    username = userNameField.getText();
-	            setReadyState(true);
-	    } else { // If the user name field was empty
-		JOptionPane.showMessageDialog(myFrame, "Your user name must contain at least one character");
-	    }
-        } else if (RULES.equals(command)) { //The user wishes to view the rules
-            JOptionPane.showMessageDialog(myFrame,
-                "Here are the rules."); // Insert rules here	
-        } else { // Force Start button was pressed
-	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
-			JOptionPane.showMessageDialog(myFrame, "Please create a username before starting.");
-		} else {
-		    forceStartState = true;
-		}
-	}
-    }
-	
-
- 
-	/**
-	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
-	 * with this JFrame passed in as a parameter.
-	 */
-    private void createAndDisplay() {
-        myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        //final WelcomeScreen contentPane = new WelcomeScreen(); // Create instance of WelcomeScreen 
-        //contentPane.setOpaque(true); // Makes contentPane opaque 
-        //myFrame.setContentPane(contentPane); // Sets contentPane property
-	//myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-	myFrame.setLayout(new BoxLayout(myFrame, BoxLayout.Y_AXIS));
-	    
-	FlowLayout flowLayout = new FlowLayout(); // Create FlowLayout object for later reference
-	    
-	JLabel monopolyIconLabel = null;
-	JLabel messageLabel = null;
-	JLabel userNameLabel = null;
+		// Initialise ImageIcon variables to null
+		ImageIcon monopolyIcon = null;
+		ImageIcon userIcon = null;
 		
-	// Initialise ImageIcon variables to null
-	ImageIcon monopolyIcon = null;
-	ImageIcon userIcon = null;
+		// Set up user name field
+        	userNameField = new JTextField(12); // Length = 12
+        	userNameField.setActionCommand(CREATE_NAME);  
+        	userNameField.addActionListener(this);
 		
-	// Set up user name field
-        userNameField = new JTextField(12); // Length = 12
-        userNameField.setActionCommand(CREATE_NAME);  
-        userNameField.addActionListener(this);
-		
-	// Create ImageIcon for Monopoly logo and user icon
+		// Create ImageIcon for Monopoly logo and user icon
 		try {
 			// Monopoly icon creation
 			BufferedImage imgMonopoly = ImageIO.read(new File(MONOPOLY_LOGO));
@@ -254,6 +212,69 @@ public class WelcomeScreen extends JPanel implements ActionListener {
         	add(buttonsPanel);
     }
 	
+    public String getUsername() {
+        return username;
+    }
+ 
+    public void setReadyState(boolean x) {
+        readyToStart = x;
+    }
+       
+    public boolean getForceStart() {
+        return forceStartState;
+    }
+   
+    public void closeScreen() {
+        controllingFrame.dispose();
+    }
+ 
+	/**
+	 * Method which checks what command was made by the user and then responds appropriately.
+	 * @param e 
+	 */
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand(); // Store value of command
+ 
+        if (CREATE_NAME.equals(command)) { // The user wants to create a username
+            if (userNameField.getText().trim().isEmpty() == false) { // If at least one character has been entered into the field
+                JOptionPane.showMessageDialog(controllingFrame,
+                    "Success! You have successfully created a new user name.");	// Display success message
+		    username = userNameField.getText();
+	            setReadyState(true);
+	    } else { // If the user name field was empty
+		JOptionPane.showMessageDialog(controllingFrame, "Your user name must contain at least one character");
+	    }
+        } else if (RULES.equals(command)) { //The user wishes to view the rules
+            JOptionPane.showMessageDialog(controllingFrame,
+                "Here are the rules."); // Insert rules here	
+        } else { // Force Start button was pressed
+	        if (readyToStart == false) { // Only allow user to proceed if they have created a user name
+			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
+		} else {
+		    forceStartState = true;
+		}
+	}
+    }
+	
+
+ 
+	/**
+	 * Method which creates JFrame object and adjusts some properties before creating an instance of WelcomeScreen
+	 * with this JFrame passed in as a parameter.
+	 */
+    /*private static void createAndDisplay() {
+        JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+ 
+        final WelcomeScreen contentPane = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+        contentPane.setOpaque(true); // Makes contentPane opaque 
+        myFrame.setContentPane(contentPane); // Sets contentPane property
+		myFrame.getContentPane().setBackground(Color.black);
+        myFrame.setSize(550, 500);
+		myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true); // Window is displayed
+    }*/
+	
 	/**
 	 * Main method which calls the createAndDisplay() method.
 	 */
@@ -263,3 +284,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
             
     }*/
 }
+
+
+   
+
