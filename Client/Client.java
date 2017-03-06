@@ -683,7 +683,7 @@ public class Client{
 			welcomeScreen.closeScreen();
 			//create board
 			start=true;
-		  }else if(windowScreen.getForceStart()){
+		  }else if(welcomeScreen.getForceStart()){
 			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
 			//create board
 			start=true;
