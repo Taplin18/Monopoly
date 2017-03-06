@@ -240,6 +240,7 @@ class ServerThread extends Thread {
 							if (answer[0].equals("chest")) {
 								position_info.put("positionType", "chest");
 								position_info.put("chestType", answer[1]);
+								position_info.put("picture", answer[4]);
 								if (answer[1].equals("jail")) {
 									position_info.put("jailType", answer[2]);
 									position_info.put("message", answer[3]);
@@ -250,6 +251,7 @@ class ServerThread extends Thread {
 							} else if (answer[0].equals("chance")) {
 								position_info.put("positionType", "chance");
 								position_info.put("chanceType", answer[1]);
+								position_info.put("picture", answer[4]);
 								if (answer[1].equals("jail")) {
 									position_info.put("jailType", answer[2]);
 									position_info.put("message", answer[3]);
@@ -284,6 +286,7 @@ class ServerThread extends Thread {
 							} else if (answer[0].equals("utilities")) {
 								position_info.put("positionType", "utilities");
 								position_info.put("ownership", answer[1]);
+								position_info.put("picture", answer[5]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
 									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
@@ -298,6 +301,7 @@ class ServerThread extends Thread {
 							} else if (answer[0].equals("transport")) {
 								position_info.put("positionType", "transport");
 								position_info.put("ownership", answer[1]);
+								position_info.put("picture", answer[5]);
 								if (answer[1].equals("owned")) {
 									position_info.put("rent", answer[2]);
 									position_info.put("username", player_usernames.get(Integer.valueOf(answer[3])));
@@ -312,6 +316,7 @@ class ServerThread extends Thread {
 							} else if (answer[0].equals("Tax")) {
 								position_info.put("positionType", "taxes");
 								position_info.put("taxAmount", answer[1]);
+								position_info.put("picture", answer[2]);
 							} else {
 								position_info.put("positionType", "corner");
 							}

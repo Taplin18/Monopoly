@@ -7,6 +7,7 @@ class Transport {
 	protected int price;
 	protected boolean bought = false;
 	protected int ownerID = -1;
+	protected String picture;
 	
 	/**
 	* Initilise the railroad
@@ -14,10 +15,11 @@ class Transport {
 	* @param price The cost of the transport to buy
 	* @param rent The rent charged to players when they don't own it
 	*/
-	public Transport(String name, int price, int rent) {
+	public Transport(String name, int price, int rent, String picture) {
 		this.name = name;
 		this.rent = rent;
 		this.price = price;
+		this.picture = picture;
 	}
 
 	/**
@@ -58,6 +60,14 @@ class Transport {
 	*/
 	public void update_rent() {
 		rent *= 2;
+	}
+
+	/**
+	* Return the name of the transport's picture
+	* @return the name of the picture
+	*/
+	public String picture() {
+		return picture;
 	}
 
 	/**

@@ -7,16 +7,18 @@ class Utility {
 	protected int price;
 	protected boolean bought = false;
 	protected int ownerID = -1;
+	protected String picture;
 	
 	/**
 	* Initilise the utility
 	* @param name The name of the utility
 	* @param price The cost of the utility to buy
 	*/
-	public Utility(String name, int price) {
+	public Utility(String name, int price, String picture) {
 		this.name = name;
 		this.price = price;
 		rent = price / 2;
+		this.picture = picture;
 	}
 
 	/**
@@ -34,6 +36,14 @@ class Utility {
 	*/
 	public int owner() {
 		return ownerID;
+	}
+
+	/**
+	* Return the name of the utilities picture
+	* @return the name of the picture
+	*/
+	public String picture() {
+		return picture;
 	}
 
 	/**

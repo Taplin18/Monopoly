@@ -91,9 +91,9 @@ class Board {
 		for (int i = 0; i < transport.length; i++) {
 			if (position == transport[i]) {
 				if (check_if_bought(position)) {
-					return String.format("transport - owned - %s - %s - %s", squares.trans_rent(position), squares.trans_owned_by(position), squares.trans_name(position));
+					return String.format("transport - owned - %s - %s - %s - %s", squares.trans_rent(position), squares.trans_owned_by(position), squares.trans_name(position), squares.trans_picture(position));
 				} else {
-					return String.format("transport - available - %s - %s - %s", squares.trans_name(position), squares.trans_price(position), squares.trans_rent(position));
+					return String.format("transport - available - %s - %s - %s - %s", squares.trans_name(position), squares.trans_price(position), squares.trans_rent(position), squares.trans_picture(position));
 				}
 			}
 		}
@@ -101,9 +101,9 @@ class Board {
 		for (int i = 0; i < utilities.length; i++) {
 			if (position == utilities[i]) {
 				if (check_if_bought(position)) {
-					return String.format("utility - owned %s - %s - %s", squares.util_owned_by(position), squares.util_owned_by(position), squares.util_name(position));
+					return String.format("utility - owned - %s - %s - %s - %s", squares.util_owned_by(position), squares.util_owned_by(position), squares.util_name(position), squares.util_picture(position));
 				} else {
-					return String.format("utility - %s - %s - %s", squares.util_name(position), squares.util_price(position), squares.util_rent(position));
+					return String.format("utility - available - %s - %s - %s - %s", squares.util_name(position), squares.util_price(position), squares.util_rent(position), squares.util_picture(position));
 				}
 			}
 		}

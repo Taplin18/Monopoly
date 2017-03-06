@@ -57,9 +57,9 @@ class Square {
 	public String get_card(String card_type, int position){
 		if (card_type == "Tax") {
 			if (position == 4) {
-				return "Tax - 200";
+				return "Tax - 200 - taxes.png";
 			} else {
-				return "Tax - 100";
+				return "Tax - 100 - taxes.png";
 			}
 		} else if (card_type == "Corners") {
 			if (position == 0) {
@@ -216,6 +216,16 @@ class Square {
 	}
 
 	/**
+	* Get the picutre name of the transport
+	* @param position the transport id
+	* @return the picture name of the transport
+	*/
+	public String util_picture(int position) {
+		transport_info = transports.get(position);
+		return transport_info.picture();
+	}
+
+	/**
 	* Buy the utility and set owners id to players id
 	* @param position the Server_Property id
 	* @param playerID the players id
@@ -274,6 +284,16 @@ class Square {
 		return utility_info.rent();
 	}
 
+	/**
+	* Get the picutre name of the Utility
+	* @param position the utility id
+	* @return the picture name of the utility
+	*/
+	public String util_picture(int position) {
+		utility_info = utilities.get(position);
+		return utility_info.picture();
+	}
+
 	//Initilise the Server_Property values
 	private void Server_Property(){
 		property_values.add(Arrays.asList("Mediterranean Avenue", 60, 10, "brown", 50, "med_avenue.jpg"));
@@ -308,10 +328,10 @@ class Square {
 
 	//Initilise the transport values
 	private void transport(){
-		transport_values.add(Arrays.asList("Reading Railroad", 200, 25));
-		transport_values.add(Arrays.asList("Pennsylvania Railroad", 200, 25));
-		transport_values.add(Arrays.asList("B. & O. Railroad", 200, 25));
-		transport_values.add(Arrays.asList("Short Line", 200, 25));
+		transport_values.add(Arrays.asList("Reading Railroad", 200, 25, "transport.png"));
+		transport_values.add(Arrays.asList("Pennsylvania Railroad", 200, 25, "transport.png"));
+		transport_values.add(Arrays.asList("B. & O. Railroad", 200, 25, "transport.png"));
+		transport_values.add(Arrays.asList("Short Line", 200, 25, "transport.png"));
 
 		for (int i = 0; i < 4; i++) {
 			List <Object> values = transport_values.get(i);
@@ -322,8 +342,8 @@ class Square {
 
 	//Initilise the utility values
 	private void utility(){
-		utility_values.add(Arrays.asList("Electric Company", 200));
-		utility_values.add(Arrays.asList("Water Works", 200));
+		utility_values.add(Arrays.asList("Electric Company", 200, "utilities.png"));
+		utility_values.add(Arrays.asList("Water Works", 200, "utilities.png"));
 
 		for (int i = 0; i < 2; i++) {
 			List <Object> values = utility_values.get(i);
