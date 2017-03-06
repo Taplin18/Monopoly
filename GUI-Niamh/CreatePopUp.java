@@ -26,14 +26,15 @@ public class CreatePopUp extends JPanel implements ActionListener {
     private JPanel textPanel;					// - Holds text components
     private JPanel buttonPanel;					// - Holds button components
     private JLabel imageLabel;					// - ImageIcon is inserted here
-    private JTextArea textArea;
-	// - Holds message to be displayed in pop-up
+    private JTextArea textArea;					// - Holds message to be displayed in pop-up
+    private JButton okButton;
+    private JButton payRentButton;
+    private JButton auctionButton;
+    private JButton buyButton;
     private static String OK = "OK";				// - String to be displayed on button
     private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
     private static String BUY = "Buy";				// - String to be displayed on button
     private static String AUCTION = "Auction";			// - String to be displayed on button
-    private HashMap<String, String> squareInfo;			// - HashMap used to store square information
-	private JButton okButton;
 	
    /**
     * The details of the type of square the player is currently on is passed in as a HashMap object, which is then passed 
@@ -69,58 +70,52 @@ public class CreatePopUp extends JPanel implements ActionListener {
         positionType = squareInfo.get("positionType");
         //image = squareInfo.get("picture");
 		
-	switch(positionType) {
-		case "chest":
-		case "chance":
-			message = squareInfo.get("message");
-			// Create OK button, add action command and listener, and add to button panel
-			okButton = new JButton("OK");
-			okButton.setActionCommand(OK);
-			okButton.addActionListener(this);
-			buttonPanel.add(okButton);
-			
-		case "property":
-		case "transport":
-		case "utilities":
-			name = squareInfo.get("name");
-			message = "You have landed on " + name + "!\n";
-			ownership = squareInfo.get("ownership");
-			if (ownership == "owned") {
-				rent = Integer.valueOf(String.valueOf(squareInfo.get("rent")));
-				message += "This is already owned by another player. You must pay rent of " + rent + "dollars.";
+	if (positionType == "chest" || positionType == "chance") {
+		message = squareInfo.get("message");
+		// Create OK button, add action command and listener, and add to button panel
+		okButton = new JButton("OK");
+		okButton.setActionCommand(OK);
+		okButton.addActionListener(this);
+		buttonPanel.add(okButton);
+	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities")		
+		name = squareInfo.get("name");
+		message = "You have landed on " + name + "!\n";
+		ownership = squareInfo.get("ownership");
+		if (ownership == "owned") {
+			rent = Integer.valueOf(String.valueOf(squareInfo.get("rent")));
+			message += "This is already owned by another player. You must pay rent of " + rent + "dollars.";
 					
-				// Create Pay Rent button, add action command and listener, and add to button panel
-				JButton payRentButton = new JButton("Pay Rent"); 
-				payRentButton.setActionCommand(PAY_RENT);
-				payRentButton.addActionListener(this);
-				buttonPanel.add(payRentButton);
+			// Create Pay Rent button, add action command and listener, and add to button panel
+			JButton payRentButton = new JButton("Pay Rent"); 
+			payRentButton.setActionCommand(PAY_RENT);
+			payRentButton.addActionListener(this);
+			buttonPanel.add(payRentButton);
 					
-			} else { // Property is available
-				price = Integer.valueOf(String.valueOf(squareInfo.get("price")));
-				message += "This is available and costs " + price + " dollars.\n Would you like to buy it or go to auction?";
+		} else { // Property is available
+			price = Integer.valueOf(String.valueOf(squareInfo.get("price")));
+			message += "This is available and costs " + price + " dollars.\n Would you like to buy it or go to auction?";
 					
-				// Create Buy and Auction buttons, add action command and listener, and add to button panel
-				JButton buyButton = new JButton("Buy"); // Pay rent button
-				buyButton.setActionCommand(BUY);
-				buyButton.addActionListener(this);
-				JButton auctionButton = new JButton("Auction"); // Pay rent button
-				auctionButton.setActionCommand(AUCTION);
-				auctionButton.addActionListener(this);
+			// Create Buy and Auction buttons, add action command and listener, and add to button panel
+			JButton buyButton = new JButton("Buy"); // Pay rent button
+			buyButton.setActionCommand(BUY);
+			buyButton.addActionListener(this);
+			JButton auctionButton = new JButton("Auction"); // Pay rent button
+			auctionButton.setActionCommand(AUCTION);
+			auctionButton.addActionListener(this);
 					
-				// Add buttons to button panel
-				buttonPanel.add(buyButton);
-				buttonPanel.add(auctionButton);
-				}
-				
-		case "taxes":
-			taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
-			message = "You have landed on a Tax square. You must pay a tax of " + taxOwed + " dollars.";
-			// Create OK button, add action command and listener, and add to button panel
-			okButton = new JButton("OK");
-			okButton.setActionCommand(OK);
-			okButton.addActionListener(this);
-			buttonPanel.add(okButton);
-        }
+			// Add buttons to button panel
+			buttonPanel.add(buyButton);
+			buttonPanel.add(auctionButton);
+		}
+    	    } else if (positionType == "taxes") {
+		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
+		message = "You have landed on a Tax square. You must pay a tax of " + taxOwed + " dollars.";
+		// Create OK button, add action command and listener, and add to button panel
+		okButton = new JButton("OK");
+		okButton.setActionCommand(OK);
+		okButton.addActionListener(this);
+		buttonPanel.add(okButton);
+            }
 			
         // Read in image file
 	/*try {
