@@ -658,6 +658,10 @@ public class Client{
       return false;
     }
   }
+  
+  public String getUserName(){
+	return this.userName;
+  }
 
   public static void main(String[] args)throws IOException{
     try{
