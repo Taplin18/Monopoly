@@ -43,8 +43,8 @@ public class Client{
   private int diceOne;
   private int diceTwo;
   private String picture;
-  //private CreatePopUp popUp;
-  private AuctionChat chatBox;
+  private CreatePopUp popUp;
+ // private AuctionChat chatBox;
   private WelcomeScreen welcomeScreen;
   private HashMap <String, String> squareInfo;
   private static JSONObject possibleRent;
@@ -247,15 +247,15 @@ public class Client{
           if(returnedMessage.get("jailType")=="out"){
             this.jail_free++;
             squareInfo.put("jailType", "out");
-            //popUp = new CreatePopUp(squareInfo);
+            popUp = new CreatePopUp(squareInfo);
           }else{
             squareInfo.put("jailType", "in");
-            //popUp = new CreatePopUp(squareInfo);
+            popUp = new CreatePopUp(squareInfo);
             this.setPosition(jailPosition);
           }
         }else{ //money
           squareInfo.put("chestAmount", String.valueOf(returnedMessage.get("chestAmount")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           if(returnedMessage.get("chestType")=="add"){
             this.addMoney(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
           }else{
@@ -267,12 +267,12 @@ public class Client{
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
           if(returnedMessage.get("ownership")=="owned"){
             squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
-            //popUp = new CreatePopUp(squareInfo);
+            popUp = new CreatePopUp(squareInfo);
             int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
             this.pay(rent);
           }else{ //vacant
             squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
-            //popUp = new CreatePopUp(squareInfo);
+            popUp = new CreatePopUp(squareInfo);
             Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
             this.optionToBuy(property);
           }
@@ -281,12 +281,12 @@ public class Client{
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
         if(returnedMessage.get("ownership")=="owned"){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON
           this.pay(rent);
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
@@ -295,28 +295,28 @@ public class Client{
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
         if(returnedMessage.get("ownership")=="owned"){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON 
           this.pay(rent);
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
       }else if(returnedMessage.get("positionType")=="taxes"){
         squareInfo.put("amount", String.valueOf(returnedMessage.get("taxAmount")));
-        //popUp = new CreatePopUp(squareInfo);
+        popUp = new CreatePopUp(squareInfo);
         this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
       }else if(returnedMessage.get("positionType")=="chance"){
         squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
         if(returnedMessage.get("chanceType")=="jail"){
           squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           if(returnedMessage.get("jailType")=="out"){
             squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
-            //popUp = new CreatePopUp(squareInfo);
+            popUp = new CreatePopUp(squareInfo);
             jail_free++;
           }else{
             this.setPosition(jailPosition);
@@ -324,7 +324,7 @@ public class Client{
         }else{ //go to position...
           //String messageToDisplay= String.valueOf(returnedMessage.get("message")); //display on GUI
           squareInfo.put("chancePosition", String.valueOf(returnedMessage.get("chancePosition")));
-          //popUp = new CreatePopUp(squareInfo);
+          popUp = new CreatePopUp(squareInfo);
           int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
           this.setPosition(positionToBeSet);
@@ -697,8 +697,8 @@ public class Client{
     System.out.println("My new ID: "+client.getId());
     boolean forceStart=true; // button
     System.out.println(client.getUserName()+" received 'game has started' from server");
-    chatBox=new AuctionChat();
-    chatBox.main();
+    //chatBox=new AuctionChat();
+    //chatBox.main();
     while(!closed){
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
