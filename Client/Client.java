@@ -33,7 +33,7 @@ public class Client{
   private boolean prevInJail=false; //at the beginning of the turn client was in jail (nulls second turn on double)
   private static int goAmount=2000;
   private static int startPosition=0;
-  private String userName;
+  private String username;
   private static BufferedReader br;
   private int noOfDoubles=0;
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
@@ -44,8 +44,8 @@ public class Client{
   private int diceTwo;
   private String picture;
   private CreatePopUp popUp;
- // private AuctionChat chatBox;
-  private WelcomeScreen welcomeScreen;
+ // private static AuctionChat chatBox;
+  private static WelcomeScreen welcomeScreen;
   private HashMap <String, String> squareInfo;
   private static JSONObject possibleRent;
 
@@ -545,7 +545,7 @@ public class Client{
   * @param integer client id, String messageType, String sendMessage
   */
   public void sendByeMessage(){
-	int id=client.getId();
+	int id=this.getId();
 	String messageType="Bye";
 	String sendMessage="Bye";
 	
@@ -660,7 +660,7 @@ public class Client{
   }
   
   public String getUserName(){
-	return this.userName;
+	return this.username;
   }
 
   public static void main(String[] args)throws IOException{
