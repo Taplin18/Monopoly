@@ -1,4 +1,5 @@
 
+
 package monopoly3;
 
 import java.awt.Graphics;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import static monopoly3.Buttons.client;
 
+
 /**
  * The board class is used to display the monopoly board image, as well as draw the player
  * @author cascadafreak07
@@ -28,7 +30,7 @@ class Board extends JPanel implements ActionListener {
     BufferedImage img;
     //List of locations where the player can move
     static ArrayList<Points> array = new ArrayList<Points>();
-    
+    static Client client = new Client();
     BufferedImage[]playerImages;
 
     /**
@@ -36,6 +38,7 @@ class Board extends JPanel implements ActionListener {
      */
     public Board() {
         //Initiliazing the variables
+        
         t = new Timer(10, this);
         t.start();
         setFocusable(true);    
