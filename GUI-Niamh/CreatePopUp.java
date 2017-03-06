@@ -38,7 +38,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	
    /**
     * The details of the type of square the player is currently on is passed in as a HashMap object, which is then passed 
-    * to the displayPopUp() method where the required information is extracted and placed appropriately placed on to the JFrame.
+    * to the displayPopUp() method where the required information is extracted and placed appropriately on to the JFrame.
     * @param squareInfo - HashMap object containing information on current square
     */
     public CreatePopUp(HashMap<String, String> squareInfo) {
