@@ -46,7 +46,7 @@ public  class Player {
         try{            
             for(int i = 0; i < 8; i++){
                 img = ImageIO.read(new File("monopoly3/player" + i+".jpg"));
-                players[0] = img;
+                players[i] = img;
                 //players[i] = img;
             }            
         }
