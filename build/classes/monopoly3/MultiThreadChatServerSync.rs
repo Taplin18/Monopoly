@@ -1,2 +1,0 @@
-monopoly3.clientThread
-monopoly3.MultiThreadChatServerSync
