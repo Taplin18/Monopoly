@@ -143,19 +143,19 @@ class ServerThread extends Thread {
 						line = br.readLine();
 					}
 					this.sleep(500);
-						if (!startedMessage) {
-							JSONObject numPlayers = new JSONObject();
-							numPlayers.put("messageType", "start");
-							
-							StringWriter num = new StringWriter();
-			         		numPlayers.writeJSONString(num);
-			         		String num_players = num.toString();
-			         		System.out.println("first contect message: " + num_players);
-			         		bw.write(num_players);
-			         		bw.newLine();
-			         		bw.flush();
-			         		startedMessage = true;
-						}
+					if (!startedMessage && started) {
+						JSONObject numPlayers = new JSONObject();
+						numPlayers.put("messageType", "start");
+						
+						StringWriter num = new StringWriter();
+		         		numPlayers.writeJSONString(num);
+		         		String num_players = num.toString();
+		         		System.out.println("first contect message: " + num_players);
+		         		bw.write(num_players);
+		         		bw.newLine();
+		         		bw.flush();
+		         		startedMessage = true;
+					}
 					// Send the number of clients playing
 					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
 						JSONObject starting = new JSONObject();
