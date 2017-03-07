@@ -136,6 +136,7 @@ class ServerThread extends Thread {
 					}
 				}
 
+
 				// Playing the game
 				while (!game_over) {
 					if (br.ready()) {

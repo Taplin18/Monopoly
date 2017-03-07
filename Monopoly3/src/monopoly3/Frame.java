@@ -38,6 +38,7 @@ public class Frame extends JFrame {
     
     public void setClientId(int id){
       board.setClientId(id);
+      //System.out.println(id)
     }
     
     /**

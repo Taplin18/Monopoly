@@ -656,6 +656,7 @@ public class Client{
       InputStream is = socket.getInputStream();
       InputStreamReader isr = new InputStreamReader(is);
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+      
         String message = br.readLine();
         System.out.println("message: "+message);
         JSONObject messageObj=decode(message);
@@ -719,6 +720,7 @@ public class Client{
 		  }
 	}
     Frame frame = new Frame();
+    frame.setClientId(client.getId());
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     System.out.println(client.getUserName()+" received 'game has started' from server");

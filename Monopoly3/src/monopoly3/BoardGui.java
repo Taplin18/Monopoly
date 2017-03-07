@@ -55,9 +55,10 @@ class BoardGui extends JPanel implements ActionListener {
       
         boardPositions();
         p = new Player(array.get(0));
-        t.start();   
+        t.start();
         
-        playerImages =  p.getPlayers();
+        
+        //playerImages =  1;
         
     }      
     /**
@@ -66,6 +67,7 @@ class BoardGui extends JPanel implements ActionListener {
      
      public void setClientId(int id){
 	this.id=id;
+        playerImages =  p.getPlayers();
         p.setPlayer(playerImages[id]);
      }
      
