@@ -1,2 +1,14 @@
 # Team Zebra
 Our Team Project
+
+### Run and Compile
+1. Go to the directory Monopoly3/src/monopoly3/
+  * Compile this direct
+  * javac -classpath json-simple-1.1.1.jar *.java
+
+2. Go back to the previous directory
+  * cd ..
+
+3. Run the files from here
+  * java -cp .:json-simple-1.1.1.jar monopoly3.Server
+  * java -cp .:json-simple-1.1.1.jar monopoly3.Client
