@@ -59,6 +59,7 @@ public class Client{
   private static WelcomeScreen welcomeScreen;
   private HashMap <String, String> squareInfo;
   private static JSONObject possibleRent;
+  static Frame frame;
 
   /**
   * Getter method for returning the number dice one has rolled on.
@@ -216,7 +217,7 @@ public class Client{
   *		4) Checks are made in relation to jail.
   *		5) Message is sent to the server regarding the client's position.
   *		6) Server replies with position type and checks are made regarding the appropriate action the user makes according to the position type (property, transport, utility, chest, chance).
-  *		&) Further action is taken in relation to doubles and jail.
+  *		7) Further action is taken in relation to doubles and jail.
   */
   public void myTurn(){
     System.out.println("\n"+this.getUserName()+": Start turn.");
@@ -228,8 +229,14 @@ public class Client{
         this.daysInJail=0;
       }
     }
-    diceOne=this.rollDice();
-    diceTwo=this.rollDice();
+    while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
+      System.out.println("Nah boi");
+    }
+    this.setDiceNumber(frame.getDiceOne(), frame.getDiceTwo());
+    System.out.println("Dice One: "+diceOne);
+    System.out.println("Dice Two: "+diceTwo);
+    this.setDiceNumber(diceOne, diceTwo);
+    System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
     this.setDiceNumber(diceOne, diceTwo);
     System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didn't roll double
@@ -691,7 +698,7 @@ public class Client{
         welcomeScreen.setOpaque(true); // Makes contentPane opaque 
         myFrame.setContentPane(welcomeScreen); // Sets contentPane property
 	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
+        myFrame.setSize(450, 400);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
 	  System.out.println("frame done got made ");
@@ -719,7 +726,7 @@ public class Client{
 			  System.out.println("YASS we force startin");
 		  }
 	}
-    Frame frame = new Frame();
+    frame = new Frame();
     frame.setClientId(client.getId());
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
@@ -729,6 +736,7 @@ public class Client{
     while(!closed){
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
+	  System.out.println("MY TURN BITCHES");
 	  if (!getNumPlayers) {
 	    client.makeListOfPlayers();
 	    getNumPlayers = true;

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import static monopoly3.Buttons.client;
+import monopoly3.Buttons;
 
 
 /**

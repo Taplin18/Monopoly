@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import static monopoly3.BoardGui.array;
 import static monopoly3.BoardGui.p;
+import java.util.Random;
 
 /**
  * The gui functionality of monopoly, this includes the use of the buttons, text-boxes and labels to add functionality and display the dice images 
@@ -41,10 +42,13 @@ public class Buttons extends JPanel implements ActionListener {
     //Send message in chat button
     JButton send;
     
+    int diceOne;
+    int diceTwo;
+    
     //location of player 
     int positionInArray = 0;
     
-    static Client client = new Client();
+    boolean diceButtonPressed=false;
        
     Buttons(){
         init();
@@ -100,6 +104,29 @@ public class Buttons extends JPanel implements ActionListener {
         add(send);
     
     }
+    
+    public boolean getIsDiceButtonPressed(){
+      return diceButtonPressed;
+    }
+    
+    public void setDice(int v, int vt){
+      this.diceOne=v;
+      this.diceTwo=vt;
+    }
+    
+    public int getDiceOne(){
+      this.diceButtonPressed=false;
+      return this.diceOne;
+    }
+    
+    public int getDiceTwo(){
+      return this.diceTwo;
+    }
+    
+    public void setDiceButtonPressed(){
+      this.diceButtonPressed=true;
+    }
+    
     /**
      * The action performed class, activates when an event is triggered such as pressing a button 
     */
@@ -110,8 +137,14 @@ public class Buttons extends JPanel implements ActionListener {
         if(action.equals("Roll")){
             //get the values of the dice
             //MAYBE CHANGE CLIENT.MYTURN()//GETDICE().....ARE CLIENT AND GUI GETTING SAME DICE TOTAL?????
-            int value = client.rollDice();
-            int value2 = client.rollDice();
+            Random randomGenerator = new Random();
+            int value = randomGenerator.nextInt(6);
+            int value2 = randomGenerator.nextInt(6);
+            
+            this.setDice(value, value2);
+            
+            this.setDiceButtonPressed();
+            
             //FOR TESTING
             int diceNumber = value + value2;
                        

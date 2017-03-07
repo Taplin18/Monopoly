@@ -13,13 +13,32 @@ import javax.swing.JPanel;
  * @author cascadafreak07
  */
 public class GuiInt extends JPanel{
+
+    int diceOne;
+    Buttons btn;
+    
     public GuiInt(){
         setLayout(new GridLayout(1,2,0,0));
-        Buttons btn = new Buttons();
+        btn = new Buttons();
         
         //otherGui oth = new OtherGui();
         add(btn);
         //add(oth);
     }
+    
+    public int getDiceOne(){
+      return btn.getDiceOne();
+    }
+    
+    public int getDiceTwo(){
+      return btn.getDiceTwo();
+    }
+    
+    
+    
+    public boolean getIsDiceButtonPressed(){
+      return btn.getIsDiceButtonPressed();
+    }
+    
     
 }

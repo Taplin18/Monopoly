@@ -17,7 +17,8 @@ public class Frame extends JFrame {
     JSplitPane jSplit;
     
     BoardGui board;
-    
+    private boolean diceButton=false;
+    GuiInt guiInt;
 
     /**
      * The constructor, assigns the various variables of the JFrame
@@ -36,6 +37,14 @@ public class Frame extends JFrame {
         
     }
     
+    public int getDiceOne(){
+      return guiInt.getDiceOne();
+    }
+    
+    public int getDiceTwo(){
+     return guiInt.getDiceTwo();
+    }
+    
     public void setClientId(int id){
       board.setClientId(id);
       //System.out.println(id)
@@ -46,7 +55,7 @@ public class Frame extends JFrame {
      */
     public void initilize() {        
         board = new BoardGui();
-        GuiInt guiInt  = new GuiInt();
+        guiInt  = new GuiInt();
         add(board);
         add(guiInt);
         setVisible(true);
@@ -57,5 +66,8 @@ public class Frame extends JFrame {
      * @param args
      */
     
+    public boolean getIsDiceButtonPressed(){
+      return guiInt.getIsDiceButtonPressed();
+    }
             
 }
