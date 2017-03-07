@@ -35,7 +35,7 @@ public class Server {
 				if (currentPlayers != maxPlayers+1) {
 					playerSocket = server.accept();
 					System.out.println("New player connected");
-					ServerThreadOther st = new ServerThreadOther(playerSocket, board);
+					ServerThread st = new ServerThread(playerSocket, board);
 					st.start();
 					currentPlayers++;
 				}
@@ -47,7 +47,7 @@ public class Server {
 	}
 }
 
-class ServerThreadOther extends Thread {
+class ServerThread extends Thread {
 
 	private String line = null;
 	private String playerName;
@@ -72,11 +72,12 @@ class ServerThreadOther extends Thread {
 	private boolean position_sent = false;
 	private boolean bye_sent = false;
 	private boolean num_players_sent = false;
+	private boolean startedMessage = false;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
 	*/
-	public ServerThreadOther(Socket sock, Board board){ //, ServerThread[] threads) {
+	public ServerThread(Socket sock, Board board){ //, ServerThread[] threads) {
 		this.sock = sock;
 		this.board = board;
 		playerID = ids;
@@ -144,15 +145,14 @@ class ServerThreadOther extends Thread {
 
 					// Send the number of clients playing
 					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
-						JSONObject numPlayers = new JSONObject();
-						numPlayers.put("number", String.valueOf(maxPlayers));
-						numPlayers.put("id", String.valueOf(playerID));
+						JSONObject starting = new JSONObject();
+						starting.put("number", String.valueOf(maxPlayers));
+						starting.put("id", String.valueOf(playerID));
 						
-						StringWriter num = new StringWriter();
-		         		numPlayers.writeJSONString(num);
-		         		String num_players = num.toString();
-		         		System.out.println("first contect message: " + num_players);
-		         		bw.write(num_players);
+						StringWriter start_game = new StringWriter();
+		         		starting.writeJSONString(start_game);
+		         		String start_mon = start_game.toString();
+		         		bw.write(start_mon);
 		         		bw.newLine();
 		         		bw.flush();
 		         		num_players_sent = true;
@@ -177,6 +177,19 @@ class ServerThreadOther extends Thread {
 
 					// Let the client know that it their turn
 					if(started && playerID == playerTurn){
+						if (!startedMessage) {
+							JSONObject numPlayers = new JSONObject();
+							numPlayers.put("messageType", "start");
+							
+							StringWriter num = new StringWriter();
+			         		numPlayers.writeJSONString(num);
+			         		String num_players = num.toString();
+			         		System.out.println("first contect message: " + num_players);
+			         		bw.write(num_players);
+			         		bw.newLine();
+			         		bw.flush();
+			         		startedMessage = true;
+						}
 						if (!turn_sent) {
 							System.out.println("\nPlayer is: " + playerName);
 							JSONObject turn = new JSONObject();

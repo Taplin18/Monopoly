@@ -37,8 +37,8 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 	private static String CREATE_NAME = "Create Name";
 	private static String FORCE_START = "Force Start";
     	private static String RULES = "Rules";
-	private static final String MONOPOLY_LOGO = "src/monopoly3/zebropoly2.png";
-	private static final String USER_ICON = "src/monopoly3/usericon2.jpg";
+	private static final String MONOPOLY_LOGO = "monopoly3/zebropoly2.png";
+	private static final String USER_ICON = "monopoly3/usericon2.jpg";
     	private JTextField userNameField; 
 	private boolean hasUserName = false;
 	private String username = "";
@@ -225,7 +225,7 @@ public class WelcomeScreen extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(controllingFrame, "Please create a username before starting.");
 		} else {
 		    forceStartState = true;
-                    Frame frame = new Frame();
+                    
 		}
 	}
     }

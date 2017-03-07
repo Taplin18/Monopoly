@@ -32,7 +32,7 @@ public class Dice {
         BufferedImage img;
         try{            
             for(int i = 1; i < 7; i++){
-                img = ImageIO.read(new File("src\\monopoly3\\dice"+i+".png"));                
+                img = ImageIO.read(new File("monopoly3/dice"+i+".png"));                
                 dice[i-1] = new ImageIcon(img);
             }            
         }

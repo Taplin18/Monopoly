@@ -15,6 +15,9 @@ import javax.swing.JSplitPane;
 public class Frame extends JFrame {
     
     JSplitPane jSplit;
+    
+    BoardGui board;
+    
 
     /**
      * The constructor, assigns the various variables of the JFrame
@@ -33,11 +36,15 @@ public class Frame extends JFrame {
         
     }
     
+    public void setClientId(int id){
+      board.setClientId(id);
+    }
+    
     /**
      * The assignment method, creates the instance of other JPanels used and adds them to the JFrame
      */
     public void initilize() {        
-        BoardGui board = new BoardGui();
+        board = new BoardGui();
         GuiInt guiInt  = new GuiInt();
         add(board);
         add(guiInt);

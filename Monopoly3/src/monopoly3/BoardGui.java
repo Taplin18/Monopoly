@@ -31,6 +31,9 @@ class BoardGui extends JPanel implements ActionListener {
     static ArrayList<Points> array = new ArrayList<Points>();
     static Client client;
     BufferedImage[]playerImages;
+    
+    
+    int id;
 
     /**
      * The Board Constructor, the board image is loaded and added to be displayed on the JPanel
@@ -41,9 +44,9 @@ class BoardGui extends JPanel implements ActionListener {
         t = new Timer(10, this);
         t.start();
         setFocusable(true);    
-        client  = new Client();
+        //Client client  = new Client();
         try{            
-        img = ImageIO.read(new File("src\\monopoly3\\monopoly.jpg"));
+        img = ImageIO.read(new File("monopoly3/monopoly.jpg"));
           
         }
         catch (IOException ex){            
@@ -55,12 +58,18 @@ class BoardGui extends JPanel implements ActionListener {
         t.start();   
         
         playerImages =  p.getPlayers();
-        p.setPlayer(playerImages[client.getId()]);
         
     }      
     /**
      * Possible positions on board are added to an ArrayList
      */
+     
+     public void setClientId(int id){
+	this.id=id;
+        p.setPlayer(playerImages[id]);
+     }
+     
+     
     //Populating the array with possible board positions
     public void boardPositions(){
         Points p;

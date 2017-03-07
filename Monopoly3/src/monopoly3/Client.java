@@ -1,4 +1,6 @@
 package monopoly3;
+
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -27,10 +29,10 @@ public class Client{
   private static int startMoney=2000;
   private static int noOfSites=20;
   private int siteArrayPointer=0;
-  private int defaultStartingId=0;
+  private int defaultStartingId=100;
   private static int portNumber=2222;
   private static int positionPortNumber=0;
-  private Map <Integer, PropertyClient> properties = new HashMap<Integer, PropertyClient>();
+  private Map <Integer, Property> properties = new HashMap<Integer, Property>();
   private int jail_free = 0;
   private int turnsInJail=0;
   private boolean inJail=false;
@@ -282,7 +284,7 @@ public class Client{
           }else{ //vacant
             squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
             popUp = new CreatePopUp(squareInfo);
-            PropertyClient property=new PropertyClient(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
+            Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
             this.optionToBuy(property);
           }
       }else if(returnedMessage.get("positionType")=="transport"){
@@ -296,7 +298,7 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          PropertyClient property=new PropertyClient(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
+          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
       }else if(returnedMessage.get("positionType")=="utilities"){
@@ -310,7 +312,7 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          PropertyClient property=new PropertyClient(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
+          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
       }else if(returnedMessage.get("positionType")=="taxes"){
@@ -364,7 +366,7 @@ public class Client{
   * Builds house on property in parameter
   * @param Property property
   */
-  public void build(PropertyClient property){
+  public void build(Property property){
     if(property.getType()=="site"){
       if(this.getMoney()<property.getHouseCost()){
         System.out.println("You do not have enough money");
@@ -403,7 +405,7 @@ public class Client{
   * Gives client the option to buy property, checks whether it has the money, records related information.
   * @param Property property
   */
-  public void optionToBuy(PropertyClient property){
+  public void optionToBuy(Property property){
     //DISPLAY POP UP WINDOW OF CARD DETAILS
     String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
     if(answer=="yes"){
@@ -431,7 +433,7 @@ public class Client{
     this.subMoney(amount);
     if(this.getMoney()<0){
       int selectedPropertyId= 1; //GUI GIVES SELECTED PROPERTY'S ID
-      PropertyClient selectedProperty=properties.get(selectedPropertyId);//select property from GUI cards
+      Property selectedProperty=properties.get(selectedPropertyId);//select property from GUI cards
       if(selectedProperty.getNumOfHouses()>0){
         this.addMoney(this.sellHouse(selectedProperty));
       }else{
@@ -454,7 +456,7 @@ public class Client{
   * @param Property property
   * @return integer money gained
   */
-  public int sellHouse(PropertyClient property){
+  public int sellHouse(Property property){
     this.sendMessageToServer(this.getId(), "decNumOfHouses", String.valueOf(property.getId()));
     return property.decNumOfHouses();
   }
@@ -464,7 +466,7 @@ public class Client{
   * @param Property property
   * @return integer money gained
   */
-  public int sellSite(PropertyClient property){
+  public int sellSite(Property property){
     //auction
     this.sendMessageToServer(this.getId(), "sell", String.valueOf(property.getId())); //sends the id of the property to the server
     return 0; //amount
@@ -670,18 +672,13 @@ public class Client{
   public String getUserName(){
 	return this.username;
   }
-  
-  void Initilize()
-  {
-      
-  }
 
   public static void main(String[] args)throws IOException{
     try{
       String host = "localhost";
       int port = portNumber;
       InetAddress address = InetAddress.getByName(host);
-          socket = new Socket(address, port);
+      socket = new Socket(address, port);
     }catch (Exception exception) {
       exception.printStackTrace();
     }
@@ -713,16 +710,15 @@ public class Client{
 			welcomeScreen.closeScreen();
 			//create board
 			start=true;
-                       // Frame frame = new Frame();
 			  System.out.println("YASSS we startin!");
 		  }else if(welcomeScreen.getForceStart()){
 			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
-                       // Frame frame = new Frame();
 			//create board
 			start=true;
 			  System.out.println("YASS we force startin");
 		  }
 	}
+    Frame frame = new Frame();
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
     System.out.println(client.getUserName()+" received 'game has started' from server");
