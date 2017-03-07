@@ -143,7 +143,19 @@ class ServerThread extends Thread {
 						line = br.readLine();
 					}
 					this.sleep(500);
-
+						if (!startedMessage) {
+							JSONObject numPlayers = new JSONObject();
+							numPlayers.put("messageType", "start");
+							
+							StringWriter num = new StringWriter();
+			         		numPlayers.writeJSONString(num);
+			         		String num_players = num.toString();
+			         		System.out.println("first contect message: " + num_players);
+			         		bw.write(num_players);
+			         		bw.newLine();
+			         		bw.flush();
+			         		startedMessage = true;
+						}
 					// Send the number of clients playing
 					if (player_info.get("messageType").equals("noOfPlayers") && !num_players_sent) {
 						JSONObject starting = new JSONObject();
@@ -178,19 +190,7 @@ class ServerThread extends Thread {
 
 					// Let the client know that it their turn
 					if(started && playerID == playerTurn){
-						if (!startedMessage) {
-							JSONObject numPlayers = new JSONObject();
-							numPlayers.put("messageType", "start");
-							
-							StringWriter num = new StringWriter();
-			         		numPlayers.writeJSONString(num);
-			         		String num_players = num.toString();
-			         		System.out.println("first contect message: " + num_players);
-			         		bw.write(num_players);
-			         		bw.newLine();
-			         		bw.flush();
-			         		startedMessage = true;
-						}
+						
 						if (!turn_sent) {
 							System.out.println("\nPlayer is: " + playerName);
 							JSONObject turn = new JSONObject();
