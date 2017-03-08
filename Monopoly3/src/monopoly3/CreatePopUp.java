@@ -71,7 +71,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
     */
     public void displayPopUp(HashMap<String, String> squareInfo) {
         positionType = squareInfo.get("positionType");
-        //image = squareInfo.get("picture");
+        image = squareInfo.get("picture");
 		
 	if (positionType == "chest" || positionType == "chance") {
 		message = squareInfo.get("message");

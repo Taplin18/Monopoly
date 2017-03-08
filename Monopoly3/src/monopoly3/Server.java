@@ -14,7 +14,7 @@ import java.io.*;
 */
 public class Server {
 
-	private static final int port = 2222;
+	private static final int port = 10001;
 	private static final int maxPlayers = 2;
 	private static int currentPlayers = 0;
 	private static Board board = new Board();
@@ -25,8 +25,8 @@ public class Server {
 		System.out.println("Server starting...");
 		try {
 			server = new ServerSocket(port);
-			InetAddress IP = InetAddress.getLocalHost();
-			System.out.println("IP address is := " + IP);
+			InetAddress ip = InetAddress.getLocalHost();
+            System.out.println("Your current IP address : " + ip);
 			System.out.println("Listening on port: " + port);
 		} catch (IOException e) {
 			e.printStackTrace();
