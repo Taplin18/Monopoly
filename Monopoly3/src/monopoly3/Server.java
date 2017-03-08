@@ -2,6 +2,7 @@ package monopoly3;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.InetAddress;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.json.simple.parser.JSONParser;
@@ -24,6 +25,8 @@ public class Server {
 		System.out.println("Server starting...");
 		try {
 			server = new ServerSocket(port);
+			InetAddress IP = InetAddress.getLocalHost();
+			System.out.println("IP address is := " + IP);
 			System.out.println("Listening on port: " + port);
 		} catch (IOException e) {
 			e.printStackTrace();
