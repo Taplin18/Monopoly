@@ -52,7 +52,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	buttonPanel = new JPanel(new FlowLayout());
 		
 	positionType = squareInfo.get("positionType");
-        image = squareInfo.get("picture");
+        image = "monopoly3/" + squareInfo.get("picture");
 		
 	if (positionType == "chest" || positionType == "chance") {
 		message = squareInfo.get("message");
