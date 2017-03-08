@@ -49,6 +49,10 @@ public class Buttons extends JPanel implements ActionListener {
     int positionInArray = 0;
     
     boolean diceButtonPressed=false;
+    
+    public void addToPosition(int number){
+      positionInArray = positionInArray + number;
+    }
        
     Buttons(){
         init();
@@ -138,8 +142,8 @@ public class Buttons extends JPanel implements ActionListener {
             //get the values of the dice
             //MAYBE CHANGE CLIENT.MYTURN()//GETDICE().....ARE CLIENT AND GUI GETTING SAME DICE TOTAL?????
             Random randomGenerator = new Random();
-            int value = randomGenerator.nextInt(6);
-            int value2 = randomGenerator.nextInt(6);
+            int value = randomGenerator.nextInt(6)+1;
+            int value2 = randomGenerator.nextInt(6)+1;
             
             this.setDice(value, value2);
             
@@ -165,7 +169,7 @@ public class Buttons extends JPanel implements ActionListener {
             //Add to the position of the player
             //positionInArray = client.getPosition();
             //FOR TESTING
-            positionInArray = diceNumber;
+            addToPosition(diceNumber);
             
             //Create new point with new player location
             Points points = new Points(array.get(positionInArray).getX(), array.get(positionInArray).getY());
