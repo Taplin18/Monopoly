@@ -293,7 +293,7 @@ public class Client{
           }else{ //vacant
             squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
             popUp = new CreatePopUp(squareInfo);
-            Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
+            //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
             this.optionToBuy(property);
           }
       }else if(returnedMessage.get("positionType").equals("transport")){
