@@ -298,28 +298,28 @@ class Square {
 
 	//Initilise the Server_Property values
 	private void Server_Property(){
-		property_values.add(Arrays.asList("Mediterranean Avenue", 60, 10, "brown", 50, "monopoly3/med_avenue.jpg"));
-		property_values.add(Arrays.asList("Baltic Avenue", 60, 20, "brown", 50, "monopoly3/baltic_avenue.jpg"));
-		property_values.add(Arrays.asList("Oriental Avenue", 100, 30, "blue", 50, "monopoly3/oriental_avenue"));
-		property_values.add(Arrays.asList("Vermont Avenue", 100, 30, "blue", 50, "monopoly3/vermont_avenue.jpg"));
-		property_values.add(Arrays.asList("Connecticut Avenue", 120, 40, "blue", 50, "monopoly3/connecticut_avenue.jpg"));
-		property_values.add(Arrays.asList("St. Charles Place", 140, 50, "pink", 100, "monopoly3/st_charles_place.jpg"));
-		property_values.add(Arrays.asList("States Avenue", 140, 60, "pink", 100, "monopoly3/states_avenue.jpg"));
-		property_values.add(Arrays.asList("Virginia Avenue", 160, 60, "pink", 100, "monopoly3/virginia_avenue.jpg"));
-		property_values.add(Arrays.asList("St. James Place", 180, 70, "orange", 100, "monopoly3/st_james_place.jpg"));
-		property_values.add(Arrays.asList("Tennessee Avenue", 180, 70, "orange", 100, "monopoly3/tennessee_avenue.jpg"));
-		property_values.add(Arrays.asList("New York Avenue", 200, 80, "orange", 100, "monopoly3/new_york_avenue.jpg"));
-		property_values.add(Arrays.asList("Kentucky Avenue", 220, 90, "red", 150, "monopoly3/kentucky_avenue.jpg"));
-		property_values.add(Arrays.asList("Indiana Avenue", 220, 90, "red", 150, "monopoly3/indiana_avenue.jpg"));
-		property_values.add(Arrays.asList("Illinois Avenue", 240, 100, "red", 150, "monopoly3/illinois_avenue.jpg"));
-		property_values.add(Arrays.asList("Atlantic Avenue", 260, 110, "yellow", 150, "monopoly3/atlantic_avenue.jpg"));
-		property_values.add(Arrays.asList("Ventnor Avenue", 260, 110, "yellow", 150, "monopoly3/ventnor_avenue.jpg"));
-		property_values.add(Arrays.asList("Marvin Gardens", 280, 120, "yellow", 150, "monopoly3/marvin_avenue.jpg"));
-		property_values.add(Arrays.asList("Pacific Avenue", 300, 130, "green", 200, "monopoly3/pacific_avenue.jpg"));
-		property_values.add(Arrays.asList("North Carolina Avenue", 300, 130, "green", 200, "monopoly3/north_carolina_avenue.jpg"));
-		property_values.add(Arrays.asList("Pennsylvania Avenue", 320, 150, "green", 200, "monopoly3/pennsylvania_avenue.jpg"));
-		property_values.add(Arrays.asList("Park Place", 350, 175, "purple", 200, "monopoly3/park_place.jpg"));
-		property_values.add(Arrays.asList("Boardwalk", 400, 200, "purple", 200, "monopoly3/boardwalk.jpg"));
+		property_values.add(Arrays.asList("Mediterranean Avenue", 60, 10, "brown", 50, "med_avenue.jpg"));
+		property_values.add(Arrays.asList("Baltic Avenue", 60, 20, "brown", 50, "baltic_avenue.jpg"));
+		property_values.add(Arrays.asList("Oriental Avenue", 100, 30, "blue", 50, "oriental_avenue"));
+		property_values.add(Arrays.asList("Vermont Avenue", 100, 30, "blue", 50, "vermont_avenue.jpg"));
+		property_values.add(Arrays.asList("Connecticut Avenue", 120, 40, "blue", 50, "connecticut_avenue.jpg"));
+		property_values.add(Arrays.asList("St. Charles Place", 140, 50, "pink", 100, "st_charles_place.jpg"));
+		property_values.add(Arrays.asList("States Avenue", 140, 60, "pink", 100, "states_avenue.jpg"));
+		property_values.add(Arrays.asList("Virginia Avenue", 160, 60, "pink", 100, "virginia_avenue.jpg"));
+		property_values.add(Arrays.asList("St. James Place", 180, 70, "orange", 100, "st_james_place.jpg"));
+		property_values.add(Arrays.asList("Tennessee Avenue", 180, 70, "orange", 100, "mennessee_avenue.jpg"));
+		property_values.add(Arrays.asList("New York Avenue", 200, 80, "orange", 100, "new_york_avenue.jpg"));
+		property_values.add(Arrays.asList("Kentucky Avenue", 220, 90, "red", 150, "kentucky_avenue.jpg"));
+		property_values.add(Arrays.asList("Indiana Avenue", 220, 90, "red", 150, "indiana_avenue.jpg"));
+		property_values.add(Arrays.asList("Illinois Avenue", 240, 100, "red", 150, "illinois_avenue.jpg"));
+		property_values.add(Arrays.asList("Atlantic Avenue", 260, 110, "yellow", 150, "atlantic_avenue.jpg"));
+		property_values.add(Arrays.asList("Ventnor Avenue", 260, 110, "yellow", 150, "ventnor_avenue.jpg"));
+		property_values.add(Arrays.asList("Marvin Gardens", 280, 120, "yellow", 150, "marvin_avenue.jpg"));
+		property_values.add(Arrays.asList("Pacific Avenue", 300, 130, "green", 200, "pacific_avenue.jpg"));
+		property_values.add(Arrays.asList("North Carolina Avenue", 300, 130, "green", 200, "north_carolina_avenue.jpg"));
+		property_values.add(Arrays.asList("Pennsylvania Avenue", 320, 150, "green", 200, "pennsylvania_avenue.jpg"));
+		property_values.add(Arrays.asList("Park Place", 350, 175, "purple", 200, "park_place.jpg"));
+		property_values.add(Arrays.asList("Boardwalk", 400, 200, "purple", 200, "boardwalk.jpg"));
 
 		for (int i = 0; i < property_values.size(); i++) {
 			List <Object> values = property_values.get(i);
@@ -330,10 +330,10 @@ class Square {
 
 	//Initilise the transport values
 	private void transport(){
-		transport_values.add(Arrays.asList("Reading Railroad", 200, 25, "monopoly3/transport.png"));
-		transport_values.add(Arrays.asList("Pennsylvania Railroad", 200, 25, "monopoly3/transport.png"));
-		transport_values.add(Arrays.asList("B. & O. Railroad", 200, 25, "monopoly3/transport.png"));
-		transport_values.add(Arrays.asList("Short Line", 200, 25, "monopoly3/transport.png"));
+		transport_values.add(Arrays.asList("Reading Railroad", 200, 25, "transport.png"));
+		transport_values.add(Arrays.asList("Pennsylvania Railroad", 200, 25, "transport.png"));
+		transport_values.add(Arrays.asList("B. & O. Railroad", 200, 25, "transport.png"));
+		transport_values.add(Arrays.asList("Short Line", 200, 25, "transport.png"));
 
 		for (int i = 0; i < 4; i++) {
 			List <Object> values = transport_values.get(i);
@@ -344,8 +344,8 @@ class Square {
 
 	//Initilise the utility values
 	private void utility(){
-		utility_values.add(Arrays.asList("Electric Company", 200, "monopoly3/utilities.png"));
-		utility_values.add(Arrays.asList("Water Works", 200, "monopoly3/utilities.png"));
+		utility_values.add(Arrays.asList("Electric Company", 200, "utilities.png"));
+		utility_values.add(Arrays.asList("Water Works", 200, "utilities.png"));
 
 		for (int i = 0; i < 2; i++) {
 			List <Object> values = utility_values.get(i);
