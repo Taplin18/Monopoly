@@ -51,26 +51,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	textPanel = new JPanel(new FlowLayout());
 	buttonPanel = new JPanel(new FlowLayout());
 		
-	displayPopUp(squareInfo);
-		
-	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        this.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(this); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(450, 400);
-	myFrame.setTitle("Current Square Update");
-	myFrame.pack();
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-    }	
-		
-   /**
-    * Method which takes in as a parameter the HashMap containing info on the current square and then creates appropriate
-    * JFrame components based on the values passed in.
-    * @param squareInfo - HashMap object containing information on the current square 
-    */
-    public void displayPopUp(HashMap<String, String> squareInfo) {
-        positionType = squareInfo.get("positionType");
+	positionType = squareInfo.get("positionType");
         image = squareInfo.get("picture");
 		
 	if (positionType == "chest" || positionType == "chance") {
@@ -155,7 +136,26 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	//add(imagePanel);
 	add(textPanel);
 	add(buttonPanel);
-    }
+		
+	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+        this.setOpaque(true); // Makes contentPane opaque 
+        myFrame.setContentPane(this); // Sets contentPane property
+	myFrame.getContentPane().setBackground(Color.black);
+        myFrame.setSize(450, 400);
+	myFrame.setTitle("Current Square Update");
+	myFrame.pack();
+	myFrame.setLocationRelativeTo(null);
+        myFrame.setVisible(true); // Window is displayed
+    }	
+		
+   /**
+    * Method which takes in as a parameter the HashMap containing info on the current square and then creates appropriate
+    * JFrame components based on the values passed in.
+    * @param squareInfo - HashMap object containing information on the current square 
+    */
+    //public void displayPopUp(HashMap<String, String> squareInfo) {
+        
+    //}
 	
    /**
     * Method which checks what command was made by the user and then responds appropriately.
