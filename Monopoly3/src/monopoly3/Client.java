@@ -266,17 +266,17 @@ public class Client{
             this.jail_free++;
             squareInfo.put("jailType", "out");
             popUp = new CreatePopUp(squareInfo);
-            System.out.print("POP UP");
+            System.out.println("POP UP");
           }else{
             squareInfo.put("jailType", "in");
             popUp = new CreatePopUp(squareInfo);
-            System.out.print("POP UP");
+            System.out.println("POP UP");
             this.setPosition(jailPosition);
           }
         }else{ //money
           squareInfo.put("chestAmount", String.valueOf(returnedMessage.get("chestAmount")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.print("POP UP");
+          System.out.println("POP UP");
           if(returnedMessage.get("chestType").equals("add")){
             this.addMoney(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
           }else{
@@ -289,13 +289,17 @@ public class Client{
           if(returnedMessage.get("ownership").equals("owned")){
             squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
             popUp = new CreatePopUp(squareInfo);
-            System.out.print("POP UP");
+            System.out.println("POP UP");
             int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
             this.pay(rent);
           }else{ //vacant
             squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
             popUp = new CreatePopUp(squareInfo);
-            System.out.print("POP UP");
+            System.out.println("POP UP");
+            System.out.println("String.valueOf(returnedMessage.get('positionType')):" +String.valueOf(returnedMessage.get("positionType")));
+            System.out.println("String.valueOf(returnedMessage.get('name')): "+String.valueOf(returnedMessage.get("name")));
+            System.out.println("String.valueOf(returnedMessage.get('price')): "+String.valueOf(returnedMessage.get("price")));
+            System.out.println("String.valueOf(returnedMessage.get('baseRent')): "+String.valueOf(returnedMessage.get("baseRent")));
             Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
             this.optionToBuy(property);
           }
@@ -305,17 +309,17 @@ public class Client{
         if(returnedMessage.get("ownership").equals("owned")){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.print("POP UP");
+          System.out.println("POP UP");
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON
           this.pay(rent);
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.println("String.valueOf(returnedMessage.get("positionType"): "+String.valueOf(returnedMessage.get("positionType"));
-            System.out.println("String.valueOf(returnedMessage.get("name")): "+String.valueOf(returnedMessage.get("name")));
-            System.out.println("String.valueOf(returnedMessage.get("price")): "+String.valueOf(returnedMessage.get("price")));
-            System.out.println("String.valueOf(returnedMessage.get("baseRent")): "+String.valueOf(returnedMessage.get("baseRent")));
-          System.out.print("POP UP");
+          System.out.println("String.valueOf(returnedMessage.get('positionType')):" +String.valueOf(returnedMessage.get("positionType")));
+          System.out.println("String.valueOf(returnedMessage.get('name')): "+String.valueOf(returnedMessage.get("name")));
+          System.out.println("String.valueOf(returnedMessage.get('price')): "+String.valueOf(returnedMessage.get("price")));
+          System.out.println("String.valueOf(returnedMessage.get('baseRent')): "+String.valueOf(returnedMessage.get("baseRent")));
+          System.out.println("POP UP");
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
@@ -325,20 +329,20 @@ public class Client{
         if(returnedMessage.get("ownership").equals("owned")){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.print("POP UP");
+          System.out.println("POP UP");
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON 
           this.pay(rent);
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.print("POP UP");
+          System.out.println("POP UP");
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
       }else if(returnedMessage.get("positionType").equals("taxes")){
         squareInfo.put("amount", String.valueOf(returnedMessage.get("taxAmount")));
         popUp = new CreatePopUp(squareInfo);
-        System.out.print("POP UP");
+        System.out.println("POP UP");
         this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
       }else if(returnedMessage.get("positionType").equals("chance")){
         squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
@@ -346,11 +350,11 @@ public class Client{
         if(returnedMessage.get("chanceType").equals("jail")){
           squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.print("POP UP");
+          System.out.println("POP UP");
           if(returnedMessage.get("jailType").equals("out")){
             squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
             popUp = new CreatePopUp(squareInfo);
-            System.out.print("POP UP");
+            System.out.println("POP UP");
             jail_free++;
           }else{
             this.setPosition(jailPosition);
@@ -359,7 +363,7 @@ public class Client{
           //String messageToDisplay= String.valueOf(returnedMessage.get("message")); //display on GUI
           squareInfo.put("chancePosition", String.valueOf(returnedMessage.get("chancePosition")));
           popUp = new CreatePopUp(squareInfo);
-          System.out.print("POP UP");
+          System.out.println("POP UP");
           int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
           this.setPosition(positionToBeSet);
