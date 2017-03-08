@@ -698,7 +698,7 @@ public class Client{
         welcomeScreen.setOpaque(true); // Makes contentPane opaque 
         myFrame.setContentPane(welcomeScreen); // Sets contentPane property
 	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(450, 400);
+        myFrame.setSize(550, 500);
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
 	  System.out.println("frame done got made ");
