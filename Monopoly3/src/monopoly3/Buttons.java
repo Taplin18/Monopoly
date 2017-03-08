@@ -18,6 +18,8 @@ import java.util.Random;
  * @author cascadafreak07
  */
 public class Buttons extends JPanel implements ActionListener {
+	
+	boolean myTurn = false;
    
     //Rolling, buying, selling and end turn buttons
     JButton roll;
@@ -49,6 +51,15 @@ public class Buttons extends JPanel implements ActionListener {
     int positionInArray = 0;
     
     boolean diceButtonPressed=false;
+	
+	void setMyTurn(boolean b){
+		myTurn=b;
+		if(b==true){
+			roll.setBounds(25, 25, 150, 50);
+		}else{
+			roll.setBounds(0, 0, 0, 0);
+		}
+	}
     
     public void addToPosition(int number){
       positionInArray = positionInArray + number;
@@ -71,7 +82,7 @@ public class Buttons extends JPanel implements ActionListener {
         
         //Initiliating all the buttons
         roll = new JButton("Roll");
-        roll.setBounds(25, 25, 150, 50);
+        roll.setBounds(0, 0, 0, 0);
         add(roll);
         roll.addActionListener(this);
            
@@ -122,6 +133,10 @@ public class Buttons extends JPanel implements ActionListener {
       this.diceButtonPressed=false;
       return this.diceOne;
     }
+	
+	public boolean getMyTurn(){
+		return myTurn;
+	}
     
     public int getDiceTwo(){
       return this.diceTwo;
@@ -138,9 +153,12 @@ public class Buttons extends JPanel implements ActionListener {
          
         String action = e.getActionCommand();
         //When the roll button is clicked
-        if(action.equals("Roll")){
+        if(action.equals("Roll")&& this.getMyTurn()){
             //get the values of the dice
             //MAYBE CHANGE CLIENT.MYTURN()//GETDICE().....ARE CLIENT AND GUI GETTING SAME DICE TOTAL?????
+			
+			this.setMyTurn(false);
+			
             Random randomGenerator = new Random();
             int value = randomGenerator.nextInt(6)+1;
             int value2 = randomGenerator.nextInt(6)+1;

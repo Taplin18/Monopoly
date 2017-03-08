@@ -69,5 +69,9 @@ public class Frame extends JFrame {
     public boolean getIsDiceButtonPressed(){
       return guiInt.getIsDiceButtonPressed();
     }
+	
+	public void setMyTurn(boolean b){
+		guiInt.setMyTurn(b);
+	}
             
 }

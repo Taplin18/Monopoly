@@ -34,7 +34,9 @@ public class GuiInt extends JPanel{
       return btn.getDiceTwo();
     }
     
-    
+    public void setMyTurn(boolean b){
+		btn.setMyTurn(b);
+	}
     
     public boolean getIsDiceButtonPressed(){
       return btn.getIsDiceButtonPressed();
