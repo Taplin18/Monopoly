@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
  
  
-public class CreatePopUp extends JPanel implements ActionListener {    
+public class CreatePopUp extends JPanel {    
 	
     private String message;					// - Text to be displayed about the current square
     private String name;					// - Name of the the property/utility/tranport square
@@ -163,7 +163,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
     * Method which checks what command was made by the user and then responds appropriately.
     * @param e 
     */
-    public void actionPerformed(ActionEvent e) {
+    /*public void actionPerformed(ActionEvent e) {
     
 	String command = e.getActionCommand(); // Store value of command
  
@@ -179,5 +179,5 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	} else if (OK.equals(command)) { // If OK button was pressed
 			myFrame.dispose();
 	}
-    }
+    }*/
 }
