@@ -230,6 +230,7 @@ public class Client{
         this.daysInJail=0;
       }
     }
+	frame.setMyTurn(true);
     while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
       System.out.println("Nah boi");
     }
@@ -743,7 +744,7 @@ public class Client{
     while(!closed){
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
-	  frame.setMyTurn(true);
+	  
 	  System.out.println("MY TURN BITCHES");
 	  if (!getNumPlayers) {
 	    client.makeListOfPlayers();
