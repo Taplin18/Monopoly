@@ -294,7 +294,7 @@ public class Client{
             squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
             popUp = new CreatePopUp(squareInfo);
             //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
-            this.optionToBuy(property);
+            //this.optionToBuy(property);
           }
       }else if(returnedMessage.get("positionType").equals("transport")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
@@ -307,8 +307,8 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
-          this.optionToBuy(property);
+          //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
+          //this.optionToBuy(property);
         }
       }else if(returnedMessage.get("positionType").equals("utilities")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
@@ -325,8 +325,8 @@ public class Client{
 		  System.out.println("name: "+String.valueOf(returnedMessage.get("name")));
 		  System.out.println("price: "+String.valueOf(returnedMessage.get("price")));
 		  System.out.println("baseRent: "+String.valueOf(returnedMessage.get("baseRent")));
-          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
-          this.optionToBuy(property);
+          //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
+          //this.optionToBuy(property);
         }
       }else if(returnedMessage.get("positionType").equals("taxes")){
         squareInfo.put("amount", String.valueOf(returnedMessage.get("taxAmount")));
