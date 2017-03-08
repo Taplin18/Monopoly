@@ -320,6 +320,10 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
+		  System.out.println("String.valueOf(returnedMessage.get("positionType"): "+String.valueOf(returnedMessage.get("positionType"));
+		  System.out.println("String.valueOf(returnedMessage.get("name")): "+String.valueOf(returnedMessage.get("name")));
+		  System.out.println("String.valueOf(returnedMessage.get("price")): "+String.valueOf(returnedMessage.get("price")));
+		  System.out.println("String.valueOf(returnedMessage.get("baseRent")): "+String.valueOf(returnedMessage.get("baseRent")));
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
