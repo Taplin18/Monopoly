@@ -25,10 +25,10 @@ public class CreatePopUp extends JPanel {
     private ImageIcon popUpIcon = null;				// - Used to store image as ImageIcon object
     private BufferedImage popUpImg = null;			// - Stores image when it is being read in
     private JFrame myFrame;					// - JFrame object which holds all other components
-    //private JPanel imagePanel;					// - Holds image components
+    private JPanel imagePanel;					// - Holds image components
     private JPanel textPanel;					// - Holds text components
     //private JPanel buttonPanel;					// - Holds button components
-    //private JLabel imageLabel;					// - ImageIcon is inserted here
+    private JLabel imageLabel;					// - ImageIcon is inserted here
     private JTextArea textArea;					// - Holds message to be displayed in pop-up
     //private JButton okButton;					// - JButton for OK button
     //private JButton payRentButton;				// - JButton for Pay Rent button
@@ -48,7 +48,7 @@ public class CreatePopUp extends JPanel {
 	// Create JFrame and JPanels
 	HashMap<String, String> test = squareInfo;
 	myFrame = new JFrame();
-	//imagePanel = new JPanel(new FlowLayout());
+	imagePanel = new JPanel(new FlowLayout());
 	textPanel = new JPanel(new FlowLayout());
 	//buttonPanel = new JPanel(new FlowLayout());
 		
@@ -101,10 +101,10 @@ public class CreatePopUp extends JPanel {
 		okButton.addActionListener(this);
 		buttonPanel.add(okButton);
             }
-			
+	*/		
         // Read in image file
 	try {
-	    popUpImg = ImageIO.read(new File(image));
+	    popUpImg = ImageIO.read(new File("monopoly3/boardwalk.jpg"));
 	    popUpIcon = new ImageIcon(popUpImg);
 	    Image myImage = popUpIcon.getImage(); 
 	    Image myImageCopy = myImage.getScaledInstance(350, 150,  java.awt.Image.SCALE_SMOOTH); // Scale / re-size the image 
@@ -119,7 +119,7 @@ public class CreatePopUp extends JPanel {
 	imagePanel.setBackground(Color.BLACK);
 	imagePanel.setOpaque(true);	
 	imagePanel.add(imageLabel); 
-	*/
+	
 		
 	textArea = new JTextArea("Test", 5, 20);
         textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
@@ -135,7 +135,7 @@ public class CreatePopUp extends JPanel {
 		
 	//buttonPanel.setBackground(Color.BLACK);
 		
-	//add(imagePanel);
+	add(imagePanel);
 	add(textPanel);
 	//add(buttonPanel);
 		
