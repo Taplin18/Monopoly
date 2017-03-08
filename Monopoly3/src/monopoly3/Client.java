@@ -230,7 +230,6 @@ public class Client{
         this.daysInJail=0;
       }
     }
-	frame.setMyTurn(true);
     while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
       System.out.println("Nah boi");
     }
@@ -260,11 +259,11 @@ public class Client{
       squareInfo = new HashMap<String, String>();
       squareInfo.put("positionType", String.valueOf(returnedMessage.get("positionType")));
       squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
-      if(returnedMessage.get("positionType")=="chest"){
+      if(returnedMessage.get("positionType").equals("chest")){
         squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
-        if(returnedMessage.get("chestType")=="jail"){
-          if(returnedMessage.get("jailType")=="out"){
+        if(returnedMessage.get("chestType").equals("jail")){
+          if(returnedMessage.get("jailType").equals("out")){
             this.jail_free++;
             squareInfo.put("jailType", "out");
             popUp = new CreatePopUp(squareInfo);
@@ -276,16 +275,16 @@ public class Client{
         }else{ //money
           squareInfo.put("chestAmount", String.valueOf(returnedMessage.get("chestAmount")));
           popUp = new CreatePopUp(squareInfo);
-          if(returnedMessage.get("chestType")=="add"){
+          if(returnedMessage.get("chestType").equals("add")){
             this.addMoney(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
           }else{
             this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
           }
         }
-      }else if(returnedMessage.get("positionType")=="property"){
+      }else if(returnedMessage.get("positionType").equals("property")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-          if(returnedMessage.get("ownership")=="owned"){
+          if(returnedMessage.get("ownership").equals("owned")){
             squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
             popUp = new CreatePopUp(squareInfo);
             int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
@@ -296,10 +295,10 @@ public class Client{
             Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
             this.optionToBuy(property);
           }
-      }else if(returnedMessage.get("positionType")=="transport"){
+      }else if(returnedMessage.get("positionType").equals("transport")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-        if(returnedMessage.get("ownership")=="owned"){
+        if(returnedMessage.get("ownership").equals("owned")){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
           popUp = new CreatePopUp(squareInfo);
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON
@@ -310,10 +309,10 @@ public class Client{
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
-      }else if(returnedMessage.get("positionType")=="utilities"){
+      }else if(returnedMessage.get("positionType").equals("utilities")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-        if(returnedMessage.get("ownership")=="owned"){
+        if(returnedMessage.get("ownership").equals("owned")){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
           popUp = new CreatePopUp(squareInfo);
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON 
@@ -328,17 +327,17 @@ public class Client{
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
-      }else if(returnedMessage.get("positionType")=="taxes"){
+      }else if(returnedMessage.get("positionType").equals("taxes")){
         squareInfo.put("amount", String.valueOf(returnedMessage.get("taxAmount")));
         popUp = new CreatePopUp(squareInfo);
         this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
-      }else if(returnedMessage.get("positionType")=="chance"){
+      }else if(returnedMessage.get("positionType").equals("chance")){
         squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
-        if(returnedMessage.get("chanceType")=="jail"){
+        if(returnedMessage.get("chanceType").equals("jail")){
           squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
           popUp = new CreatePopUp(squareInfo);
-          if(returnedMessage.get("jailType")=="out"){
+          if(returnedMessage.get("jailType").equals("out")){
             squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
             popUp = new CreatePopUp(squareInfo);
             jail_free++;
@@ -364,7 +363,6 @@ public class Client{
         }else{
           if(prevInJail==false){
             this.myTurn();
-			
           }else{
             this.prevInJail=false;
           }
@@ -381,7 +379,7 @@ public class Client{
   * @param Property property
   */
   public void build(Property property){
-    if(property.getType()=="site"){
+    if(property.getType().equals("site")){
       if(this.getMoney()<property.getHouseCost()){
         System.out.println("You do not have enough money");
       }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
@@ -422,7 +420,7 @@ public class Client{
   public void optionToBuy(Property property){
     //DISPLAY POP UP WINDOW OF CARD DETAILS
     String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
-    if(answer=="yes"){
+    if(answer.equals("yes")){
       //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
         this.buyProperty(this.getPosition(), property.getPrice());
@@ -690,7 +688,7 @@ public class Client{
 
   public static void main(String[] args)throws IOException{
     try{
-      String host = "10.243.111.180";
+      String host = "192.168.1.53";
       int port = portNumber;
       InetAddress address = InetAddress.getByName(host);
       //socket = new Socket(address, port);
@@ -745,6 +743,7 @@ public class Client{
     while(!closed){
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
+	  frame.setMyTurn(true);
 	  System.out.println("MY TURN BITCHES");
 	  if (!getNumPlayers) {
 	    client.makeListOfPlayers();
