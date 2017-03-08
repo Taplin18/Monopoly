@@ -1,6 +1,5 @@
 package monopoly3;
 
-import java.net.InetSocketAddress;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -212,13 +211,13 @@ public class Client{
 
   /**
   * method which pertains to the client's turn. The following occurs:
-  * 	1) Checks are made to see if the players is in jail (and if so whether he has a get out of jail free card).
-  *		2) Client rolls dice.
-  *		3) Records if client rolled a double.
-  *		4) Checks are made in relation to jail.
-  *		5) Message is sent to the server regarding the client's position.
-  *		6) Server replies with position type and checks are made regarding the appropriate action the user makes according to the position type (property, transport, utility, chest, chance).
-  *		7) Further action is taken in relation to doubles and jail.
+  *   1) Checks are made to see if the players is in jail (and if so whether he has a get out of jail free card).
+  *   2) Client rolls dice.
+  *   3) Records if client rolled a double.
+  *   4) Checks are made in relation to jail.
+  *   5) Message is sent to the server regarding the client's position.
+  *   6) Server replies with position type and checks are made regarding the appropriate action the user makes according to the position type (property, transport, utility, chest, chance).
+  *   7) Further action is taken in relation to doubles and jail.
   */
   public void myTurn(){
     System.out.println("\n"+this.getUserName()+": Start turn.");
@@ -259,87 +258,99 @@ public class Client{
       squareInfo = new HashMap<String, String>();
       squareInfo.put("positionType", String.valueOf(returnedMessage.get("positionType")));
       squareInfo.put("picture", String.valueOf(returnedMessage.get("picture")));
-      if(returnedMessage.get("positionType")=="chest"){
+      if(returnedMessage.get("positionType").equals("chest")){
         squareInfo.put("chestType", String.valueOf(returnedMessage.get("chestType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
-        if(returnedMessage.get("chestType")=="jail"){
-          if(returnedMessage.get("jailType")=="out"){
+        if(returnedMessage.get("chestType").equals("jail")){
+          if(returnedMessage.get("jailType").equals("out")){
             this.jail_free++;
             squareInfo.put("jailType", "out");
             popUp = new CreatePopUp(squareInfo);
+            System.out.print("POP UP");
           }else{
             squareInfo.put("jailType", "in");
             popUp = new CreatePopUp(squareInfo);
+            System.out.print("POP UP");
             this.setPosition(jailPosition);
           }
         }else{ //money
           squareInfo.put("chestAmount", String.valueOf(returnedMessage.get("chestAmount")));
           popUp = new CreatePopUp(squareInfo);
-          if(returnedMessage.get("chestType")=="add"){
+          System.out.print("POP UP");
+          if(returnedMessage.get("chestType").equals("add")){
             this.addMoney(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
           }else{
             this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("chestAmount"))));
           }
         }
-      }else if(returnedMessage.get("positionType")=="property"){
+      }else if(returnedMessage.get("positionType").equals("property")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-          if(returnedMessage.get("ownership")=="owned"){
+          if(returnedMessage.get("ownership").equals("owned")){
             squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
             popUp = new CreatePopUp(squareInfo);
+            System.out.print("POP UP");
             int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
             this.pay(rent);
           }else{ //vacant
             squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
             popUp = new CreatePopUp(squareInfo);
+            System.out.print("POP UP");
             Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
             this.optionToBuy(property);
           }
-      }else if(returnedMessage.get("positionType")=="transport"){
+      }else if(returnedMessage.get("positionType").equals("transport")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-        if(returnedMessage.get("ownership")=="owned"){
+        if(returnedMessage.get("ownership").equals("owned")){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
           popUp = new CreatePopUp(squareInfo);
+          System.out.print("POP UP");
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON
           this.pay(rent);
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
+          System.out.println("String.valueOf(returnedMessage.get("positionType"): "+String.valueOf(returnedMessage.get("positionType"));
+            System.out.println("String.valueOf(returnedMessage.get("name")): "+String.valueOf(returnedMessage.get("name")));
+            System.out.println("String.valueOf(returnedMessage.get("price")): "+String.valueOf(returnedMessage.get("price")));
+            System.out.println("String.valueOf(returnedMessage.get("baseRent")): "+String.valueOf(returnedMessage.get("baseRent")));
+          System.out.print("POP UP");
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
-      }else if(returnedMessage.get("positionType")=="utilities"){
+      }else if(returnedMessage.get("positionType").equals("utilities")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-        if(returnedMessage.get("ownership")=="owned"){
+        if(returnedMessage.get("ownership").equals("owned")){
           squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
           popUp = new CreatePopUp(squareInfo);
+          System.out.print("POP UP");
           int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//GET RENT FROM JSON 
           this.pay(rent);
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-		  System.out.println("String.valueOf(returnedMessage.get("positionType"): "+String.valueOf(returnedMessage.get("positionType"));
-		  System.out.println("String.valueOf(returnedMessage.get("name")): "+String.valueOf(returnedMessage.get("name")));
-		  System.out.println("String.valueOf(returnedMessage.get("price")): "+String.valueOf(returnedMessage.get("price")));
-		  System.out.println("String.valueOf(returnedMessage.get("baseRent")): "+String.valueOf(returnedMessage.get("baseRent")));
+          System.out.print("POP UP");
           Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           this.optionToBuy(property);
         }
-      }else if(returnedMessage.get("positionType")=="taxes"){
+      }else if(returnedMessage.get("positionType").equals("taxes")){
         squareInfo.put("amount", String.valueOf(returnedMessage.get("taxAmount")));
         popUp = new CreatePopUp(squareInfo);
+        System.out.print("POP UP");
         this.pay(Integer.parseInt(String.valueOf(returnedMessage.get("taxAmount"))));
-      }else if(returnedMessage.get("positionType")=="chance"){
+      }else if(returnedMessage.get("positionType").equals("chance")){
         squareInfo.put("chanceType", String.valueOf(returnedMessage.get("chanceType")));
         squareInfo.put("message", String.valueOf(returnedMessage.get("message")));
-        if(returnedMessage.get("chanceType")=="jail"){
+        if(returnedMessage.get("chanceType").equals("jail")){
           squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
           popUp = new CreatePopUp(squareInfo);
-          if(returnedMessage.get("jailType")=="out"){
+          System.out.print("POP UP");
+          if(returnedMessage.get("jailType").equals("out")){
             squareInfo.put("jailType", String.valueOf(returnedMessage.get("jailType")));
             popUp = new CreatePopUp(squareInfo);
+            System.out.print("POP UP");
             jail_free++;
           }else{
             this.setPosition(jailPosition);
@@ -348,6 +359,7 @@ public class Client{
           //String messageToDisplay= String.valueOf(returnedMessage.get("message")); //display on GUI
           squareInfo.put("chancePosition", String.valueOf(returnedMessage.get("chancePosition")));
           popUp = new CreatePopUp(squareInfo);
+          System.out.print("POP UP");
           int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
           this.setPosition(positionToBeSet);
@@ -358,6 +370,7 @@ public class Client{
         }
       }
       if(diceOne==diceTwo){//rolled doubles
+        noOfDoubles++;
         if(noOfDoubles==3){
           this.goToJail();
         }else{
@@ -367,7 +380,7 @@ public class Client{
             this.prevInJail=false;
           }
         }
-		noOfDoubles++;
+        noOfDoubles++;
       }else{
         noOfDoubles=0;
       }
@@ -379,7 +392,7 @@ public class Client{
   * @param Property property
   */
   public void build(Property property){
-    if(property.getType()=="site"){
+    if(property.getType().equals("site")){
       if(this.getMoney()<property.getHouseCost()){
         System.out.println("You do not have enough money");
       }else if(coloursOwned.get(property.getColour())!=coloursTotal.get(property.getColour())){
@@ -420,7 +433,7 @@ public class Client{
   public void optionToBuy(Property property){
     //DISPLAY POP UP WINDOW OF CARD DETAILS
     String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
-    if(answer=="yes"){
+    if(answer.equals("yes")){
       //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
         this.buyProperty(this.getPosition(), property.getPrice());
@@ -568,10 +581,10 @@ public class Client{
   * @param integer client id, String messageType, String sendMessage
   */
   public void sendByeMessage(){
-	int id=this.getId();
-	String messageType="Bye";
-	String sendMessage="Bye";
-	
+  int id=this.getId();
+  String messageType="Bye";
+  String sendMessage="Bye";
+  
     JSONObject messageObj=new JSONObject();
     try {
       JSONObject jsonMessage = new JSONObject();
@@ -683,56 +696,54 @@ public class Client{
   }
   
   public String getUserName(){
-	return this.username;
+  return this.username;
   }
 
   public static void main(String[] args)throws IOException{
     try{
-      String host = "10.243.111.180";
+      String host = "192.168.1.53";
       int port = portNumber;
       InetAddress address = InetAddress.getByName(host);
-      //socket = new Socket(address, port);
-	  socket = new Socket();
-	  socket.connect(new InetSocketAddress(address, port));
+      socket = new Socket(address, port);
     }catch (Exception exception) {
       exception.printStackTrace();
     }
     Client client= new Client();
-	  System.out.println("I done got created ");
-	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        WelcomeScreen welcomeScreen = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        welcomeScreen.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(welcomeScreen); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-	  System.out.println("frame done got made ");
-	while (welcomeScreen.getUsername().equals("")){System.out.println("LOOP-DEE-LOOP ");}
-	  System.out.println("while loop done got exited ");
-	client.setUsername(welcomeScreen.getUsername());
-	  System.out.println(" username gone done gotten and set hopefree");
-	System.out.println("Username: "+client.getUserName());
-	boolean start=false;
-	String messageType="firstContact";
-        System.out.println(client.getUserName()+" sending firstContact");
-        client.firstContactServer(messageType);
-	while(!start){
-		System.out.println("I is in loop yass");
-		  if(client.checkWithServer("start", socket)){
-			  System.out.println("hello laurentttt");
-			welcomeScreen.closeScreen();
-			//create board
-			start=true;
-			  System.out.println("YASSS we startin!");
-		  }else if(welcomeScreen.getForceStart()){
-			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
-			//create board
-			start=true;
-			  System.out.println("YASS we force startin");
-		  }
-	}
+    System.out.println("I done got created ");
+    JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+    myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+    WelcomeScreen welcomeScreen = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+    welcomeScreen.setOpaque(true); // Makes contentPane opaque 
+    myFrame.setContentPane(welcomeScreen); // Sets contentPane property
+    myFrame.getContentPane().setBackground(Color.black);
+    myFrame.setSize(550, 500);
+    myFrame.setLocationRelativeTo(null);
+    myFrame.setVisible(true); // Window is displayed
+    System.out.println("frame done got made ");
+    while (welcomeScreen.getUsername().equals("")){System.out.println("LOOP-DEE-LOOP ");}
+      System.out.println("while loop done got exited ");
+      client.setUsername(welcomeScreen.getUsername());
+      System.out.println(" username gone done gotten and set hopefree");
+      System.out.println("Username: "+client.getUserName());
+      boolean start=false;
+      String messageType="firstContact";
+      System.out.println(client.getUserName()+" sending firstContact");
+      client.firstContactServer(messageType);
+    while(!start){
+      System.out.println("I is in loop yass");
+      if(client.checkWithServer("start", socket)){
+        System.out.println("hello laurentttt");
+      welcomeScreen.closeScreen();
+      //create board
+      start=true;
+        System.out.println("YASSS we startin!");
+      }else if(welcomeScreen.getForceStart()){
+      client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
+      //create board
+      start=true;
+        System.out.println("YASS we force startin");
+      }
+  }
     frame = new Frame();
     frame.setClientId(client.getId());
     System.out.println(client.getUserName()+" sent firstContact");
@@ -743,18 +754,18 @@ public class Client{
     while(!closed){
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
-	  System.out.println("MY TURN BITCHES");
-	  if (!getNumPlayers) {
-	    client.makeListOfPlayers();
-	    getNumPlayers = true;
-	  }
-	  possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
-	  client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
-	  //client.updatePlayersPositions();//get updated info of positions from server
-	  client.myTurn();
-	  client.sendByeMessage();	
+    System.out.println("MY TURN BITCHES");
+    if (!getNumPlayers) {
+      client.makeListOfPlayers();
+      getNumPlayers = true;
+    }
+    possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
+    client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
+    //client.updatePlayersPositions();//get updated info of positions from server
+    client.myTurn();
+    client.sendByeMessage();  
       } //else {
-	  //client.updatePlayersPositions();//get updated info of positions from server
+    //client.updatePlayersPositions();//get updated info of positions from server
       //}
     }
   }
