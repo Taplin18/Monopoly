@@ -230,6 +230,20 @@ class ServerThread extends Thread {
 							System.out.println("Sending rent");
 						}
 
+						// Send the rent that is due to a client
+						if (player_info.get("messageType").equals("buy")) {
+							JSONObject rent = new JSONObject();
+							rent.put("messageType", "buy");
+							StringWriter sendRent = new StringWriter();
+			         		rent.writeJSONString(sendRent);
+			         		String rent_amt = sendRent.toString();
+			         		System.out.println("sendRent: " + rent_amt);
+			         		bw.write(rent_amt);
+							bw.newLine();
+							bw.flush();
+							System.out.println("Sending rent");
+						}
+
 						// Send the position of the players to update the current players board
 						if (player_info.get("messageType").equals("playersPositions")) {
 							JSONObject the_players_pos = new JSONObject();

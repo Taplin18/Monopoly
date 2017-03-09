@@ -27,13 +27,13 @@ class Chance {
 	* The possible chance cards
 	*/
 	private void make_chance_cards() {
-		cards.add("chance - move - 0 - Advance to Go -> Collect \u20AC200 - chance.jpg");
-		cards.add("chance - move - 24 - Advance to somewhere -> If you pass Go, collect \u20AC200 - chance.jpg");
-		cards.add("chance - move - 11 - Advance to somewhere -> If you pass Go, collect \u20AC200 - chance.jpg");
-		cards.add("chance - jail - out - Get Out of Jail Free - chance.jpg");
-		cards.add("chance - jail - in - Go to Jail - chance.jpg");
-		cards.add("chance - back - 3 - Go Back 3 Spaces - chance.jpg");
-		cards.add("chance - move - 5 - Take a trip to somewhere Railroad –> If you pass Go, collect \u20AC200 - chance.jpg");
-		cards.add("chance - move - 39 - Advance to somewhere - chance.jpg");
+		cards.add("chance - move - 0 - Advance to Go -> Collect \u20AC200 - chance");
+		cards.add("chance - move - 24 - Advance to somewhere -> If you pass Go, collect \u20AC200 - chance");
+		cards.add("chance - move - 11 - Advance to somewhere -> If you pass Go, collect \u20AC200 - chance");
+		cards.add("chance - jail - out - Get Out of Jail Free - chance");
+		cards.add("chance - jail - in - Go to Jail - chance");
+		cards.add("chance - back - 3 - Go Back 3 Spaces - chance");
+		cards.add("chance - move - 5 - Take a trip to somewhere Railroad –> If you pass Go, collect \u20AC200 - chance");
+		cards.add("chance - move - 39 - Advance to somewhere - chance");
 	}
 }
