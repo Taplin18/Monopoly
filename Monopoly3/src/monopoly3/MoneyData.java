@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
  
  
-public class MoneyData extends JPanel implements ActionListener {
+public class MoneyData extends JPanel {
 
     private String username;
     private String message;
