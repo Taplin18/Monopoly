@@ -37,6 +37,10 @@ public class GuiInt extends JPanel{
     public void setMyTurn(boolean b){
 		btn.setMyTurn(b);
 	}
+	
+	public void setPosition(int p){
+		btn.setPosition(p);
+	}
     
     public boolean getIsDiceButtonPressed(){
       return btn.getIsDiceButtonPressed();
