@@ -66,6 +66,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
         	okButton.setForeground(Color.WHITE);
         	okButton.setFocusPainted(false);
 		okButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+		okbutton.setEnabled(true);
 		
 		buttonPanel.add(okButton);
 	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities") {		
@@ -85,6 +86,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
         		payRentButton.setForeground(Color.WHITE);
         		payRentButton.setFocusPainted(false);
 			payRentButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+			payRentbutton.setEnabled(true);
 			
 			buttonPanel.add(payRentButton);
 					
@@ -101,6 +103,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
         		buyButton.setForeground(Color.WHITE);
         		buyButton.setFocusPainted(false);
 			buyButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+			buybutton.setEnabled(true);
 			
 			auctionButton = new JButton("Auction"); // Pay rent button
 			auctionButton.setActionCommand(AUCTION);
@@ -110,7 +113,8 @@ public class CreatePopUp extends JPanel implements ActionListener {
         		auctionButton.setForeground(Color.WHITE);
         		auctionButton.setFocusPainted(false);
 			auctionButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
-					
+			auctionbutton.setEnabled(true);
+			
 			// Add buttons to button panel
 			buttonPanel.add(buyButton);
 			buttonPanel.add(auctionButton);
@@ -127,6 +131,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
         	okButton.setForeground(Color.WHITE);
         	okButton.setFocusPainted(false);
 		okButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+		okbutton.setEnabled(true);
 		
 		buttonPanel.add(okButton);
             }
