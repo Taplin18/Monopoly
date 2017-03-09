@@ -54,7 +54,7 @@ public class Frame extends JFrame {
      * The assignment method, creates the instance of other JPanels used and adds them to the JFrame
      */
     public void initilize(int numOfPlayers) {        
-        board = new BoardGui(int numOfPlayers); //num of players
+        board = new BoardGui(numOfPlayers); //num of players
         guiInt  = new GuiInt();
         add(board);
         add(guiInt);
