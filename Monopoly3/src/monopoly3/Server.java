@@ -264,7 +264,7 @@ class ServerThread extends Thread {
 
 						// Check the position the player has landed on and
 						// send that positions information
-						if (player_info.get("messageType").equals("position")){// && !position_sent) {
+						if (player_info.get("messageType").equals("position") && !position_sent){// && !position_sent) {
 							System.out.println("Check position: " + player_info.get("message"));
 							player_pos.put(playerID, Integer.valueOf(String.valueOf(player_info.get("message"))));
 							String a = board.check_square(Integer.valueOf(String.valueOf(player_info.get("message"))));
@@ -365,10 +365,10 @@ class ServerThread extends Thread {
 							position_sent = true;
 						} 
 
-						/*if (player_info.get("messageType").equals("Again")){
+						if (player_info.get("messageType").equals("Again")){
 							System.out.println(playerName + " rolls again");
 							position_sent = false;
-						}*/
+						}
 
 						// End the current players turn
 						if (player_info.get("messageType").equals("Bye")){ //&& !bye_sent){

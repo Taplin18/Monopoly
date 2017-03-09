@@ -368,7 +368,9 @@ public class Client{
             this.prevInJail=false;
           }
         }
-		noOfDoubles++;
+  		noOfDoubles++;
+      this.sendAgainMessage();
+
       }else{
         noOfDoubles=0;
       }
@@ -573,6 +575,32 @@ public class Client{
 	String messageType="Bye";
 	String sendMessage="Bye";
 	
+    JSONObject messageObj=new JSONObject();
+    try {
+      JSONObject jsonMessage = new JSONObject();
+      jsonMessage.put("id",new Integer(id));
+      jsonMessage.put("messageType",messageType);
+      jsonMessage.put("message", sendMessage);
+
+      //Send the message to the server
+      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+      StringWriter out = new StringWriter();
+      jsonMessage.writeJSONString(out);
+      String jsonText = out.toString();
+      bw.write(jsonText);
+      bw.newLine();
+      bw.flush();
+      System.out.println("Message sent to the server : "+jsonMessage);
+    }catch (IOException exception){
+      exception.printStackTrace();
+    }
+  }
+
+  public void sendAgainMessage(){
+  int id=this.getId();
+  String messageType="again";
+  String sendMessage="again";
+  
     JSONObject messageObj=new JSONObject();
     try {
       JSONObject jsonMessage = new JSONObject();

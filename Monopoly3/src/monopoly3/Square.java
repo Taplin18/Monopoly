@@ -314,7 +314,7 @@ class Square {
 		property_values.add(Arrays.asList("Illinois Avenue", 240, 100, "red", 150, "illinois_avenue"));
 		property_values.add(Arrays.asList("Atlantic Avenue", 260, 110, "yellow", 150, "atlantic_avenue"));
 		property_values.add(Arrays.asList("Ventnor Avenue", 260, 110, "yellow", 150, "ventnor_avenue"));
-		property_values.add(Arrays.asList("Marvin Gardens", 280, 120, "yellow", 150, "marvin_avenue"));
+		property_values.add(Arrays.asList("Marvin Gardens", 280, 120, "yellow", 150, "marvin_gardens"));
 		property_values.add(Arrays.asList("Pacific Avenue", 300, 130, "green", 200, "pacific_avenue"));
 		property_values.add(Arrays.asList("North Carolina Avenue", 300, 130, "green", 200, "north_carolina_avenue"));
 		property_values.add(Arrays.asList("Pennsylvania Avenue", 320, 150, "green", 200, "pennsylvania_avenue"));
