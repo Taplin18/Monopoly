@@ -373,6 +373,8 @@ class ServerThread extends Thread {
 								position_info.put("picture", answer[2]);
 							} else {
 								position_info.put("positionType", "corner");
+								position_info.put("name", answer[1]);
+								position_info.put("picture", answer[2]);
 							}
 							StringWriter play_info = new StringWriter();
 			         		position_info.writeJSONString(play_info);

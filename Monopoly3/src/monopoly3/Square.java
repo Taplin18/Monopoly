@@ -65,13 +65,13 @@ class Square {
 			}
 		} else if (card_type == "Corners") {
 			if (position == 0) {
-				return "corner - Go";
+				return "corner - Go - corner";
 			} else if (position == 10) {
-				return "corner - Just Visiting / In Jail";
+				return "corner - Just Visiting / In Jail - corner";
 			} else if (position == 20) {
-				return "corner - Free Parking";
+				return "corner - Free Parking - corner";
 			} else if (position == 30) {
-				return "corner - Go to Jail";
+				return "corner - Go to Jail - corner";
 			}
 		}
 

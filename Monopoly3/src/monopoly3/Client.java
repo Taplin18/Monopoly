@@ -32,7 +32,7 @@ public class Client{
   private int siteArrayPointer=0;
   private int defaultStartingId=100;
   private static int portNumber=10001;
-  private static String host = "192.168.1.53";
+  private static String host = "localhost";
   private static int positionPortNumber=0;
   private Map <Integer, Property> properties = new HashMap<Integer, Property>();
   private int jail_free = 0;
@@ -327,6 +327,9 @@ public class Client{
           //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           //this.optionToBuy(property);
         }
+      }else if(returnedMessage.get("positionType").equals("corner")){
+        squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
+        popUp = new CreatePopUp(squareInfo);
       }else if(returnedMessage.get("positionType").equals("taxes")){
         squareInfo.put("amount", String.valueOf(returnedMessage.get("taxAmount")));
         popUp = new CreatePopUp(squareInfo);
