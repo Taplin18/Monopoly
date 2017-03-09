@@ -351,7 +351,7 @@ public class Client{
           //String messageToDisplay= String.valueOf(returnedMessage.get("message")); //display on GUI
           squareInfo.put("chancePosition", String.valueOf(returnedMessage.get("chancePosition")));
           popUp = new CreatePopUp(squareInfo);
-          int prevPosition=this.getPosition();
+          //int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
 		  frame.setPosition(positionToBeSet);
           this.setPosition(positionToBeSet);
