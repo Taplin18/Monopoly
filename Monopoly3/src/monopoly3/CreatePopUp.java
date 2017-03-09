@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
  
  
-public class CreatePopUp extends JPanel {    
+public class CreatePopUp extends JPanel implements ActionListener {    
 	
     private String message;					// - Text to be displayed about the current square
     private String name;					// - Name of the the property/utility/tranport square
@@ -27,13 +27,13 @@ public class CreatePopUp extends JPanel {
     private JFrame myFrame;					// - JFrame object which holds all other components
     private JPanel imagePanel;					// - Holds image components
     private JPanel textPanel;					// - Holds text components
-    //private JPanel buttonPanel;					// - Holds button components
+    private JPanel buttonPanel;					// - Holds button components
     private JLabel imageLabel;					// - ImageIcon is inserted here
     private JTextArea textArea;					// - Holds message to be displayed in pop-up
-    //private JButton okButton;					// - JButton for OK button
-    //private JButton payRentButton;				// - JButton for Pay Rent button
-    //private JButton auctionButton;				// - JButton for Auction button
-    //private JButton buyButton;					// - JButton for Buy button
+    private JButton okButton;					// - JButton for OK button
+    private JButton payRentButton;				// - JButton for Pay Rent button
+    private JButton auctionButton;				// - JButton for Auction button
+    private JButton buyButton;					// - JButton for Buy button
     private static String OK = "OK";				// - String to be displayed on button
     private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
     private static String BUY = "Buy";				// - String to be displayed on button
@@ -50,10 +50,10 @@ public class CreatePopUp extends JPanel {
 	myFrame = new JFrame();
 	imagePanel = new JPanel(new FlowLayout());
 	textPanel = new JPanel(new FlowLayout());
-	//buttonPanel = new JPanel(new FlowLayout());
+	buttonPanel = new JPanel(new FlowLayout());
 		
-	/*positionType = squareInfo.get("positionType");
-        image = "monopoly3/" + squareInfo.get("picture");
+	positionType = squareInfo.get("positionType");
+        image = "monopoly3/" + squareInfo.get("picture") + ".jpg";
 		
 	if (positionType == "chest" || positionType == "chance") {
 		message = squareInfo.get("message");
@@ -101,7 +101,7 @@ public class CreatePopUp extends JPanel {
 		okButton.addActionListener(this);
 		buttonPanel.add(okButton);
             }
-	*/		
+			
         // Read in image file
 	try {
 	    popUpImg = ImageIO.read(new File("monopoly3/boardwalk.jpg"));
@@ -133,11 +133,11 @@ public class CreatePopUp extends JPanel {
 	textPanel.add(textArea);
 	textPanel.setBackground(Color.BLACK);
 		
-	//buttonPanel.setBackground(Color.BLACK);
+	buttonPanel.setBackground(Color.BLACK);
 		
 	add(imagePanel);
 	add(textPanel);
-	//add(buttonPanel);
+	add(buttonPanel);
 		
 	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
         this.setOpaque(true); // Makes contentPane opaque 
@@ -149,21 +149,24 @@ public class CreatePopUp extends JPanel {
 	myFrame.setLocationRelativeTo(null);
         myFrame.setVisible(true); // Window is displayed
     }	
-		
-   /**
-    * Method which takes in as a parameter the HashMap containing info on the current square and then creates appropriate
-    * JFrame components based on the values passed in.
-    * @param squareInfo - HashMap object containing information on the current square 
-    */
+	
+	/*
+   
+     Method which takes in as a parameter the HashMap containing info on the current square and then creates appropriate
+     JFrame components based on the values passed in.
+     @param squareInfo - HashMap object containing information on the current square 
+    
     //public void displayPopUp(HashMap<String, String> squareInfo) {
         
     //}
+*/	
+	
 	
    /**
     * Method which checks what command was made by the user and then responds appropriately.
     * @param e 
     */
-    /*public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
     
 	String command = e.getActionCommand(); // Store value of command
  
@@ -179,5 +182,5 @@ public class CreatePopUp extends JPanel {
 	} else if (OK.equals(command)) { // If OK button was pressed
 			myFrame.dispose();
 	}
-    }*/
+    }
 }
