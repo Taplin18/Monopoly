@@ -31,7 +31,7 @@ class BoardGui extends JPanel implements ActionListener {
     //List of locations where the player can move
     static ArrayList<Points> array = new ArrayList<Points>();
     static Client client;
-    BufferedImage[]playerImages;
+    //BufferedImage[]playerImages;
     
     
     int id;
@@ -55,7 +55,7 @@ class BoardGui extends JPanel implements ActionListener {
         }
       
         boardPositions();
-		Player[] playersImages = new Player[numOfPlayers];
+		Player[] players = new Player[numOfPlayers];
 		for(int counter=0;counter<numOfPlayers;counter++){
 			players[counter]=new Player(array.get(counter)); //created array of players
 		}
@@ -68,7 +68,7 @@ class BoardGui extends JPanel implements ActionListener {
      
      public void setClientId(int id){
 		this.id=id;
-        BufferedImage playerImage =  ImageIO.read(new File("monopoly3/player" + i+".png"));;
+        BufferedImage playerImage =  ImageIO.read(new File("monopoly3/player" + id+".png"));;
         p.setPlayer(playerImage);
      }
      
