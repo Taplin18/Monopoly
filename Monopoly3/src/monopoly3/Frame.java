@@ -36,6 +36,10 @@ public class Frame extends JFrame {
         initilize(numOfPlayers);
         
     }
+	
+	public void updatePlayerPositions(int[] arrayPlayerPositions){
+		board.updatePlayerPositions(arrayPlayerPosition);
+	}
     
     public int getDiceOne(){
       return guiInt.getDiceOne();
