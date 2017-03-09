@@ -32,8 +32,8 @@ class BoardGui extends JPanel implements ActionListener {
     static ArrayList<Points> array = new ArrayList<Points>();
     static Client client;
     //BufferedImage[]playerImages;
-    
-    
+    private numOfPlayers;
+    Player[] players;
     int id;
 
     /**
@@ -41,7 +41,7 @@ class BoardGui extends JPanel implements ActionListener {
      */
     public BoardGui(int numOfPlayers) { //num of players
         //Initiliazing the variables
-        
+        this.numOfPlayers=numOfPlayers;
         t = new Timer(10, this);
         t.start();
         setFocusable(true);    
@@ -55,7 +55,7 @@ class BoardGui extends JPanel implements ActionListener {
         }
       
         boardPositions();
-		Player[] players = new Player[numOfPlayers];
+		players = new Player[numOfPlayers];
 		for(int counter=0;counter<numOfPlayers;counter++){
 			players[counter]=new Player(array.get(counter)); //created array of players
 		}

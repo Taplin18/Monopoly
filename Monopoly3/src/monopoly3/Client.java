@@ -776,7 +776,7 @@ public class Client{
 			  System.out.println("YASS we force startin");
 		  }
 	}
-    frame = new Frame(this.getNumOfPlayers());
+    frame = new Frame(client.getNumOfPlayers());
     frame.setClientId(client.getId());
     System.out.println(client.getUserName()+" sent firstContact");
     System.out.println("My new ID: "+client.getId());
