@@ -104,7 +104,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			
         // Read in image file
 	try {
-	    popUpImg = ImageIO.read(new File("monopoly3/boardwalk.jpg"));
+	    popUpImg = ImageIO.read(new File(image));
 	    popUpIcon = new ImageIcon(popUpImg);
 	    Image myImage = popUpIcon.getImage(); 
 	    Image myImageCopy = myImage.getScaledInstance(350, 150,  java.awt.Image.SCALE_SMOOTH); // Scale / re-size the image 
