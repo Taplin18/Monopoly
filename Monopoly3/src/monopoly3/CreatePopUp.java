@@ -51,6 +51,9 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	JPanel imagePanel = new JPanel(new FlowLayout());
 	JPanel textPanel = new JPanel(new FlowLayout());
 	JPanel buttonPanel = new JPanel(new FlowLayout());
+	buttonPanel.setLayout(flowLayout);
+	buttonPanel.setBackground(Color.BLACK);
+	buttonPanel.setOpaque(true);
 		
 	positionType = squareInfo.get("positionType");
         image = "monopoly3/" + squareInfo.get("picture") + ".jpg";
@@ -86,6 +89,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
         		payRentButton.setForeground(Color.WHITE);
         		payRentButton.setFocusPainted(false);
 			payRentButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+			
 			//payRentbutton.setEnabled(true);
 			
 			buttonPanel.add(payRentButton);
