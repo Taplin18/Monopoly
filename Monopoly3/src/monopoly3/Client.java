@@ -224,7 +224,6 @@ public class Client{
   */
   public void myTurn(){
     System.out.println("\n"+this.getUserName()+": Start turn.");
-    turnAgain = false;
     if(jail_free>0 || inJail==true){ //you have a get out of jail free card
       boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
       if(decision){
@@ -357,6 +356,8 @@ public class Client{
           }
         }
       }
+    }
+  }
 
   /**
   * Builds house on property in parameter
@@ -546,10 +547,14 @@ public class Client{
   * @param integer client id, String messageType, String sendMessage
   */
   public void sendByeMessage(){
-    int id=this.getId();
     String messageType="Bye";
     String sendMessage="Bye";
     try{
+      JSONObject jsonMessage = new JSONObject();
+      jsonMessage.put("id",new Integer(id));
+      jsonMessage.put("messageType",messageType);
+      jsonMessage.put("message", sendMessage);
+
       //Send the message to the server
       BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       StringWriter out = new StringWriter();
