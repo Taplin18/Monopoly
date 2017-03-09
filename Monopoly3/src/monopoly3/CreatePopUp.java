@@ -50,10 +50,10 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	myFrame = new JFrame();
 	JPanel imagePanel = new JPanel(new FlowLayout());
 	JPanel textPanel = new JPanel(new FlowLayout());
-	//JPanel buttonPanel = new JPanel(new FlowLayout());
-	//buttonPanel.setLayout(new FlowLayout());
-	//buttonPanel.setBackground(Color.BLACK);
-	//buttonPanel.setOpaque(true);
+	JPanel buttonPanel = new JPanel(new FlowLayout());
+	buttonPanel.setLayout(new FlowLayout());
+	buttonPanel.setBackground(Color.BLACK);
+	buttonPanel.setOpaque(true);
 		
 	positionType = squareInfo.get("positionType");
         image = "monopoly3/" + squareInfo.get("picture") + ".jpg";
@@ -71,8 +71,8 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		okButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 		//okbutton.setEnabled(true);
 		
-		//buttonPanel.add(okButton);
-		add(okButton);
+		buttonPanel.add(okButton);
+		
 	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities") {		
 		name = squareInfo.get("name");
 		message = "You have landed on " + name + "!\n";
@@ -93,8 +93,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			
 			//payRentbutton.setEnabled(true);
 			
-			//buttonPanel.add(payRentButton);
-			add(payRentButton);
+			buttonPanel.add(payRentButton);
 					
 		} else { // Property is available
 			price = Integer.valueOf(String.valueOf(squareInfo.get("price")));
@@ -122,10 +121,8 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			//auctionbutton.setEnabled(true);
 			
 			// Add buttons to button panel
-			//buttonPanel.add(buyButton);
-			//buttonPanel.add(auctionButton);
-			add(buyButton);
-			add(auctionButton);
+			buttonPanel.add(buyButton);
+			buttonPanel.add(auctionButton);
 		}
     	    } else if (positionType == "taxes") {
 		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
@@ -141,8 +138,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		okButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 		//okbutton.setEnabled(true);
 		
-		//buttonPanel.add(okButton);
-		add(okButton);
+		buttonPanel.add(okButton);
             }
 			
         // Read in image file
@@ -180,13 +176,13 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		
 	add(imagePanel);
 	add(textPanel);
-	//add(buttonPanel);
+	add(buttonPanel);
 		
 	myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
         this.setOpaque(true); // Makes contentPane opaque 
         myFrame.setContentPane(this); // Sets contentPane property
 	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(450, 400);
+        //myFrame.setSize(450, 400);
 	myFrame.setTitle("Current Square Update");
 	myFrame.setLocationRelativeTo(null);
 	myFrame.pack();
