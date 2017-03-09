@@ -732,11 +732,12 @@ public class Client{
           client.makeListOfPlayers();
           getNumPlayers = true;
         }
+        client.updatePlayersPositions();//get updated info of positions from server
         possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
         client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
         client.myTurn();
         client.sendByeMessage();
-        //client.updatePlayersPositions();//get updated info of positions from server
+        
       }
     }
   }
