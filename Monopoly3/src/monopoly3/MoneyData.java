@@ -17,8 +17,7 @@ public class MoneyData extends JPanel {
     private int money;
 
 
-    public MoneyData(String username, int money) {
-	setUsername(username);
+    public MoneyData(int money) {
 	setMoney(money);
 	display();
     }
