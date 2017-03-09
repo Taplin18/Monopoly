@@ -125,7 +125,20 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			buttonPanel.add(buyButton);
 			buttonPanel.add(declineButton);
 		}
-    	    } else if (positionType.equals("taxes")) {
+    	    } else if(positionType.equals("corner")) {
+    		name = squareInfo.get("name");
+  		JButton okButton = new JButton("OK");
+		okButton.setActionCommand(OK);
+		okButton.addActionListener(this);
+		
+		okButton.setBackground(new Color(59, 89, 182));
+        	okButton.setForeground(Color.WHITE);
+        	okButton.setFocusPainted(false);
+		okButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
+		//okbutton.setEnabled(true);
+		
+		buttonPanel.add(okButton);
+    	    }else if (positionType.equals("taxes")) {
 		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
 		message = "You have landed on a Tax square. You must pay a tax of " + taxOwed + " dollars.";
 		// Create OK button, add action command and listener, and add to button panel
