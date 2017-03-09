@@ -52,7 +52,7 @@ public class Client{
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
   private Map <Integer, Integer> playersPositions = new HashMap<Integer, Integer>();
-  private int[] playerPositionsArray = int[2];
+  private int[] playerPositionsArray = new int[2];
   private JSONParser parser = new JSONParser();
   private int diceOne;
   private int diceTwo;
