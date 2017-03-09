@@ -52,6 +52,7 @@ public class Client{
   private Map <String, Integer> coloursOwned = new HashMap<String, Integer>();
   private Map <String, Integer> coloursTotal = new HashMap<String, Integer>();
   private Map <Integer, Integer> playersPositions = new HashMap<Integer, Integer>();
+  private int[] playerPositionsArray = int[2];
   private JSONParser parser = new JSONParser();
   private int diceOne;
   private int diceTwo;
@@ -637,7 +638,10 @@ public class Client{
       for(int i=0;i<this.getNumberOfPlayers();i++){
         int playerPosition= Integer.valueOf(String.valueOf(obj.get(String.valueOf(i))));
         playersPositions.put(i,playerPosition);
+		playerPositionsArray[i]=playerPosition;
+		
       }
+	  frame.updatePlayerPositions(playerPositionsArray)
     } catch (Exception e) {
       System.out.println("Failed to get updated player positions: " + e);
     }
