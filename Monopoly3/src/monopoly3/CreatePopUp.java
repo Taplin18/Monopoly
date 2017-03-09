@@ -99,7 +99,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 					
 		} else { // Property is available
 			price = Integer.valueOf(String.valueOf(squareInfo.get("price")));
-			message += "This is available and costs " + price + " dollars.\n Would you like to buy it or go to auction?";
+			message += "This is available and costs " + price + " dollars.\n Would you like to buy it?";
 					
 			// Create Buy and Auction buttons, add action command and listener, and add to button panel
 			JButton buyButton = new JButton("Buy"); // Pay rent button
