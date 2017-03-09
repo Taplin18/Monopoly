@@ -63,6 +63,9 @@ public class Buttons extends JPanel implements ActionListener {
     
     public void addToPosition(int number){
       positionInArray = positionInArray + number;
+	  if(positionArray>=40){
+		  positionArray=positionArray-40;
+	  }
     }
        
     Buttons(){
@@ -145,6 +148,17 @@ public class Buttons extends JPanel implements ActionListener {
     public void setDiceButtonPressed(){
       this.diceButtonPressed=true;
     }
+	
+	public void setPosition(int p){
+			positionInArray=49;
+			Points points = new Points(array.get(positionInArray).getX(), array.get(positionInArray).getY());
+            
+            //Move the player
+            p.move(points);
+            
+            revalidate();
+            repaint();
+	}
     
     /**
      * The action performed class, activates when an event is triggered such as pressing a button 

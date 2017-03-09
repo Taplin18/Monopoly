@@ -73,5 +73,9 @@ public class Frame extends JFrame {
 	public void setMyTurn(boolean b){
 		guiInt.setMyTurn(b);
 	}
+	
+	public void setPosition(int p){
+		guiInt.setPosition(p);
+	}
             
 }

@@ -351,6 +351,7 @@ public class Client{
           popUp = new CreatePopUp(squareInfo);
           int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
+		  frame.setPosition(positionToBeSet);
           this.setPosition(positionToBeSet);
           int currentPosition=this.getPosition();
           if(currentPosition-prevPosition<0||currentPosition<prevPosition){
