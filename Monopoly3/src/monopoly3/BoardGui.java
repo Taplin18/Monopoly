@@ -32,7 +32,7 @@ class BoardGui extends JPanel implements ActionListener {
     static ArrayList<Points> array = new ArrayList<Points>();
     static Client client;
     //BufferedImage[]playerImages;
-    private numOfPlayers;
+    private int numOfPlayers;
     Player[] players;
     int id;
 
