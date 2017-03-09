@@ -76,6 +76,7 @@ class ServerThread extends Thread {
 	private boolean bye_sent = false;
 	private boolean num_players_sent = false;
 	private boolean startedMessage = false;
+	private boolean rent_sent = false;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -215,7 +216,7 @@ class ServerThread extends Thread {
 						player_info = (JSONObject) obj;
 
 						// Send the rent that is due to a client
-						if (player_info.get("messageType").equals("rentDue")) {
+						if (player_info.get("messageType").equals("rentDue") && !rent_sent) {
 							JSONObject rent = new JSONObject();
 							rent.put("messageType", "rent");
 							rent.put("rent", String.valueOf(rent_owed.get(playerID)));
@@ -228,6 +229,7 @@ class ServerThread extends Thread {
 							bw.newLine();
 							bw.flush();
 							System.out.println("Sending rent");
+							rent_sent = true;
 						}
 
 						// Send the rent that is due to a client
@@ -378,6 +380,7 @@ class ServerThread extends Thread {
 							turn_sent = false;
 							position_sent = false;
 							bye_sent = true;
+							rent_sent = false;
 						}
 					}
 				}

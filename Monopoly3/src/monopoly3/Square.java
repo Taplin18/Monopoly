@@ -59,9 +59,9 @@ class Square {
 	public String get_card(String card_type, int position){
 		if (card_type == "Tax") {
 			if (position == 4) {
-				return "Tax - 200 - taxes.png";
+				return "Tax - 200 - taxes";
 			} else {
-				return "Tax - 100 - taxes.png";
+				return "Tax - 100 - taxes";
 			}
 		} else if (card_type == "Corners") {
 			if (position == 0) {
@@ -300,14 +300,14 @@ class Square {
 	private void Server_Property(){
 		property_values.add(Arrays.asList("Mediterranean Avenue", 60, 10, "brown", 50, "med_avenue"));
 		property_values.add(Arrays.asList("Baltic Avenue", 60, 20, "brown", 50, "baltic_avenue"));
-		property_values.add(Arrays.asList("Oriental Avenue", 100, 30, "blue", 50, "oriental_av"));
+		property_values.add(Arrays.asList("Oriental Avenue", 100, 30, "blue", 50, "oriental_avenue"));
 		property_values.add(Arrays.asList("Vermont Avenue", 100, 30, "blue", 50, "vermont_avenue"));
 		property_values.add(Arrays.asList("Connecticut Avenue", 120, 40, "blue", 50, "connecticut_avenue"));
 		property_values.add(Arrays.asList("St. Charles Place", 140, 50, "pink", 100, "st_charles_place"));
 		property_values.add(Arrays.asList("States Avenue", 140, 60, "pink", 100, "states_avenue"));
 		property_values.add(Arrays.asList("Virginia Avenue", 160, 60, "pink", 100, "virginia_avenue"));
 		property_values.add(Arrays.asList("St. James Place", 180, 70, "orange", 100, "st_james_place"));
-		property_values.add(Arrays.asList("Tennessee Avenue", 180, 70, "orange", 100, "mennessee_avenue"));
+		property_values.add(Arrays.asList("Tennessee Avenue", 180, 70, "orange", 100, "tennessee_avenue"));
 		property_values.add(Arrays.asList("New York Avenue", 200, 80, "orange", 100, "new_york_avenue"));
 		property_values.add(Arrays.asList("Kentucky Avenue", 220, 90, "red", 150, "kentucky_avenue"));
 		property_values.add(Arrays.asList("Indiana Avenue", 220, 90, "red", 150, "indiana_avenue"));
