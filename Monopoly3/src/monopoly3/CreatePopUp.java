@@ -183,8 +183,8 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	myFrame.getContentPane().setBackground(Color.black);
         myFrame.setSize(450, 400);
 	myFrame.setTitle("Current Square Update");
-	myFrame.pack();
 	myFrame.setLocationRelativeTo(null);
+	myFrame.pack();
         myFrame.setVisible(true); // Window is displayed
     }	
 	
