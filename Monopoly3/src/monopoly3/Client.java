@@ -61,6 +61,7 @@ public class Client{
   private HashMap <String, String> squareInfo;
   private static JSONObject possibleRent;
   static Frame frame;
+  private static boolean turnAgain = false;
 
   /**
   * Getter method for returning the number dice one has rolled on.
@@ -223,6 +224,7 @@ public class Client{
   */
   public void myTurn(){
     System.out.println("\n"+this.getUserName()+": Start turn.");
+    turnAgain = false;
     if(jail_free>0 || inJail==true){ //you have a get out of jail free card
       boolean decision=true;//pop up window asking if user wants to use his get out of jail free card
       if(decision){
@@ -233,7 +235,7 @@ public class Client{
     }
 	frame.setMyTurn(true);
     while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
-      System.out.print("Nah boi");
+      System.out.println("Nah boi");
     }
 	int prevPosition = this.getPosition();
     this.setDiceNumber(frame.getDiceOne(), frame.getDiceTwo());
@@ -362,13 +364,11 @@ public class Client{
         }
       }
       if(diceOne==diceTwo){//rolled doubles
-		System.out.println("Dice 1: "+diceOne+"... Dice 2: "+diceTwo);
-        this.sendAgainMessage();
         if(noOfDoubles==3){
           this.goToJail();
         }else{
           if(prevInJail==false){
-            this.myTurn();
+            turnAgain = true;
           }else{
             this.prevInJail=false;
           }
@@ -425,10 +425,10 @@ public class Client{
   * @param Property property
   */
   public void optionToBuy(Property property){
-	while(!(popUp.getWantsToBuy())&&!(popUp.getNotWantsToBuy())){
-		System.out.println("can't make up me mind, mcFlurry or not to mcFlurry, that is the question?!?!");
-	}
-    if(popUp.getWantsToBuy())){
+    //DISPLAY POP UP WINDOW OF CARD DETAILS
+    String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
+    if(answer.equals("yes")){
+      //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
         this.buyProperty(this.getPosition(), property.getPrice());
         int number=coloursOwned.get(property.getColour());
@@ -438,6 +438,9 @@ public class Client{
         this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
         property.setId(this.getPosition());
       }
+    }
+    else{
+        //CLOSE POP UP
     }
   }
 
@@ -599,7 +602,7 @@ public class Client{
 
   public void sendAgainMessage(){
   int id=this.getId();
-  String messageType="again";
+  String messageType="Bye";
   String sendMessage="again";
   
     JSONObject messageObj=new JSONObject();
@@ -774,17 +777,23 @@ public class Client{
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
 	  
-	  System.out.println("MY TURN BITCHES");
-	  if (!getNumPlayers) {
-	    client.makeListOfPlayers();
-	    getNumPlayers = true;
-	  }
-	  possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
-	  client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
-	  //client.updatePlayersPositions();//get updated info of positions from server
-	  client.myTurn();
-	  client.sendByeMessage();	
-      } //else {
+        System.out.println("MY TURN BITCHES");
+        if (!getNumPlayers) {
+          client.makeListOfPlayers();
+          getNumPlayers = true;
+        }
+        possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
+        client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
+        //client.updatePlayersPositions();//get updated info of positions from server
+        client.myTurn();
+        if (!turnAgain) {
+          client.sendByeMessage();
+        } else {
+          client.sendAgainMessage();	
+        }
+      } else if (client.checkWithServer("again", socket)){
+        client.sendByeMessage();
+      }//else {
 	  //client.updatePlayersPositions();//get updated info of positions from server
       //}
     }
