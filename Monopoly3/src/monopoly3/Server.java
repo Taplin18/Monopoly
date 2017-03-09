@@ -269,6 +269,7 @@ class ServerThread extends Thread {
 							for (int i = 0; i < maxPlayers; i++) {
 								the_players_pos.put(String.valueOf(i), String.valueOf(player_pos.get(i)));
 							}
+							the_players_pos.put("messageType", "playersPositions");
 							StringWriter sendPlayerPos = new StringWriter();
 			         		the_players_pos.writeJSONString(sendPlayerPos);
 			         		String play_pos = sendPlayerPos.toString();

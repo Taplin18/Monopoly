@@ -528,13 +528,21 @@ public class Client{
           messageObj=decode(message);
         }
       } else if (messageType.equals("rentDue")) {
-          while (!String.valueOf(messageObj.get("messageType")).equals("rent")) {
+        while (!String.valueOf(messageObj.get("messageType")).equals("rent")) {
           bw.write(jsonText);
           bw.newLine();
           bw.flush();
           message = br.readLine();
           messageObj=decode(message);
-          }
+        }
+      } else if (messageType.equals("playersPositions")) {
+        while (!String.valueOf(messageObj.get("messageType")).equals("playersPositions")) {
+          bw.write(jsonText);
+          bw.newLine();
+          bw.flush();
+          message = br.readLine();
+          messageObj=decode(message);
+        }
       }
       System.out.println("Message received from the server : " +message);
       return messageObj; //answer
