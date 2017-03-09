@@ -37,7 +37,9 @@ public class CreatePopUp extends JPanel implements ActionListener {
     private static String OK = "OK";				// - String to be displayed on button
     private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
     private static String BUY = "Buy";				// - String to be displayed on button
-    private static String AUCTION = "Auction";			// - String to be displayed on button
+    private static String DECLINE = "Decline";			// - String to be displayed on button
+    private boolean wantsToBuy = false;
+    private boolean notWantsToBuy = false;
 	
    /**
     * The details of the type of square the player is currently on is passed in as a HashMap object, which is then passed 
@@ -110,19 +112,18 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			buyButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 			//buybutton.setEnabled(true);
 			
-			JButton auctionButton = new JButton("Auction"); // Pay rent button
-			auctionButton.setActionCommand(AUCTION);
-			auctionButton.addActionListener(this);
+			JButton declineButton = new JButton("Decline"); // Decline to buy button
+			declineButton.setActionCommand(DECLINE);
+			declineButton.addActionListener(this);
 			
-			auctionButton.setBackground(new Color(59, 89, 182));
-        		auctionButton.setForeground(Color.WHITE);
-        		auctionButton.setFocusPainted(false);
-			auctionButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
-			//auctionbutton.setEnabled(true);
+			declineButton.setBackground(new Color(59, 89, 182));
+        		declineButton.setForeground(Color.WHITE);
+        		declineButton.setFocusPainted(false);
+			declineButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 			
 			// Add buttons to button panel
 			buttonPanel.add(buyButton);
-			buttonPanel.add(auctionButton);
+			buttonPanel.add(declineButton);
 		}
     	    } else if (positionType == "taxes") {
 		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
@@ -188,6 +189,20 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	myFrame.pack();
         myFrame.setVisible(true); // Window is displayed
     }	
+
+   /**
+    * Returns whether the user has opted to buy the property
+    */
+    public boolean getWantsToBuy() {
+	return wantsToBuy;
+    }
+	
+    /**
+     * Returns whether the user has opted to decline buying the property
+     */
+     public boolean getNotWantsToBuy() {
+	return notWantsToBuy;
+     }
 	
 	/*
    
@@ -210,16 +225,18 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	String command = e.getActionCommand(); // Store value of command
  
         if (PAY_RENT.equals(command)) { // If Pay Rent button was pressed
-            JOptionPane.showMessageDialog(myFrame, "You have paid your rent.");
-			myFrame.dispose();
+                JOptionPane.showMessageDialog(myFrame, "You have paid your rent.");
+	        myFrame.dispose();
         } else if (BUY.equals(command)) { // If Buy button was pressed
-			JOptionPane.showMessageDialog(myFrame, "Your purchase was successful.");
-			myFrame.dispose();
-        } else if (AUCTION.equals(command)) { // If Auction button was pressed
-			JOptionPane.showMessageDialog(myFrame, "This will now be put to auction.");
-			myFrame.dispose();
+		wantsToBuy = true;
+		JOptionPane.showMessageDialog(myFrame, "Your purchase was successful.");
+		myFrame.dispose();
+        } else if (DECLINE.equals(command)) { // If Decline to Buy button was pressed
+		notWantsToBuy = true;	
+		JOptionPane.showMessageDialog(myFrame, "This will now be put to auction.");
+		myFrame.dispose();
 	} else if (OK.equals(command)) { // If OK button was pressed
-			myFrame.dispose();
+		myFrame.dispose();
 	}
     }
 }
