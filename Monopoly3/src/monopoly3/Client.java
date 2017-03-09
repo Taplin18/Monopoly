@@ -102,16 +102,16 @@ public class Client{
     coloursOwned.put("red", 0);
     coloursOwned.put("orange", 0);
     coloursOwned.put("green", 0);
-    coloursOwned.put("darkBlue", 0);
-    coloursOwned.put("lightBlue", 0);
+    coloursOwned.put("purple", 0);
+    coloursOwned.put("blue", 0);
     coloursOwned.put("pink", 0);
     coloursOwned.put("brown", 0);
 
     coloursTotal.put("red", 3);
     coloursTotal.put("orange", 3);
     coloursTotal.put("green", 3);
-    coloursTotal.put("darkBlue", 2);
-    coloursTotal.put("lightBlue", 3);
+    coloursTotal.put("purple", 2);
+    coloursTotal.put("blue", 3);
     coloursTotal.put("pink", 3);
     coloursTotal.put("brown", 2);
   }
@@ -296,8 +296,9 @@ public class Client{
         }else{ //vacant
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
-          //this.optionToBuy(property);
+          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
+          this.optionToBuy(property);
+          System.out.println(coloursOwned);
         }
       }else if(returnedMessage.get("positionType").equals("transport")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
@@ -310,8 +311,9 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
-          //this.optionToBuy(property);
+          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
+          this.optionToBuy(property);
+          System.out.println(coloursOwned);
         }
       }else if(returnedMessage.get("positionType").equals("utilities")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
@@ -324,8 +326,9 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-          //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
-          //this.optionToBuy(property);
+          Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
+          this.optionToBuy(property);
+          System.out.println(coloursOwned);
         }
       }else if(returnedMessage.get("positionType").equals("corner")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
@@ -414,10 +417,16 @@ public class Client{
       //CLOSE POP UP
       if(this.getMoney()>property.getPrice()){//you can buy
         this.buyProperty(this.getPosition(), property.getPrice());
-        int number=coloursOwned.get(property.getColour());
-        String colour=property.getColour();
-        number++;
-        coloursOwned.put(colour, number);
+        if(property.getColour()!=null){
+          int number=coloursOwned.get(property.getColour());
+          String colour=property.getColour();
+          number++;
+          coloursOwned.put(colour, number);
+        }
+        //int number=coloursOwned.get(property.getColour());
+        //String colour=property.getColour();
+        //number++;
+        //coloursOwned.put(colour, number);
         this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
         property.setId(this.getPosition());
       }

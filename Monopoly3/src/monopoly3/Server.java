@@ -77,7 +77,6 @@ class ServerThread extends Thread {
 	private boolean num_players_sent = false;
 	private boolean startedMessage = false;
 	private boolean rent_sent = false;
-	private boolean again = false;
 	private boolean sent_play_pos = false;
 
 	/**
@@ -214,21 +213,6 @@ class ServerThread extends Thread {
 							//bye_sent = false;
 						}
 
-						if (again) {
-							System.out.println("\nPlayer is: " + playerName);
-							JSONObject turn = new JSONObject();
-							turn.put("messageType", "again");
-							StringWriter nextTurn = new StringWriter();
-			         		turn.writeJSONString(nextTurn);
-			         		String sendTurn = nextTurn.toString();
-			         		System.out.println("sendAgain: " + sendTurn);
-			         		bw.write(sendTurn);
-							bw.newLine();
-							bw.flush();
-							System.out.println("Sending Again");
-							again = false;
-						}
-
 						obj = parser.parse(line);
 						player_info = (JSONObject) obj;
 
@@ -251,6 +235,7 @@ class ServerThread extends Thread {
 
 						// Send the rent that is due to a client
 						if (player_info.get("messageType").equals("buy")) {
+							board.buy(Integer.valueOf(String.valueOf(player_info.get("message"))), playerID);
 							JSONObject rent = new JSONObject();
 							rent.put("messageType", "buy");
 							StringWriter sendRent = new StringWriter();
@@ -260,7 +245,8 @@ class ServerThread extends Thread {
 			         		bw.write(rent_amt);
 							bw.newLine();
 							bw.flush();
-							System.out.println("Sending rent");
+							System.out.println("Sending bought");
+							System.out.println(board.checkbought());
 						}
 
 						// Send the position of the players to update the current players board
@@ -336,7 +322,7 @@ class ServerThread extends Thread {
 									position_info.put("colour", answer[3]);
 									position_info.put("price", answer[4]);
 									position_info.put("baseRent", answer[5]);
-									position_info.put("buildCost", answer[6]);
+									position_info.put("houseCost", answer[6]);
 									position_info.put("picture", answer[7]);
 								}
 							} else if (answer[0].equals("utilities")) {

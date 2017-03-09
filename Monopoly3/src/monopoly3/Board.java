@@ -47,9 +47,36 @@ class Board {
 	* @param property the id of the property to be bought
 	* @param player_id the id of the player who is buying it
 	*/
+	public void buy(int property, int player_id) {
+		for (int i = 0; i < transport.length; i++) {
+			if (transport[i] == property) {
+				buy_transport(property, player_id);
+			}
+		}
+		for (int j = 0; j< utilities.length; j++) {
+			if (utilities[j] == property) {
+				buy_utility(property, player_id);
+			}
+		}
+		for (int l = 0; l < properties.length; l++) {
+			if (properties[l] == property) {
+				buy_property(property, player_id);
+			}
+		}
+	}
+
+	/**
+	* Buy the property
+	* @param property the id of the property to be bought
+	* @param player_id the id of the player who is buying it
+	*/
 	public void buy_property(int property, int player_id) {
 		bought_properties.put(property, player_id);
 		squares.buy_property(property, player_id);
+	}
+
+	public HashMap checkbought(){
+		return bought_properties;
 	}
 
 	/**
