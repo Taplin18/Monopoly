@@ -149,7 +149,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		
 	JLabel imageLabel = new JLabel(popUpIcon, JLabel.CENTER);
 		
-	JPanel imagePanel = new JPanel(new FlowLayout());
+	//imagePanel = new JPanel(new FlowLayout());
 	imagePanel.setBackground(Color.BLACK);
 	imagePanel.setOpaque(true);	
 	imagePanel.add(imageLabel); 
