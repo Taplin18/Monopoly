@@ -359,6 +359,7 @@ public class Client{
         }
       }
       if(diceOne==diceTwo){//rolled doubles
+        this.sendAgainMessage();
         if(noOfDoubles==3){
           this.goToJail();
         }else{
@@ -369,7 +370,6 @@ public class Client{
           }
         }
   		noOfDoubles++;
-      this.sendAgainMessage();
 
       }else{
         noOfDoubles=0;
