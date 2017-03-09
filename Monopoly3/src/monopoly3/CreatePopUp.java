@@ -126,7 +126,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			buttonPanel.add(declineButton);
 		}
     	    } else if(positionType.equals("corner")) {
-    		name = squareInfo.get("name");
+    		message = squareInfo.get("name");
   		JButton okButton = new JButton("OK");
 		okButton.setActionCommand(OK);
 		okButton.addActionListener(this);
