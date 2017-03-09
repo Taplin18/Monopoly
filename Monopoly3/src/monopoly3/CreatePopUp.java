@@ -51,7 +51,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	JPanel imagePanel = new JPanel(new FlowLayout());
 	JPanel textPanel = new JPanel(new FlowLayout());
 	JPanel buttonPanel = new JPanel(new FlowLayout());
-	buttonPanel.setLayout(flowLayout);
+	buttonPanel.setLayout(new FlowLayout());
 	buttonPanel.setBackground(Color.BLACK);
 	buttonPanel.setOpaque(true);
 		
