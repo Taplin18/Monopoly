@@ -77,6 +77,7 @@ class ServerThread extends Thread {
 	private boolean num_players_sent = false;
 	private boolean startedMessage = false;
 	private boolean rent_sent = false;
+	private boolean again = false;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -209,7 +210,22 @@ class ServerThread extends Thread {
 							bw.flush();
 							System.out.println("Sending yourTurn");
 							turn_sent = true;
-							bye_sent = false;
+							//bye_sent = false;
+						}
+
+						if (again) {
+							System.out.println("\nPlayer is: " + playerName);
+							JSONObject turn = new JSONObject();
+							turn.put("messageType", "again");
+							StringWriter nextTurn = new StringWriter();
+			         		turn.writeJSONString(nextTurn);
+			         		String sendTurn = nextTurn.toString();
+			         		System.out.println("sendAgain: " + sendTurn);
+			         		bw.write(sendTurn);
+							bw.newLine();
+							bw.flush();
+							System.out.println("Sending Again");
+							again = false;
 						}
 
 						obj = parser.parse(line);
@@ -232,10 +248,10 @@ class ServerThread extends Thread {
 							rent_sent = true;
 						}
 
-						if (player_info.get("messageType").equals("Again")){
+						/*if (player_info.get("messageType").equals("Again")){
 							System.out.println(playerName + " rolls again");
 							position_sent = false;
-						}
+						}*/
 
 						// Send the rent that is due to a client
 						if (player_info.get("messageType").equals("buy")) {
@@ -377,10 +393,17 @@ class ServerThread extends Thread {
 							if (playerTurn == maxPlayers) {
 								playerTurn = 0;
 							}
-							turn_sent = false;
-							position_sent = false;
-							bye_sent = true;
-							rent_sent = false;
+							//if (player_info.get("message").equals("Bye")) {
+								turn_sent = false;
+								position_sent = false;
+								bye_sent = true;
+								rent_sent = false;
+							/*} else if (player_info.get("message").equals("again")) {
+								again = true;
+								//turn_sent = true;
+								//position_sent = true;
+								//rent_sent = true;
+							}*/
 						}
 					}
 				}
@@ -416,5 +439,4 @@ class ServerThread extends Thread {
 		    }
 		}
 	}
-
 }
