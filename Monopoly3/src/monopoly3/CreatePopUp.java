@@ -233,7 +233,6 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		myFrame.dispose();
         } else if (DECLINE.equals(command)) { // If Decline to Buy button was pressed
 		notWantsToBuy = true;	
-		JOptionPane.showMessageDialog(myFrame, "This will now be put to auction.");
 		myFrame.dispose();
 	} else if (OK.equals(command)) { // If OK button was pressed
 		myFrame.dispose();
