@@ -25,11 +25,11 @@ public class CreatePopUp extends JPanel implements ActionListener {
     private ImageIcon popUpIcon = null;				// - Used to store image as ImageIcon object
     private BufferedImage popUpImg = null;			// - Stores image when it is being read in
     private JFrame myFrame;					// - JFrame object which holds all other components
-    private JPanel imagePanel;					// - Holds image components
-    private JPanel textPanel;					// - Holds text components
-    private JPanel buttonPanel;					// - Holds button components
-    private JLabel imageLabel;					// - ImageIcon is inserted here
-    private JTextArea textArea;					// - Holds message to be displayed in pop-up
+    //private JPanel imagePanel;					// - Holds image components
+    //private JPanel textPanel;					// - Holds text components
+    //private JPanel buttonPanel;					// - Holds button components
+    //private JLabel imageLabel;					// - ImageIcon is inserted here
+    //private JTextArea textArea;					// - Holds message to be displayed in pop-up
     //private JButton okButton;					// - JButton for OK button
     //private JButton payRentButton;				// - JButton for Pay Rent button
     //private JButton auctionButton;				// - JButton for Auction button
@@ -48,9 +48,9 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	// Create JFrame and JPanels
 	HashMap<String, String> test = squareInfo;
 	myFrame = new JFrame();
-	imagePanel = new JPanel(new FlowLayout());
-	textPanel = new JPanel(new FlowLayout());
-	buttonPanel = new JPanel(new FlowLayout());
+	JPanel imagePanel = new JPanel(new FlowLayout());
+	JPanel textPanel = new JPanel(new FlowLayout());
+	JPanel buttonPanel = new JPanel(new FlowLayout());
 		
 	positionType = squareInfo.get("positionType");
         image = "monopoly3/" + squareInfo.get("picture") + ".jpg";
@@ -147,15 +147,15 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	    e.printStackTrace();
 	}
 		
-	imageLabel = new JLabel(popUpIcon, JLabel.CENTER);
+	JLabel imageLabel = new JLabel(popUpIcon, JLabel.CENTER);
 		
-	imagePanel = new JPanel(new FlowLayout());
+	JPanel imagePanel = new JPanel(new FlowLayout());
 	imagePanel.setBackground(Color.BLACK);
 	imagePanel.setOpaque(true);	
 	imagePanel.add(imageLabel); 
 	
 		
-	textArea = new JTextArea(message, 5, 20);
+	JTextArea textArea = new JTextArea(message, 5, 20);
         textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
         textArea.setBackground(Color.BLACK);
 	textArea.setForeground(Color.WHITE);
