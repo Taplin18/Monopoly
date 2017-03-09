@@ -314,9 +314,11 @@ class ServerThread extends Thread {
 										String new_pos = String.valueOf(Integer.valueOf(String.valueOf(player_info.get("message"))) - 3);
 										position_info.put("chancePosition", new_pos);
 										position_info.put("message", answer[3]);
+										player_pos.put(playerID, Integer.valueOf(new_pos));
 									} else {
 										position_info.put("chancePosition", answer[2]);
 										position_info.put("message", answer[3]);
+										player_pos.put(playerID, Integer.valueOf(answer[2]));
 									}
 								}
 							} else if (answer[0].equals("property")) {

@@ -1,4 +1,10 @@
-import java.io.*;
+//Example 25
+
+import java.io.DataInputStream;
+import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -9,8 +15,9 @@ public class MultiThreadChatClient implements Runnable {
   // The output stream
   private static PrintStream os = null;
   // The input stream
+  private static DataInputStream is = null;
+  private static InputStreamReader isr;
   private static BufferedReader br;
-  private static BufferedWriter bw;
 
   private static BufferedReader inputLine = null;
   private static boolean closed = false;
@@ -18,9 +25,18 @@ public class MultiThreadChatClient implements Runnable {
   public static void main(String[] args) {
 
     // The default port.
-    int portNumber = 10010;
+    int portNumber = 2222;
     // The default host.
     String host = "localhost";
+
+    if (args.length < 2) {
+      System.out
+          .println("Usage: java MultiThreadChatClient <host> <portNumber>\n"
+              + "Now using host=" + host + ", portNumber=" + portNumber);
+    } else {
+      host = args[0];
+      portNumber = Integer.valueOf(args[1]).intValue();
+    }
 
     /*
      * Open a socket on a given host and port. Open input and output streams.
@@ -28,8 +44,10 @@ public class MultiThreadChatClient implements Runnable {
     try {
       clientSocket = new Socket(host, portNumber);
       inputLine = new BufferedReader(new InputStreamReader(System.in));
-      bw = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-      br = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+      os = new PrintStream(clientSocket.getOutputStream());
+      is = new DataInputStream(clientSocket.getInputStream());
+      isr = new InputStreamReader(is);
+      br = new BufferedReader(isr);
 
     } catch (UnknownHostException e) {
       System.err.println("Don't know about host " + host);
@@ -48,6 +66,7 @@ public class MultiThreadChatClient implements Runnable {
         /* Create a thread to read from the server. */
         new Thread(new MultiThreadChatClient()).start();
         while (!closed) {
+          os.println(inputLine.readLine().trim());
         }
         /*
          * Close the output stream, close the input stream, close the socket.
@@ -75,8 +94,8 @@ public class MultiThreadChatClient implements Runnable {
     try {
       while ((responseLine = br.readLine()) != null) {
         System.out.println(responseLine);
-        /*if (responseLine.indexOf("*** Bye") != -1)
-          break;*/
+        if (responseLine.indexOf("*** Bye") != -1)
+          break;
       }
       closed = true;
     } catch (IOException e) {
