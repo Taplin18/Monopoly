@@ -641,7 +641,7 @@ public class Client{
 		playerPositionsArray[i]=playerPosition;
 		
       }
-	  frame.updatePlayerPositions(playerPositionsArray)
+	  frame.updatePlayerPositions(playerPositionsArray);
     } catch (Exception e) {
       System.out.println("Failed to get updated player positions: " + e);
     }
