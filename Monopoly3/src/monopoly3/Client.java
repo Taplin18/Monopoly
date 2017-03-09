@@ -717,10 +717,10 @@ public class Client{
         System.out.println("YASS we force startin");
       }
     }
-	//if (!getNumPlayers) {
-    //      client.makeListOfPlayers();
-    ///      getNumPlayers = true;
-    //    }
+	if (!getNumPlayers) {
+          client.makeListOfPlayers();
+          getNumPlayers = true;
+        }
     frame = new Frame(client.getNumOfPlayers());
     frame.setClientId(client.getId());
     System.out.println(client.getUserName()+" sent firstContact");
