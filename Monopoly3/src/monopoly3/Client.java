@@ -85,6 +85,7 @@ public class Client{
   public void setDiceNumber(int diceOne, int diceTwo){
     this.diceTwo=diceTwo;
     this.diceOne=diceOne;
+	this.addPosition(diceOne+diceTwo);
   }
 
   /**
@@ -234,12 +235,13 @@ public class Client{
     while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
       System.out.println("Nah boi");
     }
+	int prevPosition = this.getPosition();
     this.setDiceNumber(frame.getDiceOne(), frame.getDiceTwo());
+	if (this.getPosition()<prevPosition){ //passed Go
+      this.addMoney(200);
+    }
     System.out.println("Dice One: "+diceOne);
     System.out.println("Dice Two: "+diceTwo);
-    this.setDiceNumber(diceOne, diceTwo);
-    System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
-    this.setDiceNumber(diceOne, diceTwo);
     System.out.println(this.getUserName()+": rolled = " + diceOne + " and "+ diceTwo);
     if(this.inJail==true && diceOne!=diceTwo){ //in jail and didn't roll double
       daysInJail++;
@@ -253,7 +255,7 @@ public class Client{
         this.daysInJail=0;
         this.prevInJail=true;
       }
-      this.moveToPosition(diceOne, diceTwo);//move to position
+      
       JSONObject returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
 
       System.out.println(this.getUserName()+": Landed on positionType "+returnedMessage.get("positionType")); 
