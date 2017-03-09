@@ -70,6 +70,7 @@ class BoardGui extends JPanel implements ActionListener {
 		this.id=id;
 		try{
 			BufferedImage playerImage =  ImageIO.read(new File("monopoly3/player" + id+".png"));
+			p.setPlayer(playerImage);
 		}catch(Exception e){
 			System.out.println(e);
 		}
@@ -77,7 +78,7 @@ class BoardGui extends JPanel implements ActionListener {
 		
 		
         
-        p.setPlayer(playerImage);
+        
      }
      
      
