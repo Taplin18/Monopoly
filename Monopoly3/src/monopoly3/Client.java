@@ -233,7 +233,7 @@ public class Client{
     }
 	frame.setMyTurn(true);
     while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
-      System.out.println("Nah boi");
+      System.out.print("Nah boi");
     }
 	int prevPosition = this.getPosition();
     this.setDiceNumber(frame.getDiceOne(), frame.getDiceTwo());
@@ -425,10 +425,10 @@ public class Client{
   * @param Property property
   */
   public void optionToBuy(Property property){
-    //DISPLAY POP UP WINDOW OF CARD DETAILS
-    String answer="yes"; //LINK WITH GUI FUNCTION OF BUTTON PRESS
-    if(answer.equals("yes")){
-      //CLOSE POP UP
+	while(!(popUp.getWantsToBuy())&&!(popUp.getNotWantsToBuy())){
+		System.out.println("can't make up me mind, mcFlurry or not to mcFlurry, that is the question?!?!");
+	}
+    if(popUp.getWantsToBuy())){
       if(this.getMoney()>property.getPrice()){//you can buy
         this.buyProperty(this.getPosition(), property.getPrice());
         int number=coloursOwned.get(property.getColour());
@@ -438,9 +438,6 @@ public class Client{
         this.properties.put(this.getPosition(), property);//STORE PROPERTY OBJECT IN HASHMAP USING position as ID
         property.setId(this.getPosition());
       }
-    }
-    else{
-        //CLOSE POP UP
     }
   }
 
