@@ -232,6 +232,11 @@ class ServerThread extends Thread {
 							rent_sent = true;
 						}
 
+						if (player_info.get("messageType").equals("Again")){
+							System.out.println(playerName + " rolls again");
+							position_sent = false;
+						}
+
 						// Send the rent that is due to a client
 						if (player_info.get("messageType").equals("buy")) {
 							JSONObject rent = new JSONObject();
@@ -364,11 +369,6 @@ class ServerThread extends Thread {
 							bw.flush();
 							position_sent = true;
 						} 
-
-						if (player_info.get("messageType").equals("Again")){
-							System.out.println(playerName + " rolls again");
-							position_sent = false;
-						}
 
 						// End the current players turn
 						if (player_info.get("messageType").equals("Bye")){ //&& !bye_sent){
