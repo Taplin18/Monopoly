@@ -362,6 +362,7 @@ public class Client{
         }
       }
       if(diceOne==diceTwo){//rolled doubles
+		System.out.println("Dice 1: "+diceOne+"... Dice 2: "+diceTwo);
         this.sendAgainMessage();
         if(noOfDoubles==3){
           this.goToJail();
