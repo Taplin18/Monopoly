@@ -60,7 +60,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	positionType = squareInfo.get("positionType");
         image = "monopoly3/" + squareInfo.get("picture") + ".jpg";
 		
-	if (positionType == "chest" || positionType == "chance") {
+	if (positionType.equals("chest") || positionType.equals("chance")) {
 		message = squareInfo.get("message");
 		// Create OK button, add action command and listener, and add to button panel
 		JButton okButton = new JButton("OK");
@@ -75,11 +75,11 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		
 		buttonPanel.add(okButton);
 		
-	} else if (positionType == "property" || positionType == "transport" || positionType == "utilities") {		
+	} else if (positionType.equals("property") || positionType.equals("transport") || positionType.equals("utilities")) {		
 		name = squareInfo.get("name");
 		message = "You have landed on " + name + "!\n";
 		ownership = squareInfo.get("ownership");
-		if (ownership == "owned") {
+		if (ownership.equals("owned")) {
 			rent = Integer.valueOf(String.valueOf(squareInfo.get("rent")));
 			message += "This is already owned by another player. You must pay rent of " + rent + "dollars.";
 					
@@ -125,7 +125,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			buttonPanel.add(buyButton);
 			buttonPanel.add(declineButton);
 		}
-    	    } else if (positionType == "taxes") {
+    	    } else if (positionType.equals("taxes")) {
 		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
 		message = "You have landed on a Tax square. You must pay a tax of " + taxOwed + " dollars.";
 		// Create OK button, add action command and listener, and add to button panel
