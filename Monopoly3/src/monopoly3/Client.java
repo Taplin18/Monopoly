@@ -21,7 +21,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 public class Client{
-//  public String message; //answer
+  //  public String message; //answer
   private int money;
   private int id;
   private int[] sitesOwned = new int[noOfSites];
@@ -32,6 +32,7 @@ public class Client{
   private int siteArrayPointer=0;
   private int defaultStartingId=100;
   private static int portNumber=10001;
+  private static String host = "192.168.1.53";
   private static int positionPortNumber=0;
   private Map <Integer, Property> properties = new HashMap<Integer, Property>();
   private int jail_free = 0;
@@ -56,12 +57,11 @@ public class Client{
   private int diceTwo;
   private String picture;
   private CreatePopUp popUp;
- // private static AuctionChat chatBox;
+  // private static AuctionChat chatBox;
   private static WelcomeScreen welcomeScreen;
   private HashMap <String, String> squareInfo;
   private static JSONObject possibleRent;
   static Frame frame;
-  private static boolean turnAgain = false;
 
   /**
   * Getter method for returning the number dice one has rolled on.
@@ -86,7 +86,7 @@ public class Client{
   public void setDiceNumber(int diceOne, int diceTwo){
     this.diceTwo=diceTwo;
     this.diceOne=diceOne;
-	this.addPosition(diceOne+diceTwo);
+    this.addPosition(diceOne+diceTwo);
   }
 
   /**
@@ -113,7 +113,7 @@ public class Client{
     coloursTotal.put("pink", 3);
     coloursTotal.put("brown", 2);
   }
-  
+
   /**
   * Setter method for client's username.
   * @param String username
@@ -153,7 +153,7 @@ public class Client{
   public void addMoney(int amount){
     money=money+amount;
   }
-  
+
   /**
   * Subtracts an amount of money from client's money.
   * @param integer money amount
@@ -167,7 +167,7 @@ public class Client{
   * @param integer id
   */
   public void setId(int number){
-    id=number;
+  id=number;
   }
 
   /**
@@ -233,13 +233,13 @@ public class Client{
         this.daysInJail=0;
       }
     }
-	frame.setMyTurn(true);
+    frame.setMyTurn(true);
     while(frame.getIsDiceButtonPressed()==false){ //frame-guiInt-button
-      System.out.println("Nah boi");
+      System.out.print("Nah boi ");
     }
-	int prevPosition = this.getPosition();
+    int prevPosition = this.getPosition();
     this.setDiceNumber(frame.getDiceOne(), frame.getDiceTwo());
-	if (this.getPosition()<prevPosition){ //passed Go
+    if (this.getPosition()<prevPosition){ //passed Go
       this.addMoney(200);
     }
     System.out.println("Dice One: "+diceOne);
@@ -257,9 +257,7 @@ public class Client{
         this.daysInJail=0;
         this.prevInJail=true;
       }
-      
       JSONObject returnedMessage=this.sendMessageToServer(this.getId(), "position", Integer.toString(this.getPosition()));
-
       System.out.println(this.getUserName()+": Landed on positionType "+returnedMessage.get("positionType")); 
       squareInfo = new HashMap<String, String>();
       squareInfo.put("positionType", String.valueOf(returnedMessage.get("positionType")));
@@ -289,17 +287,17 @@ public class Client{
       }else if(returnedMessage.get("positionType").equals("property")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
-          if(returnedMessage.get("ownership").equals("owned")){
-            squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
-            popUp = new CreatePopUp(squareInfo);
-            int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
-            this.pay(rent);
-          }else{ //vacant
-            squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
-            popUp = new CreatePopUp(squareInfo);
-            //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
-            //this.optionToBuy(property);
-          }
+        if(returnedMessage.get("ownership").equals("owned")){
+          squareInfo.put("rent", String.valueOf(returnedMessage.get("rent")));
+          popUp = new CreatePopUp(squareInfo);
+          int rent= Integer.parseInt(String.valueOf(returnedMessage.get("rent")));//get rent amount from JSON
+          this.pay(rent);
+        }else{ //vacant
+          squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
+          popUp = new CreatePopUp(squareInfo);
+          //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), String.valueOf(returnedMessage.get("colour")), Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), Integer.parseInt(String.valueOf(returnedMessage.get("houseCost"))));
+          //this.optionToBuy(property);
+        }
       }else if(returnedMessage.get("positionType").equals("transport")){
         squareInfo.put("name", String.valueOf(returnedMessage.get("name")));
         squareInfo.put("ownership", String.valueOf(returnedMessage.get("ownership")));
@@ -325,10 +323,6 @@ public class Client{
         }else{
           squareInfo.put("price", String.valueOf(returnedMessage.get("price")));
           popUp = new CreatePopUp(squareInfo);
-		  System.out.println("positionType: "+String.valueOf(returnedMessage.get("positionType")));
-		  System.out.println("name: "+String.valueOf(returnedMessage.get("name")));
-		  System.out.println("price: "+String.valueOf(returnedMessage.get("price")));
-		  System.out.println("baseRent: "+String.valueOf(returnedMessage.get("baseRent")));
           //Property property=new Property(String.valueOf(returnedMessage.get("positionType")), String.valueOf(returnedMessage.get("name")), "null", Integer.parseInt(String.valueOf(returnedMessage.get("price"))), Integer.parseInt(String.valueOf(returnedMessage.get("baseRent"))), 0);
           //this.optionToBuy(property);
         }
@@ -355,7 +349,7 @@ public class Client{
           popUp = new CreatePopUp(squareInfo);
           //int prevPosition=this.getPosition();
           int positionToBeSet=Integer.valueOf(String.valueOf(returnedMessage.get("chancePosition")));
-		  frame.setPosition(positionToBeSet);
+          frame.setPosition(positionToBeSet);
           this.setPosition(positionToBeSet);
           int currentPosition=this.getPosition();
           if(currentPosition-prevPosition<0||currentPosition<prevPosition){
@@ -363,23 +357,6 @@ public class Client{
           }
         }
       }
-      if(diceOne==diceTwo){//rolled doubles
-        if(noOfDoubles==3){
-          this.goToJail();
-        }else{
-          if(prevInJail==false){
-            turnAgain = true;
-          }else{
-            this.prevInJail=false;
-          }
-        }
-  		noOfDoubles++;
-
-      }else{
-        noOfDoubles=0;
-      }
-    }
-  }
 
   /**
   * Builds house on property in parameter
@@ -440,7 +417,7 @@ public class Client{
       }
     }
     else{
-        //CLOSE POP UP
+      //CLOSE POP UP
     }
   }
 
@@ -527,11 +504,9 @@ public class Client{
 
       //Send the message to the server
       BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
       StringWriter out = new StringWriter();
       jsonMessage.writeJSONString(out);
       String jsonText = out.toString();
-
       bw.write(jsonText);
       bw.newLine();
       bw.flush();
@@ -546,23 +521,19 @@ public class Client{
           bw.write(jsonText);
           bw.newLine();
           bw.flush();
-
           message = br.readLine();
           messageObj=decode(message);
         }
       } else if (messageType.equals("rentDue")) {
-        while (!String.valueOf(messageObj.get("messageType")).equals("rent")) {
+          while (!String.valueOf(messageObj.get("messageType")).equals("rent")) {
           bw.write(jsonText);
           bw.newLine();
           bw.flush();
-
           message = br.readLine();
           messageObj=decode(message);
-        }
-        
+          }
       }
       System.out.println("Message received from the server : " +message);
-
       return messageObj; //answer
     }catch (IOException exception){
       exception.printStackTrace();
@@ -575,43 +546,10 @@ public class Client{
   * @param integer client id, String messageType, String sendMessage
   */
   public void sendByeMessage(){
-	int id=this.getId();
-	String messageType="Bye";
-	String sendMessage="Bye";
-	
-    JSONObject messageObj=new JSONObject();
-    try {
-      JSONObject jsonMessage = new JSONObject();
-      jsonMessage.put("id",new Integer(id));
-      jsonMessage.put("messageType",messageType);
-      jsonMessage.put("message", sendMessage);
-
-      //Send the message to the server
-      BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-      StringWriter out = new StringWriter();
-      jsonMessage.writeJSONString(out);
-      String jsonText = out.toString();
-      bw.write(jsonText);
-      bw.newLine();
-      bw.flush();
-      System.out.println("Message sent to the server : "+jsonMessage);
-    }catch (IOException exception){
-      exception.printStackTrace();
-    }
-  }
-
-  public void sendAgainMessage(){
-  int id=this.getId();
-  String messageType="Bye";
-  String sendMessage="again";
-  
-    JSONObject messageObj=new JSONObject();
-    try {
-      JSONObject jsonMessage = new JSONObject();
-      jsonMessage.put("id",new Integer(id));
-      jsonMessage.put("messageType",messageType);
-      jsonMessage.put("message", sendMessage);
-
+    int id=this.getId();
+    String messageType="Bye";
+    String sendMessage="Bye";
+    try{
       //Send the message to the server
       BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
       StringWriter out = new StringWriter();
@@ -701,71 +639,70 @@ public class Client{
       InputStream is = socket.getInputStream();
       InputStreamReader isr = new InputStreamReader(is);
       BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      
-        String message = br.readLine();
-        System.out.println("message: "+message);
-        JSONObject messageObj=decode(message);
-        if(messageObj.get("messageType").equals(equals)){
-          return true;
-        }else{
-          return false;
-        }
+
+      String message = br.readLine();
+      System.out.println("message: "+message);
+      JSONObject messageObj=decode(message);
+      if(messageObj.get("messageType").equals(equals)){
+        return true;
+      }else{
+        return false;
+      }
     }catch(Exception e){
       return false;
     }
   }
-  
+
   public String getUserName(){
-	return this.username;
+    return this.username;
   }
 
   public static void main(String[] args)throws IOException{
     try{
-      String host = "192.168.1.53";
       int port = portNumber;
       InetAddress address = InetAddress.getByName(host);
       //socket = new Socket(address, port);
-	  socket = new Socket();
-	  socket.connect(new InetSocketAddress(address, port));
+      socket = new Socket();
+      socket.connect(new InetSocketAddress(address, port));
     }catch (Exception exception) {
       exception.printStackTrace();
     }
     Client client= new Client();
-	  System.out.println("I done got created ");
-	JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
-        WelcomeScreen welcomeScreen = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
-        welcomeScreen.setOpaque(true); // Makes contentPane opaque 
-        myFrame.setContentPane(welcomeScreen); // Sets contentPane property
-	myFrame.getContentPane().setBackground(Color.black);
-        myFrame.setSize(550, 500);
-	myFrame.setLocationRelativeTo(null);
-        myFrame.setVisible(true); // Window is displayed
-	  System.out.println("frame done got made ");
-	while (welcomeScreen.getUsername().equals("")){System.out.println("LOOP-DEE-LOOP ");}
-	  System.out.println("while loop done got exited ");
-	client.setUsername(welcomeScreen.getUsername());
-	  System.out.println(" username gone done gotten and set hopefree");
-	System.out.println("Username: "+client.getUserName());
-	boolean start=false;
-	String messageType="firstContact";
-        System.out.println(client.getUserName()+" sending firstContact");
-        client.firstContactServer(messageType);
-	while(!start){
-		System.out.println("I is in loop yass");
-		  if(client.checkWithServer("start", socket)){
-			  System.out.println("hello laurentttt");
-			welcomeScreen.closeScreen();
-			//create board
-			start=true;
-			  System.out.println("YASSS we startin!");
-		  }else if(welcomeScreen.getForceStart()){
-			client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
-			//create board
-			start=true;
-			  System.out.println("YASS we force startin");
-		  }
-	}
+    System.out.println("I done got created ");
+    JFrame myFrame = new JFrame("Welcome to Zebropoly!"); // Create new JFrame with specified name
+    myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies that the application must exit when window is closed
+    WelcomeScreen welcomeScreen = new WelcomeScreen(myFrame); // Create instance of WelcomeScreen 
+    welcomeScreen.setOpaque(true); // Makes contentPane opaque 
+    myFrame.setContentPane(welcomeScreen); // Sets contentPane property
+    myFrame.getContentPane().setBackground(Color.black);
+    myFrame.setSize(550, 500);
+    myFrame.setLocationRelativeTo(null);
+    myFrame.setVisible(true); // Window is displayed
+    System.out.println("frame done got made ");
+    while (welcomeScreen.getUsername().equals("")){System.out.print("LOOP-DEE-LOOP ");}
+    System.out.println("while loop done got exited ");
+    client.setUsername(welcomeScreen.getUsername());
+    System.out.println(" username gone done gotten and set hopefree");
+    System.out.println("Username: "+client.getUserName());
+    boolean start=false;
+    String messageType="firstContact";
+    System.out.println(client.getUserName()+" sending firstContact");
+    client.firstContactServer(messageType);
+    while(!start){
+      System.out.println("I is in loop yass");
+      if(client.checkWithServer("start", socket)){
+        System.out.println("hello laurentttt");
+        welcomeScreen.closeScreen();
+        //create board
+        start=true;
+        System.out.println("YASSS we startin!");
+      }else if(welcomeScreen.getForceStart()){
+        client.sendMessageToServer(client.getId(), "forceStart", "forceStart");
+        //create board
+        start=true;
+        System.out.println("YASS we force startin");
+      }
+    }
     frame = new Frame();
     frame.setClientId(client.getId());
     System.out.println(client.getUserName()+" sent firstContact");
@@ -776,7 +713,6 @@ public class Client{
     while(!closed){
       //display info on GUI
       if(client.checkWithServer("yourTurn", socket)){ //my turn
-	  
         System.out.println("MY TURN BITCHES");
         if (!getNumPlayers) {
           client.makeListOfPlayers();
@@ -784,18 +720,10 @@ public class Client{
         }
         possibleRent = client.sendMessageToServer(client.getId(), "rentDue", "rentDue");
         client.addMoney(Integer.valueOf(String.valueOf(possibleRent.get("rent"))));
-        //client.updatePlayersPositions();//get updated info of positions from server
         client.myTurn();
-        if (!turnAgain) {
-          client.sendByeMessage();
-        } else {
-          client.sendAgainMessage();	
-        }
-      } else if (client.checkWithServer("again", socket)){
         client.sendByeMessage();
-      }//else {
-	  //client.updatePlayersPositions();//get updated info of positions from server
-      //}
+        //client.updatePlayersPositions();//get updated info of positions from server
+      }
     }
   }
 }
