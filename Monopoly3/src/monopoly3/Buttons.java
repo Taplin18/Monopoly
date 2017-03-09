@@ -149,8 +149,8 @@ public class Buttons extends JPanel implements ActionListener {
       this.diceButtonPressed=true;
     }
 	
-	public void setPosition(int p){
-			positionInArray=49;
+	public void setPosition(int c){
+			positionInArray=c;
 			Points points = new Points(array.get(positionInArray).getX(), array.get(positionInArray).getY());
             
             //Move the player
