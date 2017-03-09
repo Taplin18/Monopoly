@@ -33,8 +33,8 @@ class BoardGui extends JPanel implements ActionListener {
     static Client client;
     //BufferedImage[]playerImages;
     private int numOfPlayers;
-    Player[] players;
-    int id;
+    static Player[] players;
+    static int id;
 
     /**
      * The Board Constructor, the board image is loaded and added to be displayed on the JPanel
@@ -76,11 +76,6 @@ class BoardGui extends JPanel implements ActionListener {
 				System.out.println(e);
 			}
 		}
-		
-		
-		
-        
-        
      }
      
      
