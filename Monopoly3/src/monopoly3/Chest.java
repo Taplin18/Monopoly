@@ -27,20 +27,20 @@ class Chest {
 	* The possible community chest cards
 	*/
 	private void make_chest_cards() {
-		cards.add("chest - add - 200 - Bank error in your favour -> Collect \u20AC200 - chest");
-		cards.add("chest - pay - -50 - Doctor's fee -> Pay \u20AC50 - chest");
-		cards.add("chest - add - 50 - From sale of stock you get \u20AC50 - chest");
-		cards.add("chest - jail - out - Get Out of Jail Free - chest");
+		cards.add("chest - add - 200 - Bank error in your favour -> Collect \u20AC200 - chest2");
+		cards.add("chest - pay - -50 - Doctor's fee -> Pay \u20AC50 - chest2");
+		cards.add("chest - add - 50 - From sale of stock you get \u20AC50 - chest2");
+		cards.add("chest - jail - out - Get Out of Jail Free - chest2");
 		cards.add("chest - jail - in - Go to Jail - chest");
-		cards.add("chest - add - 50 - Grand Opera Night -> Collect \u20AC50 - chest");
-		cards.add("chest - add - 50 - Holiday Fund matures -> Receive \u20AC50 - chest");
-		cards.add("chest - add - 20 - Income tax refund -> Collect \u20AC20 - chest");
-		cards.add("chest - add - 10 - It's your birthday -> Collect \u20AC10 - chest");
-		cards.add("chest - add - 100 - Life insurance matures -> Collect \u20AC100 - chest");
-		cards.add("chest - pay - -100 - Pay hospital fees of \u20AC100 - chest");
-		cards.add("chest - pay - -150 - Pay school fees of \u20AC150 - chest");
-		cards.add("chest - add - 25 - Receive \u20AC25 consultancy fee - chest");
-		cards.add("chest - add - 10 - You have won second place in a beauty contest -> Collect \u20AC10 - chest");
-		cards.add("chest - add - 100 - You inherit \u20AC100 - chest");
+		cards.add("chest - add - 50 - Grand Opera Night -> Collect \u20AC50 - chest2");
+		cards.add("chest - add - 50 - Holiday Fund matures -> Receive \u20AC50 - chest2");
+		cards.add("chest - add - 20 - Income tax refund -> Collect \u20AC20 - chest2");
+		cards.add("chest - add - 10 - It's your birthday -> Collect \u20AC10 - chest2");
+		cards.add("chest - add - 100 - Life insurance matures -> Collect \u20AC100 - chest2");
+		cards.add("chest - pay - -100 - Pay hospital fees of \u20AC100 - chest2");
+		cards.add("chest - pay - -150 - Pay school fees of \u20AC150 - chest2");
+		cards.add("chest - add - 25 - Receive \u20AC25 consultancy fee - chest2");
+		cards.add("chest - add - 10 - You have won second place in a beauty contest -> Collect \u20AC10 - chest2");
+		cards.add("chest - add - 100 - You inherit \u20AC100 - chest2");
 	}
 }
