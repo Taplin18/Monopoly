@@ -121,7 +121,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	imagePanel.add(imageLabel); 
 	
 		
-	textArea = new JTextArea("Test", 5, 20);
+	textArea = new JTextArea(message, 5, 20);
         textArea.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 15));
         textArea.setBackground(Color.BLACK);
 	textArea.setForeground(Color.WHITE);
