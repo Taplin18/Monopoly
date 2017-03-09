@@ -10,7 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import static monopoly3.BoardGui.array;
-import static monopoly3.BoardGui.p;
+import static monopoly3.BoardGui.players;
+import static monopoly3.BoardGui.id;
 import java.util.Random;
 
 /**
@@ -154,7 +155,7 @@ public class Buttons extends JPanel implements ActionListener {
 			Points points = new Points(array.get(positionInArray).getX(), array.get(positionInArray).getY());
             
             //Move the player
-            p.move(points);
+            players[id].move(points);
             
             revalidate();
             repaint();
@@ -212,7 +213,7 @@ public class Buttons extends JPanel implements ActionListener {
                 points = new Points(50,710);
             }
             //Move the player
-            p.move(points);
+            players[id].move(points);
             
             revalidate();
             repaint();
