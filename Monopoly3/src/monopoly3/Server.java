@@ -78,6 +78,7 @@ class ServerThread extends Thread {
 	private boolean startedMessage = false;
 	private boolean rent_sent = false;
 	private boolean again = false;
+	private boolean sent_play_pos = false;
 
 	/**
 	* Creates a thread to deal with each player when they join the game
@@ -263,7 +264,7 @@ class ServerThread extends Thread {
 						}
 
 						// Send the position of the players to update the current players board
-						if (player_info.get("messageType").equals("playersPositions")) {
+						if (player_info.get("messageType").equals("playersPositions") && !sent_play_pos) {
 							JSONObject the_players_pos = new JSONObject();
 							for (int i = 0; i < maxPlayers; i++) {
 								the_players_pos.put(String.valueOf(i), String.valueOf(player_pos.get(i)));
@@ -276,6 +277,7 @@ class ServerThread extends Thread {
 							bw.newLine();
 							bw.flush();
 							System.out.println("Sending player positions");
+							sent_play_pos = true;
 						}
 
 						// Check the position the player has landed on and
@@ -392,6 +394,7 @@ class ServerThread extends Thread {
 							position_sent = false;
 							bye_sent = true;
 							rent_sent = false;
+							sent_play_pos = false;
 						}
 					}
 				}
