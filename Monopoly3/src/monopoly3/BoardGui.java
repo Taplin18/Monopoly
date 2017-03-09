@@ -39,7 +39,7 @@ class BoardGui extends JPanel implements ActionListener {
 	
 	public void updatePlayerPositions(int[] arrayPlayerPosition){
 		for(int i=0;i< arrayPlayerPosition.length;i++){
-			points = new Points(array.get(arrayPlayerPosition(i)).get(x), array.get(arrayPlayerPosition(i)).get(y));
+			points = new Points(array.get(arrayPlayerPosition(i)).getX(), array.get(arrayPlayerPosition(i)).getY());
 			players[i].move(points);
 		}
 		repaint();
