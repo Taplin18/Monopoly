@@ -30,10 +30,10 @@ public class CreatePopUp extends JPanel implements ActionListener {
     private JPanel buttonPanel;					// - Holds button components
     private JLabel imageLabel;					// - ImageIcon is inserted here
     private JTextArea textArea;					// - Holds message to be displayed in pop-up
-    private JButton okButton;					// - JButton for OK button
-    private JButton payRentButton;				// - JButton for Pay Rent button
-    private JButton auctionButton;				// - JButton for Auction button
-    private JButton buyButton;					// - JButton for Buy button
+    //private JButton okButton;					// - JButton for OK button
+    //private JButton payRentButton;				// - JButton for Pay Rent button
+    //private JButton auctionButton;				// - JButton for Auction button
+    //private JButton buyButton;					// - JButton for Buy button
     private static String OK = "OK";				// - String to be displayed on button
     private static String PAY_RENT = "Pay Rent";		// - String to be displayed on button
     private static String BUY = "Buy";				// - String to be displayed on button
@@ -58,7 +58,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 	if (positionType == "chest" || positionType == "chance") {
 		message = squareInfo.get("message");
 		// Create OK button, add action command and listener, and add to button panel
-		okButton = new JButton("OK");
+		JButton okButton = new JButton("OK");
 		okButton.setActionCommand(OK);
 		okButton.addActionListener(this);
 		
@@ -78,7 +78,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			message += "This is already owned by another player. You must pay rent of " + rent + "dollars.";
 					
 			// Create Pay Rent button, add action command and listener, and add to button panel
-			payRentButton = new JButton("Pay Rent"); 
+			JButton payRentButton = new JButton("Pay Rent"); 
 			payRentButton.setActionCommand(PAY_RENT);
 			payRentButton.addActionListener(this);
 			
@@ -95,7 +95,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			message += "This is available and costs " + price + " dollars.\n Would you like to buy it or go to auction?";
 					
 			// Create Buy and Auction buttons, add action command and listener, and add to button panel
-			buyButton = new JButton("Buy"); // Pay rent button
+			JButton buyButton = new JButton("Buy"); // Pay rent button
 			buyButton.setActionCommand(BUY);
 			buyButton.addActionListener(this);
 			
@@ -105,7 +105,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 			buyButton.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 12));
 			buybutton.setEnabled(true);
 			
-			auctionButton = new JButton("Auction"); // Pay rent button
+			JButton auctionButton = new JButton("Auction"); // Pay rent button
 			auctionButton.setActionCommand(AUCTION);
 			auctionButton.addActionListener(this);
 			
@@ -123,7 +123,7 @@ public class CreatePopUp extends JPanel implements ActionListener {
 		taxOwed = Integer.valueOf(String.valueOf(squareInfo.get("amount")));
 		message = "You have landed on a Tax square. You must pay a tax of " + taxOwed + " dollars.";
 		// Create OK button, add action command and listener, and add to button panel
-		okButton = new JButton("OK");
+		JButton okButton = new JButton("OK");
 		okButton.setActionCommand(OK);
 		okButton.addActionListener(this);
 		
