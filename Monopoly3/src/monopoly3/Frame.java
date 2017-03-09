@@ -23,7 +23,7 @@ public class Frame extends JFrame {
     /**
      * The constructor, assigns the various variables of the JFrame
      */
-    public Frame()  {
+    public Frame(int numOfPlayers)  {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Monopoly");
         setSize(1800,900);
@@ -33,7 +33,7 @@ public class Frame extends JFrame {
       
         setLocationRelativeTo(null);
         
-        initilize();
+        initilize(numOfPlayers);
         
     }
     
@@ -53,8 +53,8 @@ public class Frame extends JFrame {
     /**
      * The assignment method, creates the instance of other JPanels used and adds them to the JFrame
      */
-    public void initilize() {        
-        board = new BoardGui();
+    public void initilize(int numOfPlayers) {        
+        board = new BoardGui(int numOfPlayers); //num of players
         guiInt  = new GuiInt();
         add(board);
         add(guiInt);

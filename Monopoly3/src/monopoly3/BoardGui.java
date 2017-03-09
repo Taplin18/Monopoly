@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import monopoly3.Buttons;
+import javax.imageio.ImageIO;
 
 
 /**
@@ -38,7 +39,7 @@ class BoardGui extends JPanel implements ActionListener {
     /**
      * The Board Constructor, the board image is loaded and added to be displayed on the JPanel
      */
-    public BoardGui() {
+    public BoardGui(int numOfPlayers) { //num of players
         //Initiliazing the variables
         
         t = new Timer(10, this);
@@ -54,11 +55,11 @@ class BoardGui extends JPanel implements ActionListener {
         }
       
         boardPositions();
-        p = new Player(array.get(0));
+		Player[] playersImages = new Player[numOfPlayers];
+		for(int counter=0;counter<numOfPlayers;counter++){
+			players[counter]=new Player(array.get(counter)); //created array of players
+		}
         t.start();
-        
-        
-        //playerImages =  1;
         
     }      
     /**
@@ -66,9 +67,9 @@ class BoardGui extends JPanel implements ActionListener {
      */
      
      public void setClientId(int id){
-	this.id=id;
-        playerImages =  p.getPlayers();
-        p.setPlayer(playerImages[id]);
+		this.id=id;
+        BufferedImage playerImage =  ImageIO.read(new File("monopoly3/player" + i+".png"));;
+        p.setPlayer(playerImage);
      }
      
      
@@ -125,7 +126,10 @@ class BoardGui extends JPanel implements ActionListener {
         super.paintComponent(g);
         g.drawImage(img, 0, 0, 900, 800, this);
       
-        p.draw(g);
+		for(int counter = 0;counter<numOfPlayers;counter++){
+			players[counter].draw(g);
+		}
+        //p.draw(g);
         repaint();
     }
     

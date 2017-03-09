@@ -36,26 +36,6 @@ public  class Player {
         this.yPosition = points.getY();
     } 
     
-    /**
-     * Returns the array of possible images for the player
-     * @return players
-     */
-    public BufferedImage[] getPlayers(){
-        BufferedImage [] players = new BufferedImage[8];
-        BufferedImage img;
-        try{            
-            for(int i = 0; i < 4; i++){
-                img = ImageIO.read(new File("monopoly3/player" + i+".png"));
-                players[i] = img;
-                //players[i] = img;
-            }            
-        }
-        catch (IOException ex) {            
-             ex.printStackTrace();
-        }
-      
-        return players;
-    }
 
     /**
      * Return the buffered image icon of the player
