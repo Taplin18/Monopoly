@@ -63,8 +63,8 @@ public class Buttons extends JPanel implements ActionListener {
     
     public void addToPosition(int number){
       positionInArray = positionInArray + number;
-	  if(positionArray>=40){
-		  positionArray=positionArray-40;
+	  if(positionInArray>=40){
+		  positionInArray=positionInArray-40;
 	  }
     }
        
