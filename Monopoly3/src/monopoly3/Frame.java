@@ -53,7 +53,7 @@ public class Frame extends JFrame {
     }
     /**
     *A getter method for the second dice value
-    *@returns The value of the second dice
+    *@returns The value of the first dice
     */
     public int getDiceTwo(){
      return guiInt.getDiceTwo();
