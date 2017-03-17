@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
  */
 package monopoly3;
 
@@ -10,7 +11,6 @@ import javax.swing.JPanel;
 
 /**
  * An integrated GUI panel for combining JPanels with team mate
- * @author cascadafreak07
  */
 public class GuiInt extends JPanel{
 
@@ -25,23 +25,38 @@ public class GuiInt extends JPanel{
         add(btn);
         //add(oth);
     }
-    
+    /**
+    *A getter method for the first dice value
+    *@returns The value of the first dice
+    */
     public int getDiceOne(){
       return btn.getDiceOne();
     }
-    
+    /**
+    *A getter method for the second dice value
+    *@returns The value of the second dice
+    */
     public int getDiceTwo(){
       return btn.getDiceTwo();
     }
-    
+    /**
+    *A setter method to set player turn
+    *@param Boolean
+    */
     public void setMyTurn(boolean b){
 		btn.setMyTurn(b);
 	}
-	
+    /**
+    *A setter method to set player position
+    *@param Integer
+    */	
 	public void setPosition(int p){
 		btn.setPosition(p);
 	}
-    
+    /**
+    *A getter method for if the rolled dicce button is pressed
+    *@returns if the rolled dice button is pressed
+    */
     public boolean getIsDiceButtonPressed(){
       return btn.getIsDiceButtonPressed();
     }
