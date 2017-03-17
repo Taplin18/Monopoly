@@ -150,7 +150,7 @@ public class Buttons extends JPanel implements ActionListener {
     }
     
     /**
-    *A getter method for the sencond dice value
+    *A getter method for the first dice value
     *@returns The value of the second dice
     */
     public int getDiceOne(){
