@@ -1,4 +1,9 @@
-
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
+ */
 package monopoly3;
 
 import java.awt.GridBagConstraints;
@@ -10,7 +15,6 @@ import javax.swing.JSplitPane;
 
 /**
  * The display class
- * @author cascadafreak07
  */
 public class Frame extends JFrame {
     
@@ -36,22 +40,31 @@ public class Frame extends JFrame {
         initilize(numOfPlayers);
         
     }
-	
+	//Method to update the plaer position on the board
 	public void updatePlayerPositions(int[] arrayPlayerPositions){
 		board.updatePlayerPositions(arrayPlayerPositions);
 	}
-    
+    /**
+    *A getter method for the first dice value
+    *@returns The value of the second dice
+    */
     public int getDiceOne(){
       return guiInt.getDiceOne();
     }
-    
+    /**
+    *A getter method for the second dice value
+    *@returns The value of the second dice
+    */
     public int getDiceTwo(){
      return guiInt.getDiceTwo();
     }
-    
+    /**
+    *A setter method for the clients id
+    *@param Integer
+    */
     public void setClientId(int id){
       board.setClientId(id);
-      //System.out.println(id)
+      
     }
     
     /**
@@ -65,19 +78,25 @@ public class Frame extends JFrame {
         setVisible(true);
     }
     
+ 
     /**
-     * The main method, creates the instance of the class
-     * @param args
-     */
-    
+    *A getter method for is the roll dice button pressed
+    *@returns Is the roll button pressed
+    */
     public boolean getIsDiceButtonPressed(){
       return guiInt.getIsDiceButtonPressed();
     }
-	
+    /**
+    *A setter method for players turn
+    *@param Boolean
+    */
 	public void setMyTurn(boolean b){
 		guiInt.setMyTurn(b);
 	}
-	
+    /**
+    *A setter method for player position
+    *@param Integer
+    */
 	public void setPosition(int p){
 		guiInt.setPosition(p);
 	}
