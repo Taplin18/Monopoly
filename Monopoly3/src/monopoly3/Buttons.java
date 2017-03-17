@@ -1,4 +1,9 @@
-
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
+ */
 package monopoly3;
 
 import java.awt.Graphics;
@@ -53,6 +58,7 @@ public class Buttons extends JPanel implements ActionListener {
     
     boolean diceButtonPressed=false;
 	
+	//setter method to set the players turn, displays roll button if it is players turn
 	void setMyTurn(boolean b){
 		myTurn=b;
 		if(b==true){
@@ -61,7 +67,10 @@ public class Buttons extends JPanel implements ActionListener {
 			roll.setBounds(0, 0, 0, 0);
 		}
 	}
-    
+ /**
+ *Updates the players position on the board 
+ *@param Integer
+ */
     public void addToPosition(int number){
       positionInArray = positionInArray + number;
 	  if(positionInArray>=40){
@@ -123,33 +132,57 @@ public class Buttons extends JPanel implements ActionListener {
         add(send);
     
     }
-    
+   /**
+    *A getter method that gets of the roll dice button is pressed
+    *@return diceButtonPressed
+    */
     public boolean getIsDiceButtonPressed(){
       return diceButtonPressed;
     }
     
+    /**
+    *A setter method that sets the value of the teo dice
+    @param Integer, Integer
+    */
     public void setDice(int v, int vt){
       this.diceOne=v;
       this.diceTwo=vt;
     }
     
+    /**
+    *A getter method for the sencond dice value
+    *@returns The value of the second dice
+    */
     public int getDiceOne(){
       this.diceButtonPressed=false;
       return this.diceOne;
     }
-	
+	/**
+        *A getter method for getting who player turn it is
+        *@returns If it is the players turn
+        */
 	public boolean getMyTurn(){
 		return myTurn;
 	}
     
+    /**
+    *A getter method for the sencond dice value
+    *@returns The value of the second dice
+    */
     public int getDiceTwo(){
       return this.diceTwo;
     }
     
+    /**
+    *A setter method setting the roll dice button to True
+    */
     public void setDiceButtonPressed(){
       this.diceButtonPressed=true;
     }
-	
+	/**
+        * A setter method to set the positon of the player and repaint the board with the updated position 
+	*@param integer
+        */
 	public void setPosition(int c){
 			positionInArray=c;
 			Points points = new Points(array.get(positionInArray).getX(), array.get(positionInArray).getY());
@@ -232,7 +265,10 @@ public class Buttons extends JPanel implements ActionListener {
         }        
     }
    
-    
+    /**
+ * The paintComponent method is responsible for drawing of both the player and the board on screen
+ *@param g 
+ */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
     }
