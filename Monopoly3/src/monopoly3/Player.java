@@ -1,4 +1,9 @@
-
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
+ */
 package monopoly3;
 
 import java.awt.Graphics;
@@ -10,7 +15,6 @@ import javax.imageio.ImageIO;
 
 /**
  * The player class assigns the image corresponding to the player and moves the player around the board
- * @author cascadafreak07
  */
 public  class Player {
 
