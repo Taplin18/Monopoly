@@ -1,4 +1,9 @@
-
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
+ */
 package monopoly3;
 
 import java.awt.Graphics;
@@ -18,7 +23,6 @@ import javax.imageio.ImageIO;
 
 /**
  * The board class is used to display the monopoly board image, as well as draw the player
- * @author cascadafreak07
  */
 class BoardGui extends JPanel implements ActionListener {
 
@@ -37,6 +41,9 @@ class BoardGui extends JPanel implements ActionListener {
     static int id;
 	Points points;
 	
+	/**
+	* Updates the players position on the board
+	*/
 	public void updatePlayerPositions(int[] arrayPlayerPosition){
 		for(int i=0;i< arrayPlayerPosition.length;i++){
 			points = new Points(array.get(arrayPlayerPosition[i]).getX(), array.get(arrayPlayerPosition[i]).getY());
@@ -54,7 +61,6 @@ class BoardGui extends JPanel implements ActionListener {
         t = new Timer(10, this);
         t.start();
         setFocusable(true);    
-        //Client client  = new Client();
         try{            
         img = ImageIO.read(new File("monopoly3/monopoly.jpg"));
           
@@ -75,6 +81,9 @@ class BoardGui extends JPanel implements ActionListener {
      * Possible positions on board are added to an ArrayList
      */
      
+	/**
+	*A method that sets the client id and return there player sprite based on their id
+	*/
      public void setClientId(int id){
 		this.id=id;
 		for(int counter=0;counter<numOfPlayers;counter++){
@@ -144,7 +153,7 @@ class BoardGui extends JPanel implements ActionListener {
 		for(int counter = 0;counter<numOfPlayers;counter++){
 			players[counter].draw(g);
 		}
-        //p.draw(g);
+     
         repaint();
     }
     
