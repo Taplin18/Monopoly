@@ -1,3 +1,9 @@
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
+ */
 package monopoly3;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,16 +13,15 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /**
- *
- * @author cascadafreak07
+ *A class that sets the image for the dice roll
  */
-public class Dice {
-    
-    //private int dice;  
+public class Dice {  
     
     ImageIcon[] images;
-   // private static final String MONOPOLY_LOGO = "zebropoly2.png";
-
+    /**
+    *A method to generate a random number betweeen 1 and 6
+    *@returns Integer
+    */
     public int rollDice(){
         Random randomGenerator = new Random();
         int randomInt = randomGenerator.nextInt(6);
