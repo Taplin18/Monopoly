@@ -1,8 +1,13 @@
+/**
+ * Created by dgc1
+ * @author Denise Grace Crowley
+ * @version 1.0
+ *
+ */
 package monopoly3;
 
 /**
  * The Points class keeps the x and y coordinates of the player on board
- * @author cascadafreak07
  */
 public class Points {
 
